@@ -1,51 +1,123 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+
 /*
- * Placeholder tokens sampled from the approved AquaSentinel logo (public/brand/aquasentinel-logo.svg).
- * The full brand palette and typography must be confirmed by the owner before UI work (PROJECT_RULES §6).
+ * AquaSentinel design tokens.
+ * Brand colours are sampled from the approved logo (public/brand/aquasentinel-logo.svg): navy, teal, sky blue, leaf.
+ * Status colours are ALWAYS paired with an icon and a word (never colour alone) — PROJECT_RULES §6.
+ * Semantic tokens switch for dark mode; components only use semantic names.
  */
 :root {
-  --brand-navy: #0f3a5f;
-  --brand-teal: #0a93a0;
-  --brand-blue: #12a0e0;
-  --brand-leaf: #73ad52;
-  --bg: #f7fafc;
+  --canvas: #f4f7fb;
   --surface: #ffffff;
-  --text: #10233a;
-  --text-muted: #4a5b6e;
-  --border: #d8e1ea;
+  --surface-muted: #eef3f8;
+  --ink: #0b2236;
+  --ink-muted: #4d6174;
+  --ink-subtle: #73859a;
+  --line: #dbe4ee;
+  --focus: #1a9bd8;
+
+  --ok-fg: #13703a;
+  --ok-bg: #e6f5ec;
+  --warn-fg: #9a4b00;
+  --warn-bg: #fff3df;
+  --crit-fg: #b3261e;
+  --crit-bg: #fdeceb;
+  --off-fg: #44546a;
+  --off-bg: #eaeef3;
+  --info-fg: #0b5e8e;
+  --info-bg: #e5f3fb;
+  --sim-fg: #6b3fa0;
+  --sim-bg: #f1eafb;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0b1724;
-    --surface: #12233a;
-    --text: #e8f0f7;
-    --text-muted: #a7b6c6;
-    --border: #24384f;
+    --canvas: #07131f;
+    --surface: #0e1f31;
+    --surface-muted: #14283e;
+    --ink: #e7eff7;
+    --ink-muted: #a8b8c9;
+    --ink-subtle: #7f93a8;
+    --line: #22384f;
+    --ok-fg: #6fd39a;
+    --ok-bg: #0f2f20;
+    --warn-fg: #f5b55c;
+    --warn-bg: #33240c;
+    --crit-fg: #ff8a80;
+    --crit-bg: #3a1513;
+    --off-fg: #b4c1cf;
+    --off-bg: #1c2b3b;
+    --info-fg: #7cc8f0;
+    --info-bg: #0d2a3d;
+    --sim-fg: #c9a8f5;
+    --sim-bg: #2a1d3d;
   }
 }
 
-* {
-  box-sizing: border-box;
+@theme inline {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-navy-950: #061c31;
+  --color-navy-900: #0a2b4a;
+  --color-navy-800: #0f3a5f;
+  --color-navy-700: #154c7a;
+  --color-teal-600: #0a8f9c;
+  --color-sky-500: #1a9bd8;
+  --color-leaf-500: #6aab4f;
+
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-subtle: var(--ink-subtle);
+  --color-line: var(--line);
+  --color-focus: var(--focus);
+  --color-ok: var(--ok-fg);
+  --color-ok-soft: var(--ok-bg);
+  --color-warn: var(--warn-fg);
+  --color-warn-soft: var(--warn-bg);
+  --color-crit: var(--crit-fg);
+  --color-crit-soft: var(--crit-bg);
+  --color-off: var(--off-fg);
+  --color-off-soft: var(--off-bg);
+  --color-info: var(--info-fg);
+  --color-info-soft: var(--info-bg);
+  --color-sim: var(--sim-fg);
+  --color-sim-soft: var(--sim-bg);
+
+  --radius-card: 1rem;
+  --shadow-card: 0 1px 2px rgb(11 34 54 / 0.06), 0 4px 16px rgb(11 34 54 / 0.05);
 }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  /* Readings line up in columns. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
 }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  line-height: 1.5;
-}
-
-a {
-  color: inherit;
-}
-
-:focus-visible {
-  outline: 3px solid var(--brand-blue);
-  outline-offset: 2px;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
