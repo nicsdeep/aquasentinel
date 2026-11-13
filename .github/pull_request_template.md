@@ -8,6 +8,7 @@
 - [ ] No database change
 - [ ] New migration(s) in `supabase/migrations/` — RLS enabled and policies added for every new table
 - [ ] Migration is backward compatible with the currently deployed app (expand → migrate → contract)
+- [ ] No destructive SQL, or the owner confirmed it and the file has `-- allow-destructive: <reason>`
 
 ## Verification
 - [ ] `npm run check` passes locally

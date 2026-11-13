@@ -21,7 +21,12 @@ has supplied or approved.
 4. Database changes: `npx supabase migration new <snake_case_name>`, write SQL there, and validate locally
    (`npx supabase db start` / `npx supabase db reset`, then `npm run db:check-rls`). Docker may need starting with `dockerd &`.
 5. Push the branch and open a PR to `main` using the PR template. Watch CI and fix failures.
-6. The owner merges and approves production from GitHub. Never merge your own PR unless the owner explicitly asks.
+6. **Continuous deployment (owner's decision, 13 Nov 2026):** the owner works alone and does not review each change.
+   Once CI is green on the PR's latest commit, Claude merges it (enable auto-merge via
+   `PUT /repos/nicsdeep/aquasentinel/pulls/<n>/ccr/auto_merge`, or merge with the REST merge endpoint after confirming
+   every check passed). Merging to `main` deploys to production automatically. Never merge with failing or pending checks,
+   never bypass the ruleset, and stop and ask the owner first for anything destructive, security-sensitive or irreversible.
+7. After the merge, watch the Release run and verify the live URL before reporting.
 
 ## Hard rules
 - **Never touch hosted Supabase or Vercel directly.** No Supabase/Vercel tokens in Claude sessions. All hosted
@@ -31,6 +36,9 @@ has supplied or approved.
   in `public` must `enable row level security` and have policies in the same migration (CI enforces this).
 - Migrations must be backward compatible with the currently deployed app (expand → migrate → contract),
   because production migrates before the new app version goes live.
+- Production migrates automatically with no human approval. Avoid destructive SQL (drop, truncate, delete, column type
+  changes). CI blocks it unless the file has `-- allow-destructive: <reason>`; add that marker only after the owner
+  confirms in chat that the data loss is intended.
 - Never commit secrets. Never put secret keys in `NEXT_PUBLIC_*` variables, client code, firmware or docs.
 - Read configuration through `src/lib/env.ts` only, and document new variables in `.env.example` and `docs/ENVIRONMENTS.md`.
 - Mark all demo/mock data and simulated SMS **SIMULATED**. Never claim real deployments, partners or measured impact.
@@ -40,8 +48,8 @@ has supplied or approved.
 Report all of these, verified, never assumed:
 - **Branch / PR:** link, and commit SHA(s)
 - **CI:** passed / failed (with the failing check)
-- **Database:** migrations added (file names) and status on development / production (from the Release run summary)
-- **Deployment:** development URL and production status (waiting for approval / deployed / failed)
+- **Database:** migrations added (file names) and production status (from the Release run summary)
+- **Deployment:** production status (deployed / failed, with the failing step)
 - **Live URL:** only reported as live after `/api/health` returns the expected `commitSha`
 
 If something could not be verified (e.g. no access to Actions results), say so explicitly.

@@ -57,6 +57,13 @@ jobs:
           else
             bash scripts/check-migrations.sh
           fi
+      - name: Block destructive SQL (production migrates automatically)
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            bash scripts/check-destructive-sql.sh "origin/${{ github.base_ref }}"
+          else
+            bash scripts/check-destructive-sql.sh
+          fi
       - name: Replay all migrations on a throwaway local database
         run: npx supabase db start
       - name: Every public table must have RLS enabled
