@@ -70,6 +70,8 @@ jobs:
         run: npx supabase db query -f scripts/check-rls.sql
       - name: Supabase security advisors (local)
         run: npx supabase db advisors --type security --fail-on error
+      - name: Database tests (pgTAP) - access control, ingestion, rules, incident lifecycle
+        run: npx supabase test db
       - name: Stop local database
         if: always()
         run: npx supabase stop --no-backup || true

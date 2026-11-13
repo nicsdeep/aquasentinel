@@ -23,6 +23,15 @@ here as they are built. A documented security/privacy review is required before 
 - Rotate the Vercel token yearly and any secret immediately if exposed (screenshot, chat, log).
 
 ## Database
+- Users have read-only, site-scoped access (RLS). Phone numbers and device key hashes are hidden from the API
+  through column privileges. All writes go through SECURITY DEFINER functions that check role and ownership.
+- Devices authenticate with their own key (only its SHA-256 hash is stored). `ingest_readings` rejects unknown
+  or revoked keys, future or very old timestamps, implausible values and duplicates, and limits each device to
+  30 messages per minute.
+- SMS replies are accepted only from a known phone number that belongs to a member of the incident's site.
+  Closing needs a YES confirmation and verified recovery. SMS never controls a pump.
+- **Demo accounts** (`*.demo@example.com`, shared public password) can see only the SIMULATED demo site. Their
+  phone numbers are fictitious, and simulated sites never send real SMS.
 - Migrations with destructive SQL (drop, truncate, delete, column type change) fail CI unless the file carries
   `-- allow-destructive: <reason>`, added only after the owner confirms the data loss is intended.
 - Every table in `public` must have Row Level Security enabled, with policies, in the same migration that creates it.
