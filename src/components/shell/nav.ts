@@ -1,14 +1,17 @@
-import { BookOpenCheck, LayoutDashboard, Siren, type LucideIcon } from "lucide-react";
+import { House, ListChecks, MapPin, TriangleAlert, type LucideIcon } from "lucide-react";
 
 export interface NavItem {
   href: string;
   label: string;
+  short: string;
   icon: LucideIcon;
+  badge?: "alerts";
 }
 
-/** Main navigation. Items are added only when their screen exists (no dead links). */
+/** Main navigation: only screens that exist (no dead links). Same order on laptop and phone. */
 export const NAV_ITEMS: NavItem[] = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/incidents", label: "Incidents", icon: Siren },
-  { href: "/brief", label: "The brief", icon: BookOpenCheck },
+  { href: "/dashboard", label: "Home", short: "Home", icon: House },
+  { href: "/site", label: "Site", short: "Site", icon: MapPin },
+  { href: "/incidents", label: "Alerts & incidents", short: "Alerts", icon: TriangleAlert, badge: "alerts" },
+  { href: "/tasks", label: "Tasks", short: "Tasks", icon: ListChecks },
 ];

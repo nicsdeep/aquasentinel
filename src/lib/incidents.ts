@@ -30,7 +30,7 @@ export const OUTCOME_LABEL: Record<Outcome, string> = {
 
 /** The 8-step loop from PROJECT_RULES §7, as shown on the incident page. */
 export const LIFECYCLE: { status: IncidentStatus; label: string }[] = [
-  { status: "open", label: "Detected" },
+  { status: "open", label: "Raised" },
   { status: "acknowledged", label: "Acknowledged" },
   { status: "assigned", label: "Assigned" },
   { status: "recovered", label: "Recovered" },
@@ -40,6 +40,8 @@ export const LIFECYCLE: { status: IncidentStatus; label: string }[] = [
 export function timelineLabel(action: string, details: Record<string, unknown>): string {
   switch (action) {
     case "detected": return "Fault detected by rule";
+    case "reported": return `Reported by ${String(details.reported_by ?? "a team member")}${details.note ? `: “${String(details.note)}”` : ""}`;
+    case "additional_report": return `Also reported by ${String(details.reported_by ?? "a team member")}${details.note ? `: “${String(details.note)}”` : ""}`;
     case "notified": return "Alert sent to dashboard and SMS";
     case "acknowledged": return "Acknowledged";
     case "assigned": return `Assigned to ${String(details.technician ?? "technician")}`;
@@ -80,6 +82,7 @@ export function evidenceText(e: Evidence): string {
     case "below": return `Below the safe level: ${v} for ${e.minutes} min.`;
     case "below_in_daylight": return `Low solar output in daylight: ${v} for ${e.minutes} min.`;
     case "no_data": return `No data from the monitoring unit for ${e.minutes} min.`;
+    case "manual": return [`Reported by ${e.reported_by ?? "a team member"}.`, e.note ?? ""].join(" ").trim();
     default: return "";
   }
 }

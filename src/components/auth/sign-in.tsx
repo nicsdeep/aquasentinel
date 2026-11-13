@@ -96,7 +96,7 @@ export function SignIn() {
       <section className="rounded-panel border border-line bg-surface p-5 shadow-card md:p-8">
         <h2 className="type-h2">Try it now</h2>
         <p className="mt-1 text-sm text-ink-muted">
-          Choose a role to explore the Ngomano water system. Demo accounts can look and act, but only on this site.
+          Choose a role to open the Ngomano water system as that person sees it.
         </p>
 
         <div className="mt-5 space-y-2.5">

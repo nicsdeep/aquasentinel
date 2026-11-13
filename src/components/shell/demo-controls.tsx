@@ -33,10 +33,10 @@ export function DemoControls({ siteId, onDone }: { siteId: string; onDone: () =>
   }
 
   return (
-    <Card>
-      <CardHeader title="Demonstration input" description="Plays a fault or a repair through the virtual monitoring unit. Same validation and rules as field sensors." />
+    <Card className="rounded-none border-0 shadow-none">
+      <CardHeader title="Demonstration controls" description="Plays a fault or a repair through MU-01, using the same validation and rules as a field sensor." />
       <div className="grid gap-2 p-5">
-        <Button variant="secondary" onClick={() => run("pump_fault")} loading={busy === "pump_fault"} disabled={busy !== null}>
+        <Button variant="dark" onClick={() => run("pump_fault")} loading={busy === "pump_fault"} disabled={busy !== null}>
           <Gauge className="size-4" aria-hidden />
           Trigger pump fault
         </Button>

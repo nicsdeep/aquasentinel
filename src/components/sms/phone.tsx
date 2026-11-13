@@ -13,6 +13,7 @@ interface Sms {
   status: string;
   created_at: string;
   phone_masked: string;
+  is_simulated: boolean;
 }
 
 const RESULT_TEXT: Record<string, string> = {
@@ -24,6 +25,14 @@ const RESULT_TEXT: Record<string, string> = {
   no_incident_context: "No alert to reply to yet.",
   not_authorised: "Your role cannot do this by SMS.",
 };
+
+/** "Delivered" only when an SMS provider confirmed it; demonstration messages were sent, not confirmed. */
+function smsStatus(m: Sms) {
+  if (m.status === "failed") return "Failed";
+  if (m.status === "delivered" && !m.is_simulated) return "Delivered";
+  if (m.status === "queued") return "Queued";
+  return "Sent";
+}
 
 /**
  * A basic feature phone showing the SMS thread for the signed-in user's number, exactly as sent. Replies use the
@@ -39,7 +48,7 @@ export function Phone({ userId, locale, timezone }: { userId: string; locale: "e
   const load = useCallback(async () => {
     const { data } = await getSupabase()!
       .from("sms_messages")
-      .select("id, direction, body, status, created_at, phone_masked")
+      .select("id, direction, body, status, created_at, phone_masked, is_simulated")
       .eq("profile_id", userId)
       .order("created_at", { ascending: false })
       .limit(12);
@@ -77,7 +86,7 @@ export function Phone({ userId, locale, timezone }: { userId: string; locale: "e
   const keys = ["1", "2", "3", locale === "sw" ? "NDIYO" : "YES"];
 
   return (
-    <div className="mx-auto w-full max-w-[19rem]">
+    <div className="mx-auto w-full max-w-[20rem]">
       <div className="rounded-[2.2rem] bg-as-dark p-3 shadow-card ring-1 ring-black/20">
         <div className="mx-auto mb-2 h-1.5 w-16 rounded-full bg-white/15" />
         <div className="overflow-hidden rounded-xl bg-[#dfe8d8] text-[#18230f]">
@@ -93,7 +102,7 @@ export function Phone({ userId, locale, timezone }: { userId: string; locale: "e
                 <p className="whitespace-pre-line break-words">{m.body}</p>
                 <p className="mt-0.5 text-[10px] text-[#4a5a3d]">
                   {time.format(new Date(m.created_at))}
-                  {m.direction === "outbound" && ` · ${m.status === "delivered" ? "Delivered" : m.status === "failed" ? "Failed" : "Pending"}`}
+                  {m.direction === "outbound" && ` · ${smsStatus(m)}`}
                 </p>
               </div>
             ))}

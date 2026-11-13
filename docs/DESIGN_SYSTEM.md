@@ -33,7 +33,8 @@ Use token names in classes (`bg-as-dark`), never raw hex in components.
 | Offline | slate | wifi-off | No recent data. Readings may be out of date. |
 
 ## 02 · Type: two families, one voice
-- **Serif: Instrument Serif** for the voice: page titles, card titles, the site name, the big status line.
+- **Serif: Instrument Serif** for the voice, used sparingly: the Home greeting (with one emphasised status phrase in
+  italic, coloured by status) and page titles. Card titles use Geist semibold.
 - **Sans: Geist** for the work: UI, body text and numbers. Never italic.
 - Both are self-hosted (no runtime font requests).
 
@@ -41,7 +42,7 @@ Use token names in classes (`bg-as-dark`), never raw hex in components.
 |---|---|---|
 | `type-display` | serif, `clamp(52px, 8vw, 112px)`, leading 0.92, tracking −0.03em | Sign-in hero |
 | `type-h1` | serif, `clamp(32px, 3.6vw, 48px)`, leading 1 | Page titles |
-| `type-h2` | serif, `clamp(24px, 2.4vw, 32px)`, leading 1.1 | Card and section titles |
+| `type-h2` | serif, `clamp(24px, 2.4vw, 32px)`, leading 1.1 | Rare large section titles |
 | body | Geist 14 px, leading 1.55 | UI and text |
 | `type-eyebrow` | 11 px, tracking 0.28em, uppercase, medium | Context label above a title |
 | `tabular` | tabular numerals | Readings and costs |
@@ -72,7 +73,7 @@ Headings are always clamped, never fixed pixel sizes.
 | `danger` | red | Destructive actions only. |
 
 **Where orange goes:**
-- the dashboard alert's **Open incident**;
+- Home: the most urgent incident's next step for the signed-in role, otherwise today's routine check (**Start**);
 - on the incident page, the next step for the signed-in role (Acknowledge → Assign / Take this job →
   Record findings → Confirm water is flowing → Close incident);
 - the submit button inside a dialog.
@@ -91,8 +92,8 @@ Headings are always clamped, never fixed pixel sizes.
 1. One obvious next action per screen.
 2. Plain language and real units: "No water flow while the pump runs: 0.1 m³/h for 12 min", never error codes.
 3. Always show data age: "Updated 4 min ago (13 Nov, 11:55 EAT)". Stale data is greyed, never shown as live.
-4. **Honest without noise:** the product is presented as live. Where readings come from is stated once, plainly:
-   the virtual monitoring unit's name, the "Data source" line in site info and the brief page (owner decision, 13 Nov).
+4. **Honest without noise:** production-realistic screens with no demo labels. The demonstration environment is named
+   once (account menu); reading sources are visible on inspection; SMS are "Delivered" only on provider confirmation.
 5. Every consequential action asks for confirmation and reports success or failure.
 
 ## 06 · Discipline
