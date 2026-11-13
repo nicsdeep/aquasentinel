@@ -19,7 +19,7 @@ here as they are built. A documented security/privacy review is required before 
   Compensating controls: required CI, destructive-SQL guard, RLS check, security advisors, post-deploy verification.
 - Claude Code sessions hold no Supabase or Vercel credentials. The Supabase connector visible in Claude belongs to
   another organisation's account and is not used for AquaSentinel.
-- 13 Nov 2026: the production DB password and secret key were shared in a chat; they must be rotated.
+- Rotate the database password and Supabase secret key periodically and immediately if exposed.
 - Rotate the Vercel token yearly and any secret immediately if exposed (screenshot, chat, log).
 
 ## Database
@@ -31,6 +31,9 @@ here as they are built. A documented security/privacy review is required before 
 - The browser and server app use the publishable key plus the user's session, so every query is subject to RLS.
 
 ## Code and supply chain
+- The repository is **public** (GitHub Free enforces rulesets and environment secrets only on public repos).
+  It must never contain secrets; GitHub push protection blocks pushes that do. Workflows from fork PRs need the
+  owner's approval and receive no secrets.
 - `main` is protected: PRs only, required checks, no force pushes or deletions.
 - GitHub Actions run with a read-only token by default and cannot approve PRs.
 - Dependabot opens weekly update PRs for npm packages and GitHub Actions; they pass the same CI.

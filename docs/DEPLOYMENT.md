@@ -9,8 +9,8 @@ with no approval step (owner's decision; see docs/ARCHITECTURE.md "Safety net").
 ---
 
 ## Part 1 — Supabase (production project `wkebtafpbcgotlwqpnqn`) ✅ exists
-1. **Reset the database password** (Database → Settings) to a long **letters-and-digits-only** password and rotate the
-   **secret key** (Settings → API Keys). The previous values were shared in chat and must be treated as exposed.
+1. Use a long database password (Database → Settings). Rotate it, and the **secret key** (Settings → API Keys),
+   periodically and immediately if either is ever exposed; then update `SUPABASE_DB_URL` in GitHub.
 2. Open **Connect** (top bar) → **Session pooler** and copy the URI, replacing `[YOUR-PASSWORD]` with the new password:
    `postgresql://postgres.wkebtafpbcgotlwqpnqn:<password>@aws-0-eu-west-3.pooler.supabase.com:5432/postgres`.
    This is `SUPABASE_DB_URL`. Use the session pooler, not the direct connection: GitHub runners need IPv4.
@@ -25,6 +25,12 @@ with no approval step (owner's decision; see docs/ARCHITECTURE.md "Safety net").
 4. Enable **two-factor authentication** on the Vercel account.
 
 ## Part 3 — GitHub repository settings (`nicsdeep/aquasentinel` → Settings)
+On GitHub Free, rulesets and environment secrets only work on **public** repositories, so this repo is public
+(the alternative is GitHub Pro). Never commit secrets. Also set:
+- **Actions → General → Fork pull request workflows** → **Require approval for all external contributors**.
+- **Advanced Security** → enable **Secret Protection / Push protection**.
+- Vercel → Project → Settings → Git → keep **Git Fork Protection** on.
+
 1. **General → Pull Requests**: tick **Allow auto-merge** and **Automatically delete head branches**.
 2. **Actions → General → Workflow permissions**: **Read repository contents and packages permissions**; leave
    **Allow GitHub Actions to create and approve pull requests** unticked. Save.
