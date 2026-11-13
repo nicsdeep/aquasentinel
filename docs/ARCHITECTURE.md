@@ -54,7 +54,31 @@ scripts/            CI guards: migration history, destructive SQL, RLS.
 tests/unit/         Vitest unit tests.     tests/smoke/  Playwright smoke tests (local and deployed).
 ```
 
-## Planned product modules (from PROJECT_RULES §3, not yet built)
+## Data model (Gate B): 10 tables, reporting through views
+| Table | Holds |
+|---|---|
+| `profiles`, `site_members` | People (minimal data) and their role per site: operator, technician, committee, admin. The basis of RLS. |
+| `sites`, `assets` | The existing water system and its infrastructure (intake pump, pipeline, storage, solar). |
+| `devices`, `readings` | Monitoring units (hashed, revocable key) and validated readings (unit, measured/received time, sequence, source). |
+| `alert_rules` | Plain-language rules, each with a suspected cause, recommended action and link to the brief (§3.2). |
+| `incidents` | The single incident record: detection, acknowledgement, assignment, diagnosis (suspected/confirmed), repair, recovery verification, closure. |
+| `sms_messages` | Every SMS in or out, with the real delivery result. |
+| `audit_log` | Every consequential action (who, which channel, when). |
+
+Views (`site_status`, `latest_readings`, `device_health`, `device_uptime_24h`, `incident_timeline`,
+`maintenance_history`, `kpi_summary`) provide everything the screens and reports need, so there are no extra tables.
+
+**Writes only through workflow functions.** Signed-in users can read their sites' rows (RLS) but cannot write
+tables directly. Every action calls one SQL function (`incident_acknowledge`, `incident_assign`,
+`incident_record_work`, `incident_verify_recovery`, `incident_close`, …), and the SMS handler calls the same internal
+functions. So web, phone and SMS always show the same incident state.
+
+**Rules run in the database** when readings arrive, using sustained-duration checks: the condition must hold on a
+reading at least one full window old and on every reading since. Recovery is verified from telemetry, or manually
+by a technician. `pg_cron` checks device health every 5 minutes, and `demo_tick` keeps the SIMULATED unit reporting.
+The database tests are in `supabase/tests/`.
+
+## Planned product modules (from PROJECT_RULES §3)
 Identity & Access · Sites & Assets · Device Ingestion · Sensor Readings · Rules & Alerts · Incident & Maintenance ·
 SMS Communications · Dashboard · Reporting & Evaluation · Audit & Administration — all on the single Supabase backend.
 Devices will use an authenticated, rate-limited ingestion API (Edge Function), never database credentials.
