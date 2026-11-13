@@ -59,6 +59,26 @@ On GitHub Free, rulesets and environment secrets only work on **public** reposit
 5. Claude reports the commit, migration status, deployment status and live URL. The run's **Summary** page in
    GitHub Actions shows the same.
 
+## Undo, revert and delete
+Everything can be undone by asking Claude (from any device). Every undo is a **new** commit or migration that goes
+through the normal PR → CI → merge → release pipeline, so history stays traceable and nothing is rewritten.
+
+| To undo | Ask Claude | What happens |
+|---|---|---|
+| An app/code change | "Revert the <feature> change" | Claude opens a PR that reverses the commit (`git revert <sha>` on a new branch); the release deploys the previous behaviour. |
+| A broken live site, urgently | "Roll back the site" | Fastest: the owner opens **Vercel → Deployments → previous deployment → ⋯ → Promote** (~30 s). Claude has no Vercel access by design; it then fixes the code with a normal PR. |
+| A table, column or other schema change | "Delete the <name> table" / "Undo the last database change" | Claude adds a **new** migration (`npx supabase migration new <name>`) that reverses it. Existing migrations are never edited or deleted. |
+
+**Deleting data needs the owner's confirmation.** `scripts/check-destructive-sql.sh` blocks drops, truncates,
+deletes and column type changes. Claude first states exactly what data will be lost and asks in chat; only after the
+owner confirms does it add `-- allow-destructive: <reason>` to the migration.
+
+**Limits**
+- Deleted data cannot be recovered on the Supabase free plan (no restorable backups). Move to Supabase Pro
+  (daily backups, point-in-time recovery) before storing real field data.
+- Never create, change or delete tables in the Supabase dashboard: the repository would no longer match the
+  database and the next release fails. Always go through a migration.
+
 ## If something fails
 - **CI fails:** nothing merges or deploys.
 - **Production migration fails:** each migration runs in a transaction and the app is not deployed. Fix forward.
