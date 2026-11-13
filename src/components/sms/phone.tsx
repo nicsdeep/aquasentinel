@@ -78,7 +78,7 @@ export function Phone({ userId, locale, timezone }: { userId: string; locale: "e
 
   return (
     <div className="mx-auto w-full max-w-[19rem]">
-      <div className="rounded-[2.2rem] bg-navy-950 p-3 shadow-card ring-1 ring-black/20">
+      <div className="rounded-[2.2rem] bg-as-dark p-3 shadow-card ring-1 ring-black/20">
         <div className="mx-auto mb-2 h-1.5 w-16 rounded-full bg-white/15" />
         <div className="overflow-hidden rounded-xl bg-[#dfe8d8] text-[#18230f]">
           <div className="flex items-center justify-between bg-[#c9d6bf] px-3 py-1 text-[11px] font-semibold">

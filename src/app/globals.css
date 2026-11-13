@@ -1,75 +1,86 @@
 @import "tailwindcss";
-@import "@fontsource-variable/inter";
+@import "@fontsource-variable/geist";
+@import "@fontsource/instrument-serif/400.css";
 
 /*
- * AquaSentinel design tokens.
- * Brand colours are sampled from the approved logo (public/brand/aquasentinel-logo.svg): navy, teal, sky blue, leaf.
- * Status colours are ALWAYS paired with an icon and a word (never colour alone) — PROJECT_RULES §6.
- * Semantic tokens switch for dark mode; components only use semantic names.
+ * AquaSentinel design tokens (docs/DESIGN_SYSTEM.md).
+ * Five tones, strict discipline: dark, deep, teal, orange (earned: one primary action per screen), light/cream.
+ * Use token names in classes, never raw hex in components.
+ * Status colours are functional and separate from brand colours, and ALWAYS paired with an icon and a word.
  */
 :root {
-  --canvas: #f4f7fb;
-  --surface: #ffffff;
-  --surface-muted: #eef3f8;
-  --ink: #0b2236;
-  --ink-muted: #4d6174;
-  --ink-subtle: #73859a;
-  --line: #dbe4ee;
-  --focus: #1a9bd8;
+  --canvas: #f4f6f6; /* as-light */
+  --surface: #ffffff; /* as-white */
+  --surface-muted: #eaf0f0;
+  --surface-warm: #f7f3ed; /* as-cream */
+  --ink: #0a1515; /* as-dark */
+  --ink-muted: #4a5f5f;
+  --ink-subtle: #5f7474; /* as-muted, deepened for small-text contrast (WCAG AA) */
+  --line: #cfdada; /* as-gray2 */
+  --focus: #59c3c3; /* as-teal */
+  --accent-ink: #1d7a7a; /* as-teal, deepened for text on light surfaces */
 
-  --ok-fg: #13703a;
-  --ok-bg: #e6f5ec;
-  --warn-fg: #9a4b00;
-  --warn-bg: #fff3df;
-  --crit-fg: #b3261e;
+  --ok-fg: #1b7a43;
+  --ok-bg: #e6f4eb;
+  --warn-fg: #8f5200;
+  --warn-bg: #fff2dc;
+  --crit-fg: #c62828;
   --crit-bg: #fdeceb;
-  --off-fg: #44546a;
-  --off-bg: #eaeef3;
-  --info-fg: #0b5e8e;
-  --info-bg: #e5f3fb;
+  --off-fg: #4a5f5f;
+  --off-bg: #e6eded;
+  --info-fg: #1d7a7a;
+  --info-bg: #e2f3f3;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --canvas: #07131f;
-    --surface: #0e1f31;
-    --surface-muted: #14283e;
-    --ink: #e7eff7;
-    --ink-muted: #a8b8c9;
-    --ink-subtle: #7f93a8;
-    --line: #22384f;
+    --canvas: #0a1515;
+    --surface: #0f2626;
+    --surface-muted: #143131;
+    --surface-warm: #1a2a26;
+    --ink: #f4f6f6;
+    --ink-muted: #b3c4c4;
+    --ink-subtle: #8fa5a5;
+    --line: #1f3a3a;
+    --accent-ink: #59c3c3;
     --ok-fg: #6fd39a;
     --ok-bg: #0f2f20;
     --warn-fg: #f5b55c;
     --warn-bg: #33240c;
     --crit-fg: #ff8a80;
     --crit-bg: #3a1513;
-    --off-fg: #b4c1cf;
-    --off-bg: #1c2b3b;
-    --info-fg: #7cc8f0;
-    --info-bg: #0d2a3d;
+    --off-fg: #b3c4c4;
+    --off-bg: #1a3030;
+    --info-fg: #7fd3d3;
+    --info-bg: #0f3333;
   }
 }
 
 @theme inline {
-  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
 
-  --color-navy-950: #061c31;
-  --color-navy-900: #0a2b4a;
-  --color-navy-800: #0f3a5f;
-  --color-navy-700: #154c7a;
-  --color-teal-600: #0a8f9c;
-  --color-sky-500: #1a9bd8;
-  --color-leaf-500: #6aab4f;
+  /* Brand */
+  --color-as-dark: #0a1515;
+  --color-as-deep: #0f2626;
+  --color-as-teal: #59c3c3;
+  --color-as-orange: #fb4803;
+  --color-as-light: #f4f6f6;
+  --color-as-cream: #f7f3ed;
+  --color-as-gray2: #cfdada;
+  --color-as-muted: #7b9090;
 
+  /* Semantic (switch in dark mode) */
   --color-canvas: var(--canvas);
   --color-surface: var(--surface);
   --color-surface-muted: var(--surface-muted);
+  --color-surface-warm: var(--surface-warm);
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
   --color-ink-subtle: var(--ink-subtle);
   --color-line: var(--line);
   --color-focus: var(--focus);
+  --color-accent: var(--accent-ink);
   --color-ok: var(--ok-fg);
   --color-ok-soft: var(--ok-bg);
   --color-warn: var(--warn-fg);
@@ -81,8 +92,9 @@
   --color-info: var(--info-fg);
   --color-info-soft: var(--info-bg);
 
-  --radius-card: 1rem;
-  --shadow-card: 0 1px 2px rgb(11 34 54 / 0.06), 0 4px 16px rgb(11 34 54 / 0.05);
+  --radius-card: 1rem; /* rounded-2xl */
+  --radius-panel: 1.5rem; /* rounded-3xl */
+  --shadow-card: 0 30px 80px -40px rgb(10 21 21 / 0.18), 0 1px 2px rgb(10 21 21 / 0.04);
 }
 
 @layer base {
@@ -93,7 +105,8 @@
     background: var(--canvas);
     color: var(--ink);
     font-family: var(--font-sans);
-    font-feature-settings: "cv11", "ss01";
+    font-size: 14px;
+    line-height: 1.55;
     -webkit-font-smoothing: antialiased;
   }
   :focus-visible {
@@ -101,7 +114,37 @@
     outline-offset: 2px;
     border-radius: 6px;
   }
-  /* Readings line up in columns. */
+}
+
+@layer components {
+  /* Type scale. Serif carries the voice; sans does the work. Headings are clamped, never fixed px. */
+  .type-display {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(52px, 8vw, 112px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+  }
+  .type-h1 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(32px, 3.6vw, 48px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .type-h2 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(24px, 2.4vw, 32px);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+  }
+  .type-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
   .tabular {
     font-variant-numeric: tabular-nums;
   }

@@ -34,7 +34,7 @@ export function HistoryChart({ history, timezone }: { history: HistoryPoint[]; t
     <Card>
       <CardHeader
         title="Last 24 hours"
-        description="Blue area: how full storage is (%). Teal line: water flowing in (m³/h). Storage should rise while the solar pump runs by day and fall slowly at night."
+        description="Teal area: how full storage is (%). Dark line: water flowing in (m³/h). Storage should rise while the solar pump runs by day and fall slowly at night."
       />
       <div className="h-64 px-2 pb-4 pt-2 md:h-72" role="img" aria-label="Chart of storage level and water flow over the last 24 hours">
         {data.length < 2 ? (
@@ -44,8 +44,8 @@ export function HistoryChart({ history, timezone }: { history: HistoryPoint[]; t
             <ComposedChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: -8 }}>
               <defs>
                 <linearGradient id="tankFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#1a9bd8" stopOpacity={0.35} />
-                  <stop offset="100%" stopColor="#1a9bd8" stopOpacity={0.03} />
+                  <stop offset="0%" stopColor="#59c3c3" stopOpacity={0.35} />
+                  <stop offset="100%" stopColor="#59c3c3" stopOpacity={0.03} />
                 </linearGradient>
               </defs>
               <CartesianGrid stroke="var(--line)" strokeDasharray="3 3" vertical={false} />
@@ -67,8 +67,8 @@ export function HistoryChart({ history, timezone }: { history: HistoryPoint[]; t
                 formatter={(value, name) => (name === "tank" ? [`${value} %`, "Storage"] : [`${value} m³/h`, "Flow"])}
                 contentStyle={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 12, color: "var(--ink)" }}
               />
-              <Area yAxisId="tank" type="monotone" dataKey="tank" stroke="#1a9bd8" strokeWidth={2} fill="url(#tankFill)" connectNulls isAnimationActive={false} />
-              <Line yAxisId="flow" type="stepAfter" dataKey="flow" stroke="#0a8f9c" strokeWidth={2} dot={false} connectNulls isAnimationActive={false} />
+              <Area yAxisId="tank" type="monotone" dataKey="tank" stroke="#59c3c3" strokeWidth={2} fill="url(#tankFill)" connectNulls isAnimationActive={false} />
+              <Line yAxisId="flow" type="stepAfter" dataKey="flow" stroke="var(--ink)" strokeWidth={2} dot={false} connectNulls isAnimationActive={false} />
             </ComposedChart>
           </ResponsiveContainer>
         )}

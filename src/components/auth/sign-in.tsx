@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ChevronRight, ClipboardList, MessageSquareText, Siren, UserRound, Users, Wrench } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { getSupabase } from "@/lib/supabase/client";
 
 /** Public demo accounts. They can only see the demonstration site (enforced by RLS). */
@@ -64,35 +65,36 @@ export function SignIn() {
   }
 
   return (
-    <div className="mx-auto grid min-h-dvh w-full max-w-6xl items-center gap-10 px-4 py-10 md:grid-cols-[1.1fr_1fr] md:px-8">
+    <div className="mx-auto grid min-h-dvh w-full max-w-[1200px] items-center gap-10 px-6 py-12 md:grid-cols-[1.1fr_1fr] md:px-10 md:py-20">
       <section>
         <Logo size={44} />
-        <h1 className="mt-8 text-4xl font-bold tracking-tight text-navy-800 md:text-5xl dark:text-white">AquaSentinel</h1>
-        <p className="mt-3 max-w-xl text-lg text-ink-muted">
+        <Eyebrow className="mt-10">Community water reliability</Eyebrow>
+        <h1 className="type-display mt-3 text-ink">AquaSentinel</h1>
+        <p className="mt-5 max-w-xl text-[clamp(17px,1.5vw,22px)] leading-normal text-ink-muted">
           Helps communities keep the water systems they already have working: early warnings, local response and a
           clear maintenance record.
         </p>
-        <ul className="mt-8 space-y-4">
+        <ul className="mt-8 space-y-5 rounded-panel bg-surface-warm p-6 md:p-7">
           {LOOP.map(({ icon: Icon, title, text }) => (
             <li key={title} className="flex gap-4">
-              <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-info-soft text-info">
-                <Icon className="size-5" aria-hidden />
+              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-as-dark text-as-teal">
+                <Icon className="size-[18px]" strokeWidth={2} aria-hidden />
               </span>
               <div>
-                <p className="font-semibold text-ink">{title}</p>
-                <p className="text-sm text-ink-muted">{text}</p>
+                <p className="type-h2 text-[22px] text-ink">{title}</p>
+                <p className="mt-0.5 text-sm text-ink-muted">{text}</p>
               </div>
             </li>
           ))}
         </ul>
-        <p className="mt-8 max-w-xl text-xs text-ink-subtle">
+        <p className="mt-6 max-w-xl text-xs text-ink-subtle">
           AquaSentinel monitors, warns and coordinates. It does not control pumps, replace repairs or guarantee water
           safety. Independent project; no partnership is implied.
         </p>
       </section>
 
-      <section className="rounded-card border border-line bg-surface p-5 shadow-card md:p-7">
-        <h2 className="text-lg font-semibold">Try it now</h2>
+      <section className="rounded-panel border border-line bg-surface p-5 shadow-card md:p-8">
+        <h2 className="type-h2">Try it now</h2>
         <p className="mt-1 text-sm text-ink-muted">
           Choose a role to explore the Ngomano water system. Demo accounts can look and act, but only on this site.
         </p>
@@ -103,13 +105,13 @@ export function SignIn() {
               key={demoEmail}
               onClick={() => signIn(demoEmail, { email: demoEmail, password: DEMO_PASSWORD })}
               disabled={!supabase || busy !== null}
-              className="group flex w-full items-center gap-4 rounded-xl border border-line p-4 text-left transition-colors hover:border-sky-500 hover:bg-surface-muted disabled:opacity-60"
+              className="group flex w-full items-center gap-4 rounded-2xl border border-line p-4 text-left transition-colors hover:border-as-teal hover:bg-surface-muted disabled:opacity-60"
             >
-              <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-navy-800 text-white">
+              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-as-dark text-as-teal">
                 <Icon className="size-5" aria-hidden />
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block font-semibold text-ink">Continue as {title}</span>
+                <span className="block font-medium text-ink">Continue as {title}</span>
                 <span className="block text-sm text-ink-muted">{description}</span>
               </span>
               <ChevronRight className="size-5 text-ink-subtle transition-transform group-hover:translate-x-0.5" aria-hidden />
@@ -136,7 +138,7 @@ export function SignIn() {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block min-h-11 w-full rounded-xl border border-line bg-surface px-3 text-base"
+              className="mt-1 block min-h-11 w-full rounded-xl border border-line bg-surface px-4 text-base"
             />
           </label>
           <label className="block">
@@ -147,7 +149,7 @@ export function SignIn() {
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block min-h-11 w-full rounded-xl border border-line bg-surface px-3 text-base"
+              className="mt-1 block min-h-11 w-full rounded-xl border border-line bg-surface px-4 text-base"
             />
           </label>
           {error && (

@@ -7,9 +7,9 @@ export function Card({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
 
 export function CardHeader({ title, action, description }: { title: string; description?: string; action?: React.ReactNode }) {
   return (
-    <div className="flex items-start justify-between gap-3 px-5 pt-5">
+    <div className="flex items-start justify-between gap-3 px-5 pt-5 md:px-6 md:pt-6">
       <div>
-        <h2 className="text-base font-semibold text-ink">{title}</h2>
+        <h2 className="type-h2 text-ink">{title}</h2>
         {description && <p className="mt-0.5 text-sm text-ink-muted">{description}</p>}
       </div>
       {action}

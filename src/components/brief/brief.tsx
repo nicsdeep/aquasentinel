@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CircleCheck, CircleDashed } from "lucide-react";
 import { Card, CardHeader } from "@/components/ui/card";
+import { Eyebrow } from "@/components/ui/eyebrow";
 
 /** IFSL brief §3.2 problems → what AquaSentinel does about each, with where to see it. */
 const PROBLEMS = [
@@ -75,7 +76,8 @@ export function Brief() {
   return (
     <div className="mx-auto max-w-4xl space-y-6">
       <header>
-        <h1 className="text-2xl font-bold tracking-tight md:text-3xl">How AquaSentinel meets the brief</h1>
+        <Eyebrow>IFSL Digital Innovation Challenge</Eyebrow>
+        <h1 className="type-h1 mt-2">How AquaSentinel meets the brief</h1>
         <p className="mt-2 text-ink-muted">
           AquaSentinel helps a community keep the water system it already has working. It detects faults early,
           gets them to a local technician, and records every repair. It monitors, warns and coordinates. It does not
@@ -103,7 +105,7 @@ export function Brief() {
         <ol className="divide-y divide-line px-5 pb-2">
           {CRITERIA.map((c, i) => (
             <li key={c.name} className="flex gap-4 py-4">
-              <span className="grid size-8 shrink-0 place-items-center rounded-full bg-navy-800 text-sm font-bold text-white">{i + 1}</span>
+              <span className="grid size-8 shrink-0 place-items-center rounded-full bg-as-dark text-sm font-bold text-white">{i + 1}</span>
               <div>
                 <p className="font-semibold text-ink">{c.name}</p>
                 <p className="text-sm text-ink-muted">{c.evidence}</p>

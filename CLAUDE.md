@@ -4,7 +4,8 @@
 
 AquaSentinel is a community water-system monitoring and maintenance platform (Ngomano, Makueni).
 **`docs/PROJECT_RULES.md` is the governing requirements document. Read it before any product work and never
-silently bypass it.** Product features are built only from requirements the owner (Nicholas Kioko, GitHub `nicsdeep`)
+silently bypass it.** Every screen and workflow also follows `docs/PRODUCT_DOCTRINE.md` (principles, five-step
+method, acceptance criteria) and `docs/DESIGN_SYSTEM.md` (tokens, type, CTA ladder: one orange primary per screen). Product features are built only from requirements the owner (Nicholas Kioko, GitHub `nicsdeep`)
 has supplied or approved.
 
 ## Stack

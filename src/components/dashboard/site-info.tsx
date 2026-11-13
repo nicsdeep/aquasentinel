@@ -24,7 +24,7 @@ export function SiteInfo({ assets, devices, now }: { assets: AssetRow[]; devices
           const Icon = ASSET_ICON[a.kind] ?? Cpu;
           return (
             <li key={a.id} className="flex items-start gap-3 py-3">
-              <Icon className="mt-0.5 size-4 shrink-0 text-teal-600" aria-hidden />
+              <Icon className="mt-0.5 size-4 shrink-0 text-accent" aria-hidden />
               <div className="min-w-0">
                 <p className="text-sm font-medium text-ink">{a.name}</p>
                 {a.details.note && <p className="text-xs text-ink-muted">{a.details.note}</p>}

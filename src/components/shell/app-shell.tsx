@@ -35,8 +35,11 @@ function NavLinks({ onNavigate, variant }: { onNavigate?: () => void; variant: "
               variant === "sidebar"
                 ? "flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-medium transition-colors"
                 : "flex min-h-14 flex-1 flex-col items-center justify-center gap-0.5 text-xs font-medium",
-              variant === "sidebar" && (active ? "bg-white/12 text-white" : "text-white/75 hover:bg-white/8 hover:text-white"),
-              variant === "bottom" && (active ? "text-navy-800 dark:text-sky-500" : "text-ink-muted"),
+              variant === "sidebar" &&
+                (active
+                  ? "bg-as-deep text-white shadow-[inset_3px_0_0_var(--color-as-teal)]"
+                  : "text-white/70 hover:bg-white/6 hover:text-white"),
+              variant === "bottom" && (active ? "text-accent" : "text-ink-muted"),
             )}
           >
             <Icon className={variant === "sidebar" ? "size-5" : "size-6"} aria-hidden />
@@ -52,7 +55,7 @@ function UserCard({ name, membership, onSignOut }: { name: string; membership?: 
   return (
     <div className="rounded-xl bg-white/8 p-3">
       <div className="flex items-center gap-3">
-        <span className="grid size-9 shrink-0 place-items-center rounded-full bg-teal-600 text-sm font-bold text-white">
+        <span className="grid size-9 shrink-0 place-items-center rounded-full bg-as-teal text-sm font-bold text-as-dark">
           {initials(name)}
         </span>
         <div className="min-w-0">
@@ -62,7 +65,7 @@ function UserCard({ name, membership, onSignOut }: { name: string; membership?: 
       </div>
       <button
         onClick={onSignOut}
-        className="mt-3 flex min-h-11 w-full items-center justify-center gap-2 rounded-lg text-sm font-medium text-white/85 hover:bg-white/10"
+        className="mt-3 flex min-h-11 w-full items-center justify-center gap-2 rounded-full text-sm font-medium text-white/85 hover:bg-white/10"
       >
         <LogOut className="size-4" aria-hidden />
         Sign out
@@ -72,7 +75,7 @@ function UserCard({ name, membership, onSignOut }: { name: string; membership?: 
 }
 
 /**
- * Responsive app frame: navy sidebar on laptops; header with a working hamburger menu plus a bottom
+ * Responsive app frame: dark sidebar on laptops; header with a working hamburger menu plus a bottom
  * navigation bar on phones (PROJECT_RULES §6).
  */
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -106,7 +109,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-dvh md:grid md:grid-cols-[16.5rem_1fr]">
       {/* Laptop / desktop sidebar */}
-      <aside className="sticky top-0 hidden h-dvh flex-col gap-6 bg-navy-900 p-4 md:flex">
+      <aside className="sticky top-0 hidden h-dvh flex-col gap-6 bg-as-dark p-4 md:flex">
         <Link href="/dashboard" className="px-2 pt-1">
           <Logo inverted />
         </Link>
@@ -132,7 +135,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </button>
           <Logo size={28} />
           <span className="grid size-11 place-items-center">
-            <span className="grid size-8 place-items-center rounded-full bg-teal-600 text-xs font-bold text-white">
+            <span className="grid size-8 place-items-center rounded-full bg-as-teal text-xs font-bold text-as-dark">
               {initials(name)}
             </span>
           </span>
@@ -152,8 +155,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Phone slide-out menu */}
       {menuOpen && (
         <div className="fixed inset-0 z-40 md:hidden" role="dialog" aria-modal="true" aria-label="Menu">
-          <button className="absolute inset-0 bg-navy-950/50" onClick={() => setMenuOpen(false)} aria-label="Close menu" />
-          <div className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col gap-6 bg-navy-900 p-4">
+          <button className="absolute inset-0 bg-as-dark/60" onClick={() => setMenuOpen(false)} aria-label="Close menu" />
+          <div className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col gap-6 bg-as-dark p-4">
             <div className="flex items-center justify-between">
               <Logo inverted size={30} />
               <button
