@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { ChevronRight, CircleCheck, OctagonAlert, TriangleAlert } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { useSession } from "@/lib/auth/session";
 import type { IncidentStatus, Severity } from "@/lib/data/types";
 import { formatSiteTime } from "@/lib/format";
@@ -88,7 +89,8 @@ export function IncidentList() {
   return (
     <div className="space-y-6">
       <header>
-        <h1 className="text-2xl font-bold tracking-tight md:text-3xl">Incidents</h1>
+        <Eyebrow>Maintenance record</Eyebrow>
+        <h1 className="type-h1 mt-2">Incidents</h1>
         <p className="mt-1 text-ink-muted">Every alert, response and repair, kept as the site&apos;s maintenance record.</p>
       </header>
       <section className="space-y-3">

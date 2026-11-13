@@ -61,6 +61,16 @@ export function IncidentActions({
   }
   const manager = role === "operator" || role === "committee" || role === "admin";
   const active = s === "open" || s === "acknowledged" || s === "assigned";
+  const mine = incident.assigned_to === userId;
+
+  // Exactly one orange (primary) action: the next step for this role at this stage.
+  const next =
+    s === "open" ? "ack"
+    : s === "acknowledged" ? (manager ? "assign" : role === "technician" ? "take" : null)
+    : s === "assigned" ? ((role === "technician" && mine) || role === "admin" ? (incident.diagnosis ? "verify" : "work") : null)
+    : s === "recovered" && manager ? "close"
+    : null;
+  const v = (key: string) => (next === key ? "primary" : "secondary") as "primary" | "secondary";
 
   async function call(fn: string, args: Record<string, unknown>, success: string) {
     setBusy(true);
@@ -78,37 +88,37 @@ export function IncidentActions({
   return (
     <div className="flex flex-wrap gap-2">
       {s === "open" && (
-        <Button onClick={() => call("incident_acknowledge", { p_incident: incident.id }, `${incident.reference} acknowledged.`)} loading={busy}>
+        <Button variant={v("ack")} onClick={() => call("incident_acknowledge", { p_incident: incident.id }, `${incident.reference} acknowledged.`)} loading={busy}>
           <CircleCheck className="size-4" aria-hidden />
           Acknowledge
         </Button>
       )}
       {active && manager && technicians.length > 0 && (
-        <Button variant={s === "open" ? "secondary" : "primary"} onClick={() => setModal("assign")} disabled={busy}>
+        <Button variant={v("assign")} onClick={() => setModal("assign")} disabled={busy}>
           <UserRound className="size-4" aria-hidden />
           {incident.assigned_to ? "Reassign technician" : "Assign technician"}
         </Button>
       )}
-      {active && role === "technician" && incident.assigned_to !== userId && (
-        <Button onClick={() => call("incident_assign", { p_incident: incident.id, p_technician: userId }, "You have taken this job.")} loading={busy}>
+      {active && role === "technician" && !mine && (
+        <Button variant={v("take")} onClick={() => call("incident_assign", { p_incident: incident.id, p_technician: userId }, "You have taken this job.")} loading={busy}>
           <HandHelping className="size-4" aria-hidden />
           Take this job
         </Button>
       )}
-      {((role === "technician" && incident.assigned_to === userId) || role === "admin") && (
-        <Button variant={incident.diagnosis ? "secondary" : "primary"} onClick={openWork} disabled={busy}>
+      {((role === "technician" && mine) || role === "admin") && (
+        <Button variant={v("work")} onClick={openWork} disabled={busy}>
           <ClipboardList className="size-4" aria-hidden />
           {incident.diagnosis ? "Update work record" : "Record findings and repair"}
         </Button>
       )}
       {active && (role === "technician" || role === "admin") && (
-        <Button variant="secondary" onClick={() => setModal("verify")} disabled={busy}>
+        <Button variant={v("verify")} onClick={() => setModal("verify")} disabled={busy}>
           <ShieldCheck className="size-4" aria-hidden />
           Confirm water is flowing
         </Button>
       )}
       {manager && (
-        <Button variant={s === "recovered" ? "primary" : "ghost"} onClick={openClose} disabled={busy}>
+        <Button variant={s === "recovered" ? v("close") : "ghost"} onClick={openClose} disabled={busy}>
           {s === "recovered" ? "Close incident" : "Close as false alarm"}
         </Button>
       )}
@@ -124,7 +134,7 @@ export function IncidentActions({
         </label>
         <div className="mt-5 flex justify-end gap-2">
           <Button variant="ghost" onClick={() => setModal(null)}>Cancel</Button>
-          <Button loading={busy} onClick={() => call("incident_assign", { p_incident: incident.id, p_technician: technician }, "Technician assigned and notified by SMS.")}>
+          <Button variant="primary" loading={busy} onClick={() => call("incident_assign", { p_incident: incident.id, p_technician: technician }, "Technician assigned and notified by SMS.")}>
             Assign
           </Button>
         </div>
@@ -152,7 +162,7 @@ export function IncidentActions({
             <legend className="font-medium">Is the cause confirmed?</legend>
             <div className="mt-1 flex gap-2">
               {(["suspected", "confirmed"] as const).map((v) => (
-                <label key={v} className="flex min-h-11 flex-1 cursor-pointer items-center gap-2 rounded-xl border border-line px-3 has-[:checked]:border-sky-500 has-[:checked]:bg-info-soft">
+                <label key={v} className="flex min-h-11 flex-1 cursor-pointer items-center gap-2 rounded-xl border border-line px-3 has-[:checked]:border-as-teal has-[:checked]:bg-info-soft">
                   <input type="radio" name="diagnosis-status" checked={diagnosisStatus === v} onChange={() => setDiagnosisStatus(v)} />
                   {v === "suspected" ? "Suspected" : "Confirmed by inspection"}
                 </label>
@@ -169,7 +179,7 @@ export function IncidentActions({
           </label>
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="ghost" onClick={() => setModal(null)}>Cancel</Button>
-            <Button type="submit" loading={busy}>Save</Button>
+            <Button variant="primary" type="submit" loading={busy}>Save</Button>
           </div>
         </form>
       </Dialog>
@@ -181,7 +191,7 @@ export function IncidentActions({
         </label>
         <div className="mt-5 flex justify-end gap-2">
           <Button variant="ghost" onClick={() => setModal(null)}>Cancel</Button>
-          <Button loading={busy} onClick={() => call("incident_verify_recovery", { p_incident: incident.id, p_note: note }, "Recovery confirmed.")}>
+          <Button variant="primary" loading={busy} onClick={() => call("incident_verify_recovery", { p_incident: incident.id, p_note: note }, "Recovery confirmed.")}>
             Confirm recovery
           </Button>
         </div>
@@ -206,7 +216,7 @@ export function IncidentActions({
         </div>
         <div className="mt-5 flex justify-end gap-2">
           <Button variant="ghost" onClick={() => setModal(null)}>Cancel</Button>
-          <Button loading={busy} onClick={() => call("incident_close", { p_incident: incident.id, p_outcome: outcome, p_reason: reason }, `${incident.reference} closed.`)}>
+          <Button variant="primary" loading={busy} onClick={() => call("incident_close", { p_incident: incident.id, p_outcome: outcome, p_reason: reason }, `${incident.reference} closed.`)}>
             Close incident
           </Button>
         </div>

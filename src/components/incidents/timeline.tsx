@@ -19,7 +19,7 @@ export function Timeline({ entries, timezone }: { entries: TimelineEntry[]; time
         const Icon = ch.icon;
         return (
           <li key={e.id} className="relative">
-            <span className="absolute -left-[1.85rem] top-0.5 grid size-5 place-items-center rounded-full border-2 border-surface bg-teal-600 text-white">
+            <span className="absolute -left-[1.85rem] top-0.5 grid size-5 place-items-center rounded-full border-2 border-surface bg-as-teal text-as-dark">
               <Icon className="size-2.5" aria-hidden />
             </span>
             <p className="text-sm font-medium text-ink">{timelineLabel(e.action, e.details)}</p>

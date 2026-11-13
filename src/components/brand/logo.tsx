@@ -14,9 +14,9 @@ export function Logo({ size = 36, inverted = false, className }: { size?: number
         unoptimized
         className={cn("rounded-lg", inverted && "bg-white p-0.5")}
       />
-      <span className="text-lg font-bold tracking-tight">
-        <span className={inverted ? "text-white" : "text-navy-800 dark:text-white"}>Aqua</span>
-        <span className="text-teal-600 dark:text-sky-500">Sentinel</span>
+      <span className="text-lg font-semibold tracking-tight">
+        <span className={inverted ? "text-white" : "text-ink"}>Aqua</span>
+        <span className={inverted ? "text-as-teal" : "text-accent"}>Sentinel</span>
       </span>
     </span>
   );

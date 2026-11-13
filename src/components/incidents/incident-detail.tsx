@@ -54,7 +54,7 @@ export function IncidentDetailView({ id }: { id: string }) {
             <Badge tone={STATUS_TONE[incident.status]}>{STATUS_LABEL[incident.status]}</Badge>
             <span className="text-sm text-ink-muted">{incident.reference} · {incident.site?.name}</span>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight md:text-3xl">{incident.title}</h1>
+          <h1 className="type-h1">{incident.title}</h1>
           <p className="text-ink-muted">{evidenceText(incident.evidence)}</p>
         </header>
 
@@ -62,7 +62,7 @@ export function IncidentDetailView({ id }: { id: string }) {
         <ol className="grid grid-cols-5 gap-1.5" aria-label="Progress">
           {LIFECYCLE.map((l, i) => (
             <li key={l.status} className="text-center">
-              <div className={cn("h-1.5 rounded-full", i <= step ? "bg-teal-600" : "bg-line")} />
+              <div className={cn("h-1.5 rounded-full", i <= step ? "bg-as-teal" : "bg-line")} />
               <p className={cn("mt-1.5 text-[11px] font-medium sm:text-xs", i <= step ? "text-ink" : "text-ink-subtle")}>{l.label}</p>
             </li>
           ))}
@@ -90,7 +90,7 @@ export function IncidentDetailView({ id }: { id: string }) {
               </div>
             </div>
             <div className="flex gap-3 sm:col-span-2">
-              <BookOpenCheck className="mt-0.5 size-5 shrink-0 text-teal-600" aria-hidden />
+              <BookOpenCheck className="mt-0.5 size-5 shrink-0 text-accent" aria-hidden />
               <div>
                 <dt className="text-sm font-semibold">Problem it addresses</dt>
                 <dd className="text-sm text-ink-muted">{incident.rule?.problem_reference}</dd>
@@ -160,7 +160,7 @@ export function IncidentDetailView({ id }: { id: string }) {
       </div>
 
       <aside className="space-y-3">
-        <h2 className="flex items-center gap-2 text-base font-semibold">
+        <h2 className="type-h2 flex items-center gap-2">
           <Wrench className="size-4 text-ink-muted" aria-hidden />
           Respond by SMS
         </h2>

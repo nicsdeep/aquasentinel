@@ -19,6 +19,8 @@ ageing conveyance, insufficient elevated storage, limited maintenance capacity a
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | One-time setup of GitHub, Supabase and Vercel, and how releases work |
 | [docs/SECURITY.md](docs/SECURITY.md) | Secrets, access control, RLS and data-protection baseline |
 | [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) | Development standards and daily workflow |
+| [docs/PRODUCT_DOCTRINE.md](docs/PRODUCT_DOCTRINE.md) | Product design and engineering doctrine |
+| [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) | Tokens, type, components and discipline |
 | [CLAUDE.md](CLAUDE.md) | Rules every Claude Code session follows in this repository |
 
 ## Quick start (local)

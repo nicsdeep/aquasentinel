@@ -2,6 +2,7 @@
 
 import { Clock, MapPin } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { Phone } from "@/components/sms/phone";
 import { useSession } from "@/lib/auth/session";
 import { useSiteData } from "@/lib/data/use-site-data";
@@ -52,8 +53,8 @@ export function Dashboard() {
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
       <div className="min-w-0 space-y-5">
         <header>
-          <p className="text-sm font-medium text-ink-muted">Water system</p>
-          <h1 className="text-2xl font-bold tracking-tight text-ink md:text-3xl">{site.name}</h1>
+          <Eyebrow>Water system</Eyebrow>
+          <h1 className="type-h1 mt-2 text-ink">{site.name}</h1>
           <p className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-ink-muted">
             <span className="flex items-center gap-1.5">
               <MapPin className="size-4" aria-hidden />
@@ -75,7 +76,7 @@ export function Dashboard() {
 
       <aside className="space-y-5">
         <section aria-labelledby="sms-title">
-          <h2 id="sms-title" className="mb-3 text-base font-semibold text-ink">
+          <h2 id="sms-title" className="type-h2 mb-3 text-ink">
             Your SMS
           </h2>
           <Phone userId={session.user.id} locale={session.profile?.locale ?? "en"} timezone={site.timezone} />
