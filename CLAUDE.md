@@ -27,6 +27,7 @@ has supplied or approved.
    every check passed). Merging to `main` deploys to production automatically. Never merge with failing or pending checks,
    never bypass the ruleset, and stop and ask the owner first for anything destructive, security-sensitive or irreversible.
 7. After the merge, watch the Release run and verify the live URL before reporting.
+8. To undo or delete anything (code, deployment, tables, data), follow docs/DEPLOYMENT.md → "Undo, revert and delete".
 
 ## Hard rules
 - **Never touch hosted Supabase or Vercel directly.** No Supabase/Vercel tokens in Claude sessions. All hosted
