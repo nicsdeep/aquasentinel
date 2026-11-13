@@ -8,6 +8,7 @@ ageing conveyance, insufficient elevated storage, limited maintenance capacity a
 
 > **Status:** infrastructure skeleton. No product features have been built yet.
 > Live: https://ifsl.vercel.app · every change merged to `main` deploys to production automatically after CI.
+> Health check: https://ifsl.vercel.app/api/health reports the commit that is live.
 
 ## Documentation
 | Document | Purpose |
