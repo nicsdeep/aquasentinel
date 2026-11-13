@@ -92,8 +92,8 @@ reset role;
 select is((select status::text from public.incidents where site_id = :'site'), 'open', 'Simulated fault opens an incident');
 select is((select count(*) from public.sms_messages where site_id = :'site' and direction = 'outbound')::int, 3,
   'Operator, technician and committee are notified by SMS');
-select ok((select bool_and(body like '%MAJARIBIO%') from public.sms_messages s join public.profiles p on p.id = s.profile_id
-  where s.site_id = :'site' and p.locale = 'sw'), 'Kiswahili users get Kiswahili SMS, marked as simulated');
+select ok((select bool_and(body like '%Jibu 1 Kupokea%') from public.sms_messages s join public.profiles p on p.id = s.profile_id
+  where s.site_id = :'site' and p.locale = 'sw'), 'Kiswahili users get their alert SMS in Kiswahili');
 
 select pg_temp.act_as(:'op');
 select is(public.demo_simulate(:'site', 'pump_fault') ->> 'error', 'not_authorised', 'Operators cannot use demo controls');

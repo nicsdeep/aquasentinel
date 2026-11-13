@@ -6,7 +6,7 @@ import { CircleCheck, OctagonAlert, TriangleAlert, WifiOff, type LucideIcon } fr
  */
 export type SiteStatus = "normal" | "warning" | "needs_attention" | "offline";
 
-export type Tone = "ok" | "warn" | "crit" | "off" | "info" | "sim";
+export type Tone = "ok" | "warn" | "crit" | "off" | "info";
 
 export const SITE_STATUS: Record<SiteStatus, { label: string; summary: string; icon: LucideIcon; tone: Tone }> = {
   normal: { label: "Normal", summary: "Water is flowing as expected.", icon: CircleCheck, tone: "ok" },
@@ -36,5 +36,4 @@ export const TONE_CLASSES: Record<Tone, string> = {
   crit: "text-crit bg-crit-soft",
   off: "text-off bg-off-soft",
   info: "text-info bg-info-soft",
-  sim: "text-sim bg-sim-soft",
 };
