@@ -18,6 +18,7 @@
 | `npx supabase migration new <name>` | Create a new timestamped migration |
 | `npx supabase db reset` | Rebuild the local database from migrations (+ local seed) |
 | `npm run db:check-rls` | Fail if any `public` table lacks RLS (local DB) |
+| `npm run db:check-destructive` | Fail if new migrations contain unmarked destructive SQL |
 | `npm run db:check-migrations` | Validate migration names, immutability and order against `origin/main` |
 
 **Claude cloud containers:** start Docker with `dockerd > /tmp/dockerd.log 2>&1 &` if `docker ps` fails, and run smoke
@@ -26,6 +27,8 @@ tests with `PW_CHROMIUM_PATH=$(ls -d /opt/pw-browsers/chromium-*/chrome-linux*/c
 ## Database migration rules
 - One migration per logical change; descriptive snake_case names.
 - Never edit, rename or delete a migration that is on `main`.
+- Production migrates automatically: avoid destructive SQL; mark unavoidable cases with `-- allow-destructive: <reason>`
+  only after the owner confirms.
 - Backward compatible with the deployed app: add columns/tables first, switch the app, remove old structures in a later
   release (expand → migrate → contract).
 - New `public` tables: `enable row level security` + explicit policies in the same file. Default to deny.

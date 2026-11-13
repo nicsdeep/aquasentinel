@@ -7,20 +7,24 @@ here as they are built. A documented security/privacy review is required before 
 ## Secrets
 | Secret | Stored in | Never in |
 |---|---|---|
-| Supabase database URLs (contain DB passwords) | GitHub Environment secrets (`development`, `production`) | Code, chat, Vercel, Claude sessions |
+| Supabase database URL (contains the DB password) | GitHub Environment secret (`production`) | Code, chat, Vercel, Claude sessions |
 | Supabase secret key `sb_secret_…` | Not used yet; future server-only Vercel variable | Browser code, `NEXT_PUBLIC_*`, firmware |
-| Vercel token, protection-bypass secret | GitHub Environment secrets | Code, chat |
+| Vercel token | GitHub Environment secret | Code, chat |
 | Publishable key `sb_publishable_…` | Vercel env vars (public by design) | — safe only because RLS is enforced |
 
-- Production secrets exist only in the `production` environment, which requires the owner's approval and only
-  runs from `main`.
-- The pipeline uses **project-scoped** database URLs, not an account-wide Supabase access token, so a leaked
-  development secret cannot reach production.
+- Production secrets exist only in the `production` environment, usable only by workflows running on `main`.
+  `main` accepts changes only through PRs whose CI passed (ruleset `protect-main`).
+- The pipeline uses a **project-scoped** database URL, not an account-wide Supabase access token.
+- **Continuous deployment:** there is no manual approval before production (owner's decision, 13 Nov 2026).
+  Compensating controls: required CI, destructive-SQL guard, RLS check, security advisors, post-deploy verification.
 - Claude Code sessions hold no Supabase or Vercel credentials. The Supabase connector visible in Claude belongs to
   another organisation's account and is not used for AquaSentinel.
+- 13 Nov 2026: the production DB password and secret key were shared in a chat; they must be rotated.
 - Rotate the Vercel token yearly and any secret immediately if exposed (screenshot, chat, log).
 
 ## Database
+- Migrations with destructive SQL (drop, truncate, delete, column type change) fail CI unless the file carries
+  `-- allow-destructive: <reason>`, added only after the owner confirms the data loss is intended.
 - Every table in `public` must have Row Level Security enabled, with policies, in the same migration that creates it.
   CI (`scripts/check-rls.sql`) blocks merges otherwise, and Supabase security advisors run in CI and on every release.
 - Schema changes only via reviewed migrations. Dashboard edits to hosted schemas are prohibited.

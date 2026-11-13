@@ -7,13 +7,14 @@ settings such as Ngomano, Makueni. It prioritises the real KRCS water problem: u
 ageing conveyance, insufficient elevated storage, limited maintenance capacity and weak infrastructure oversight.
 
 > **Status:** infrastructure skeleton. No product features have been built yet.
+> Live: https://ifsl.vercel.app · every change merged to `main` deploys to production automatically after CI.
 
 ## Documentation
 | Document | Purpose |
 |---|---|
 | [docs/PROJECT_RULES.md](docs/PROJECT_RULES.md) | Governing requirements: KRCS criteria, security, honesty rules |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | System and delivery architecture |
-| [docs/ENVIRONMENTS.md](docs/ENVIRONMENTS.md) | Local / development / production and every configuration variable |
+| [docs/ENVIRONMENTS.md](docs/ENVIRONMENTS.md) | Local and production, and every configuration variable |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | One-time setup of GitHub, Supabase and Vercel, and how releases work |
 | [docs/SECURITY.md](docs/SECURITY.md) | Secrets, access control, RLS and data-protection baseline |
 | [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) | Development standards and daily workflow |

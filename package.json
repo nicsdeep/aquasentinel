@@ -12,7 +12,8 @@
     "test:smoke": "playwright test",
     "db:check-migrations": "bash scripts/check-migrations.sh origin/main",
     "db:check-rls": "supabase db query -f scripts/check-rls.sql",
-    "check": "npm run lint && npm run typecheck && npm run test"
+    "check": "npm run lint && npm run typecheck && npm run test",
+    "db:check-destructive": "bash scripts/check-destructive-sql.sh origin/main"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
