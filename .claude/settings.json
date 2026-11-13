@@ -1,4 +1,10 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(gh api -X PUT repos/nicsdeep/aquasentinel/pulls/*/merge *)",
+      "Bash(gh api -X PUT repos/nicsdeep/aquasentinel/pulls/*/ccr/auto_merge*)"
+    ]
+  },
   "hooks": {
     "SessionStart": [
       {
