@@ -1,10 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, BookOpenCheck, Lightbulb, Search, Wrench } from "lucide-react";
+import { ArrowLeft, BookOpenCheck, Lightbulb, Search } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader } from "@/components/ui/card";
-import { Phone } from "@/components/sms/phone";
 import { useSession } from "@/lib/auth/session";
 import { useIncident } from "@/lib/data/use-incident";
 import { formatSiteTime } from "@/lib/format";
@@ -41,7 +40,7 @@ export function IncidentDetailView({ id }: { id: string }) {
   const downtime = minutesBetween(incident.detected_at, incident.recovered_at);
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
+    <div className="mx-auto max-w-4xl">
       <div className="min-w-0 space-y-5">
         <Link href="/incidents" className="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-ink-muted hover:text-ink">
           <ArrowLeft className="size-4" aria-hidden />
@@ -159,13 +158,6 @@ export function IncidentDetailView({ id }: { id: string }) {
         </Card>
       </div>
 
-      <aside className="space-y-3">
-        <h2 className="type-h2 flex items-center gap-2">
-          <Wrench className="size-4 text-ink-muted" aria-hidden />
-          Respond by SMS
-        </h2>
-        <Phone userId={session.user.id} locale={session.profile?.locale ?? "en"} timezone={tz} />
-      </aside>
     </div>
   );
 }

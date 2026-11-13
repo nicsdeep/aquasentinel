@@ -43,11 +43,12 @@ has supplied or approved.
   confirms in chat that the data loss is intended.
 - Never commit secrets. Never put secret keys in `NEXT_PUBLIC_*` variables, client code, firmware or docs.
 - Read configuration through `src/lib/env.ts` only, and document new variables in `.env.example` and `docs/ENVIRONMENTS.md`.
-- **Presentation (owner-approved exception to PROJECT_RULES §8, 13 Nov 2026):** the product is presented as live
-  (it is: app, database, rules, workflow and SMS logic run in production). The UI does not use the word "SIMULATED".
-  Data provenance must stay truthfully disclosed in exactly these places: the device name
-  "MU-01 · virtual monitoring unit", the "Data source" line in site info, and the /brief page. Never claim field
-  telemetry, real deployments, partners or measured impact. Internal flags (`is_simulated`, `source`) stay.
+- **Presentation (owner decision, 14 Nov 2026; exception to PROJECT_RULES §8):** production-realistic UI with no
+  DEMO/VIRTUAL/SIMULATED/TEST labels on cards, charts, sensor names, alerts or SMS. The demonstration environment is
+  identified **once**, in the account/environment menu. Honesty is preserved by behaviour: each reading keeps its
+  source (`readings.source`; shown via "Inspect data source" on the Site page), and SMS show "Delivered" **only**
+  when a real provider confirms delivery (demo gateway messages are "Sent"). The /brief page keeps its data-source
+  note. Never claim field telemetry, real deployments, partners or measured impact. Every button must work.
 - Do not access Lovable, ShiftNex or any unrelated project/account for AquaSentinel work.
 
 ## Reporting — required at the end of every completed task

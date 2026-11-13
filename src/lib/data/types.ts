@@ -37,6 +37,8 @@ export interface IncidentSummary {
   detected_at: string;
   evidence: Evidence;
   assigned_to: string | null;
+  assigned_at: string | null;
+  diagnosis: string | null;
 }
 
 export interface Evidence {
@@ -49,6 +51,9 @@ export interface Evidence {
   recommended_action?: string;
   rule_explanation?: string;
   last_seen_at?: string | null;
+  reported_by?: string;
+  note?: string | null;
+  category?: string;
 }
 
 export interface AssetRow {
@@ -63,4 +68,17 @@ export interface DeviceRow {
   name: string;
   connection: "online" | "offline" | "revoked";
   last_seen_at: string | null;
+  is_simulated: boolean;
+}
+
+export interface Member {
+  user_id: string;
+  role: "operator" | "technician" | "committee" | "admin";
+  full_name: string;
+}
+
+export interface RoutineCheck {
+  occurred_at: string;
+  actor_name: string | null;
+  issues: number;
 }
