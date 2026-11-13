@@ -1,0 +1,68 @@
+name: CI
+
+# Runs on every pull request and on main. Also called by the release workflow,
+# so nothing is deployed unless the exact commit passed these checks.
+on:
+  pull_request:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  app:
+    name: App · lint, types, tests, build, smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+        env:
+          GIT_COMMIT_SHA: ${{ github.sha }}
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:smoke
+        env:
+          EXPECTED_COMMIT_SHA: ${{ github.sha }}
+
+  database:
+    name: Database · migration history, replay, RLS, advisors
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Check migration names, immutability and ordering
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            bash scripts/check-migrations.sh "origin/${{ github.base_ref }}"
+          else
+            bash scripts/check-migrations.sh
+          fi
+      - name: Replay all migrations on a throwaway local database
+        run: npx supabase db start
+      - name: Every public table must have RLS enabled
+        run: npx supabase db query -f scripts/check-rls.sql
+      - name: Supabase security advisors (local)
+        run: npx supabase db advisors --type security --fail-on error
+      - name: Stop local database
+        if: always()
+        run: npx supabase stop --no-backup || true

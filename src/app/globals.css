@@ -1,0 +1,51 @@
+/*
+ * Placeholder tokens sampled from the approved AquaSentinel logo (public/brand/aquasentinel-logo.svg).
+ * The full brand palette and typography must be confirmed by the owner before UI work (PROJECT_RULES §6).
+ */
+:root {
+  --brand-navy: #0f3a5f;
+  --brand-teal: #0a93a0;
+  --brand-blue: #12a0e0;
+  --brand-leaf: #73ad52;
+  --bg: #f7fafc;
+  --surface: #ffffff;
+  --text: #10233a;
+  --text-muted: #4a5b6e;
+  --border: #d8e1ea;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b1724;
+    --surface: #12233a;
+    --text: #e8f0f7;
+    --text-muted: #a7b6c6;
+    --border: #24384f;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--brand-blue);
+  outline-offset: 2px;
+}
