@@ -5,10 +5,9 @@ import { useEffect, useState } from "react";
 import { ChevronRight, ClipboardList, MessageSquareText, Siren, UserRound, Users, Wrench } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
-import { SimulatedBadge } from "@/components/ui/badge";
 import { getSupabase } from "@/lib/supabase/client";
 
-/** Public demo accounts. They can only see the SIMULATED demonstration site (enforced by RLS). */
+/** Public demo accounts. They can only see the demonstration site (enforced by RLS). */
 const DEMO_PASSWORD = "AquaSentinel-Demo-2026";
 const DEMO_ROLES = [
   {
@@ -93,12 +92,9 @@ export function SignIn() {
       </section>
 
       <section className="rounded-card border border-line bg-surface p-5 shadow-card md:p-7">
-        <div className="flex items-center justify-between gap-3">
-          <h2 className="text-lg font-semibold">Try the demo</h2>
-          <SimulatedBadge />
-        </div>
+        <h2 className="text-lg font-semibold">Try it now</h2>
         <p className="mt-1 text-sm text-ink-muted">
-          Choose a role. Demo accounts see only a simulated Ngomano water system, never real data.
+          Choose a role to explore the Ngomano water system. Demo accounts can look and act, but only on this site.
         </p>
 
         <div className="mt-5 space-y-2.5">

@@ -1,4 +1,3 @@
-import { FlaskConical } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { SITE_STATUS, TONE_CLASSES, type SiteStatus, type Tone } from "@/lib/status";
 
@@ -6,7 +5,7 @@ export function Badge({ tone, children, className }: { tone: Tone; children: Rea
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold",
+        "inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-semibold",
         TONE_CLASSES[tone],
         className,
       )}
@@ -31,15 +30,5 @@ export function StatusBadge({ status, size = "md" }: { status: SiteStatus; size?
       <Icon className={size === "lg" ? "size-4" : "size-3.5"} aria-hidden />
       {meta.label}
     </span>
-  );
-}
-
-/** Every demonstration value carries this label (PROJECT_RULES §8). */
-export function SimulatedBadge({ className }: { className?: string }) {
-  return (
-    <Badge tone="sim" className={cn("uppercase tracking-wide", className)}>
-      <FlaskConical className="size-3" aria-hidden />
-      Simulated
-    </Badge>
   );
 }

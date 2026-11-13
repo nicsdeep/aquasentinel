@@ -27,8 +27,6 @@
   --off-bg: #eaeef3;
   --info-fg: #0b5e8e;
   --info-bg: #e5f3fb;
-  --sim-fg: #6b3fa0;
-  --sim-bg: #f1eafb;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -50,8 +48,6 @@
     --off-bg: #1c2b3b;
     --info-fg: #7cc8f0;
     --info-bg: #0d2a3d;
-    --sim-fg: #c9a8f5;
-    --sim-bg: #2a1d3d;
   }
 }
 
@@ -84,8 +80,6 @@
   --color-off-soft: var(--off-bg);
   --color-info: var(--info-fg);
   --color-info-soft: var(--info-bg);
-  --color-sim: var(--sim-fg);
-  --color-sim-soft: var(--sim-bg);
 
   --radius-card: 1rem;
   --shadow-card: 0 1px 2px rgb(11 34 54 / 0.06), 0 4px 16px rgb(11 34 54 / 0.05);

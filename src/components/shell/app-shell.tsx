@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FlaskConical, LoaderCircle, LogOut, Menu, X } from "lucide-react";
+import { LoaderCircle, LogOut, Menu, X } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { ROLE_LABEL, useSession, type Membership } from "@/lib/auth/session";
 import { cn } from "@/lib/cn";
@@ -73,7 +73,7 @@ function UserCard({ name, membership, onSignOut }: { name: string; membership?: 
 
 /**
  * Responsive app frame: navy sidebar on laptops; header with a working hamburger menu plus a bottom
- * navigation bar on phones (PROJECT_RULES §6). Shows a SIMULATED banner whenever demo data is on screen.
+ * navigation bar on phones (PROJECT_RULES §6).
  */
 export function AppShell({ children }: { children: React.ReactNode }) {
   const session = useSession();
@@ -98,7 +98,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   const name = session.profile?.fullName ?? session.user.email ?? "User";
   const membership = session.memberships[0];
-  const simulated = session.memberships.some((m) => m.isSimulated);
   const signOut = async () => {
     await session.signOut();
     router.replace("/");
@@ -138,13 +137,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </span>
           </span>
         </header>
-
-        {simulated && (
-          <div className="flex items-center justify-center gap-2 bg-sim-soft px-4 py-2 text-center text-xs font-medium text-sim">
-            <FlaskConical className="size-3.5 shrink-0" aria-hidden />
-            SIMULATED demonstration data. Not live field readings.
-          </div>
-        )}
 
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 pb-28 pt-5 md:px-8 md:pb-10 md:pt-8">{children}</main>
 
