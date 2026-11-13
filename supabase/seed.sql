@@ -1,0 +1,3 @@
+-- Local development seed data only. Never runs against hosted projects
+-- (the release workflow pushes migrations without --include-seed).
+-- Any demonstration data added here must be clearly marked SIMULATED (PROJECT_RULES §8).

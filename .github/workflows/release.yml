@@ -1,0 +1,158 @@
+name: Release
+
+# main → CI → development (migrate + deploy + verify) → [owner approval] → production (migrate + deploy + verify)
+#
+# Safety rails:
+#  - Does nothing until the repository variable PIPELINE_ENABLED is "true" (set after secrets exist).
+#  - Production secrets live ONLY in the "production" GitHub Environment, which requires the owner's approval
+#    (approve from GitHub Mobile). No Claude session or developer machine holds them.
+#  - One release at a time; a newer push never cancels a release that is mid-migration.
+#  - Success is reported only after the live URL returns the expected commit SHA and a reachable Supabase.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  VERCEL_CLI: vercel@65.15.0
+
+jobs:
+  ci:
+    if: vars.PIPELINE_ENABLED == 'true'
+    uses: ./.github/workflows/ci.yml
+
+  development:
+    name: Development · migrate, deploy, verify
+    needs: ci
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: development
+      url: ${{ steps.deploy.outputs.url }}
+    env:
+      # Project-scoped Postgres connection string (session pooler). No account-wide Supabase token is used.
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID }}
+    outputs:
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+
+      - name: Migrations pending on development
+        run: npx supabase migration list --remote="$SUPABASE_DB_URL"
+      - name: Apply migrations to development
+        run: npx supabase db push --remote="$SUPABASE_DB_URL" --yes
+      - name: Security advisors (development)
+        run: npx supabase db advisors --remote="$SUPABASE_DB_URL" --type security --fail-on error
+
+      - name: Build for Vercel (preview environment = development data)
+        run: |
+          npx --yes "$VERCEL_CLI" pull --yes --environment=preview --token="${{ secrets.VERCEL_TOKEN }}"
+          npx --yes "$VERCEL_CLI" build --token="${{ secrets.VERCEL_TOKEN }}"
+        env:
+          GIT_COMMIT_SHA: ${{ github.sha }}
+      - name: Deploy to Vercel (development)
+        id: deploy
+        run: |
+          url="$(npx --yes "$VERCEL_CLI" deploy --prebuilt --token="${{ secrets.VERCEL_TOKEN }}")"
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - run: npx playwright install --with-deps chromium
+      - name: Verify development deployment is live
+        run: npm run test:smoke
+        env:
+          BASE_URL: ${{ steps.deploy.outputs.url }}
+          EXPECTED_COMMIT_SHA: ${{ github.sha }}
+          REQUIRE_SUPABASE: "true"
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+
+      - name: Report
+        if: always()
+        run: |
+          {
+            echo "## Development"
+            echo "- Commit: \`${{ github.sha }}\`"
+            echo "- Deployment: ${{ steps.deploy.outputs.url || 'not deployed' }}"
+            echo "- Job status: ${{ job.status }}"
+            echo '### Migration status'
+            echo '```'
+            npx supabase migration list --remote="$SUPABASE_DB_URL" 2>&1 || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  production:
+    name: Production · migrate, deploy, verify (requires approval)
+    needs: development
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: production
+      url: ${{ vars.PRODUCTION_URL }}
+    env:
+      # Project-scoped Postgres connection string (session pooler). No account-wide Supabase token is used.
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+
+      - name: Migrations pending on production
+        run: npx supabase migration list --remote="$SUPABASE_DB_URL"
+      - name: Apply migrations to production
+        run: npx supabase db push --remote="$SUPABASE_DB_URL" --yes
+      - name: Security advisors (production)
+        run: npx supabase db advisors --remote="$SUPABASE_DB_URL" --type security --fail-on error
+
+      - name: Build for Vercel (production)
+        run: |
+          npx --yes "$VERCEL_CLI" pull --yes --environment=production --token="${{ secrets.VERCEL_TOKEN }}"
+          npx --yes "$VERCEL_CLI" build --prod --token="${{ secrets.VERCEL_TOKEN }}"
+        env:
+          GIT_COMMIT_SHA: ${{ github.sha }}
+      - name: Deploy to Vercel (production)
+        id: deploy
+        run: |
+          url="$(npx --yes "$VERCEL_CLI" deploy --prebuilt --prod --token="${{ secrets.VERCEL_TOKEN }}")"
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - run: npx playwright install --with-deps chromium
+      - name: Verify production is live on the public URL
+        run: npm run test:smoke
+        env:
+          BASE_URL: ${{ vars.PRODUCTION_URL }}
+          EXPECTED_COMMIT_SHA: ${{ github.sha }}
+          REQUIRE_SUPABASE: "true"
+
+      - name: Report
+        if: always()
+        run: |
+          {
+            echo "## Production"
+            echo "- Commit: \`${{ github.sha }}\`"
+            echo "- Deployment: ${{ steps.deploy.outputs.url || 'not deployed' }}"
+            echo "- Live URL: ${{ vars.PRODUCTION_URL }}"
+            echo "- Job status: ${{ job.status }}"
+            echo '### Migration status'
+            echo '```'
+            npx supabase migration list --remote="$SUPABASE_DB_URL" 2>&1 || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
