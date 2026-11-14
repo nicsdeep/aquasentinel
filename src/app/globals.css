@@ -4,7 +4,8 @@
 
 /*
  * AquaSentinel design tokens (docs/DESIGN_SYSTEM.md).
- * Five tones, strict discipline: dark, deep, teal, orange (earned: one primary action per screen), light/cream.
+ * Five tones, strict discipline: dark, navy, aqua, orange (earned: one primary action per screen), light/cream.
+ * Navy and aqua come from the approved logo (14 Nov 2026 kit).
  * Use token names in classes, never raw hex in components.
  * Status colours are functional and separate from brand colours, and ALWAYS paired with an icon and a word.
  */
@@ -17,8 +18,8 @@
   --ink-muted: #4a5f5f;
   --ink-subtle: #5f7474; /* as-muted, deepened for small-text contrast (WCAG AA) */
   --line: #cfdada; /* as-gray2 */
-  --focus: #59c3c3; /* as-teal */
-  --accent-ink: #1d7a7a; /* as-teal, deepened for text on light surfaces */
+  --focus: #00afce; /* as-teal (logo aqua) */
+  --accent-ink: #00738c; /* logo aqua, deepened for text on light surfaces (WCAG AA) */
 
   --ok-fg: #1b7a43;
   --ok-bg: #e6f4eb;
@@ -28,8 +29,8 @@
   --crit-bg: #fdeceb;
   --off-fg: #4a5f5f;
   --off-bg: #e6eded;
-  --info-fg: #1d7a7a;
-  --info-bg: #e2f3f3;
+  --info-fg: #00738c;
+  --info-bg: #e3f4f8;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -42,7 +43,7 @@
     --ink-muted: #b3c4c4;
     --ink-subtle: #8fa5a5;
     --line: #1f3a3a;
-    --accent-ink: #59c3c3;
+    --accent-ink: #33c3dc;
     --ok-fg: #6fd39a;
     --ok-bg: #0f2f20;
     --warn-fg: #f5b55c;
@@ -51,8 +52,8 @@
     --crit-bg: #3a1513;
     --off-fg: #b3c4c4;
     --off-bg: #1a3030;
-    --info-fg: #7fd3d3;
-    --info-bg: #0f3333;
+    --info-fg: #6fd6ea;
+    --info-bg: #0b2f3a;
   }
 }
 
@@ -63,7 +64,9 @@
   /* Brand */
   --color-as-dark: #0a1515;
   --color-as-deep: #0f2626;
-  --color-as-teal: #59c3c3;
+  --color-as-teal: #00afce; /* logo aqua */
+  --color-as-navy: #003a72; /* logo navy */
+  --color-as-night: #041f3a; /* logo navy, deepened: sidebar base */
   --color-as-orange: #fb4803;
   --color-as-light: #f4f6f6;
   --color-as-cream: #f7f3ed;

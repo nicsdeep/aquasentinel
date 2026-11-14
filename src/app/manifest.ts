@@ -8,8 +8,11 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Community water-system monitoring and maintenance.",
     start_url: "/dashboard",
     display: "standalone",
-    background_color: "#f4f7fb",
-    theme_color: "#0a2b4a",
-    icons: [{ src: "/icon.png", sizes: "288x288", type: "image/png" }],
+    background_color: "#f4f6f6",
+    theme_color: "#003a72",
+    icons: [
+      { src: "/brand/icon-192.png", sizes: "192x192", type: "image/png" },
+      { src: "/brand/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
   };
 }

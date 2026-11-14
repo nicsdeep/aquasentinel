@@ -5,13 +5,16 @@ The single source of truth for every surface. Tokens live in `src/app/globals.cs
 Built for a non-technical water operator on an ordinary Android phone first, then laptops (PROJECT_RULES §6).
 
 ## 01 · Colour: five tones, strict discipline
+Navy and aqua are taken from the approved logo (§07), so the interface and the logo read as one brand.
 Use token names in classes (`bg-as-dark`), never raw hex in components.
 
 | Token | Hex | Use |
 |---|---|---|
-| `as-dark` | `#0A1515` | Sidebar, dark surfaces, strong (dark) buttons, primary text |
-| `as-deep` | `#0F2626` | Active navigation, deep panels, dark-mode surfaces |
-| `as-teal` | `#59C3C3` | Accent on dark surfaces, chart area, focus ring, icons in dark chips |
+| `as-navy` | `#003A72` | Logo navy: top of the sidebar gradient |
+| `as-night` | `#041F3A` | Logo navy, deepened: base of the sidebar gradient |
+| `as-dark` | `#0A1515` | Dark surfaces, strong (dark) buttons, primary text |
+| `as-deep` | `#0F2626` | Deep panels, dark-mode surfaces |
+| `as-teal` | `#00AFCE` | Logo aqua: accent on dark surfaces, chart area, focus ring, icons in dark chips |
 | `as-orange` | `#FB4803` | **The one primary action per screen.** Orange is earned. |
 | `as-light` | `#F4F6F6` | App canvas |
 | `as-cream` | `#F7F3ED` | Warm panels (sign-in story, highlights) |
@@ -20,7 +23,7 @@ Use token names in classes (`bg-as-dark`), never raw hex in components.
 | `as-muted` | `#7B9090` | Large or decorative secondary text only |
 
 **Accessibility adjustments** (accessibility outranks style):
-- `accent` (`#1D7A7A`) is `as-teal` deepened for text on light surfaces.
+- `accent` (`#00738C`) is the logo aqua deepened for text, links and chart lines on light surfaces.
 - `ink-subtle` (`#5F7474`) is `as-muted` deepened for small text. Both meet WCAG AA.
 
 **Status colours are functional, not brand.** They are always icon + word + colour, never colour alone:
@@ -84,7 +87,7 @@ Headings are always clamped, never fixed pixel sizes.
 - `Badge` and `StatusBadge`
 - `Dialog` (native `<dialog>`: focus trap, Escape)
 - `ToastProvider` / `useToast` (polite live region)
-- `Logo` (the approved logo and wordmark; never redesigned)
+- `Logo` (the approved logo; see §07)
 - `AppShell`
 - **Icons:** `lucide-react`, stroke 2. Sizes 12 (inline caption), 14 (UI), 16 (buttons), 18–20 (feature).
 
@@ -106,3 +109,26 @@ Headings are always clamped, never fixed pixel sizes.
 | Pair every status with an icon and a word | Never convey a state by colour alone |
 | Use `Link` for internal routes | Never use a bare `<a>` for internal navigation |
 | Leave generous whitespace | Never crowd a dashboard with equal-weight cards |
+
+## 07 · Logo
+The approved logo is the owner's logo kit of 14 Nov 2026: an "a" water mark (navy letter, aqua water waves) and the
+"aquaSentinel" wordmark. It replaces the earlier "A" mark.
+
+**Every logo file is in one folder: `public/brand/`.** Git is the source of truth. Vercel serves the files from
+`/brand/…`.
+
+| File | Use |
+|---|---|
+| `originals/AquaSentinel_Favicon.svg`, `originals/AquaSentinel_Logo_Horizontal.svg` | The owner's files, unmodified (masters). Not used in the UI because of their size. |
+| `logo.png` | Horizontal logo with navy wordmark, for light backgrounds (sign-in, phone header) |
+| `logo2.png` | **Logo2**: the same logo with white wordmark, for dark backgrounds (sidebar) |
+| `logo-mark.png` | The water mark alone, for square spaces |
+| `icon.png`, `apple-icon.png` | Browser favicon and iPhone home-screen icon (linked in `src/app/layout.tsx`) |
+| `icon-192.png`, `icon-512.png` | Installable app (PWA) icons (`src/app/manifest.ts`) |
+
+Rules:
+- Always render it through the `Logo` component.
+- Never redraw, recolour, stretch or retype the logo.
+- Minimum height is 24 px. Keep clear space of at least half the logo height around it.
+- Use the navy version on light surfaces and Logo2 on dark surfaces. Never put the navy version on a dark background.
+- To change the logo, replace the originals and regenerate every file in this folder in the same PR.

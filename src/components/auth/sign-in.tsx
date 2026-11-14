@@ -67,7 +67,7 @@ export function SignIn() {
   return (
     <div className="mx-auto grid min-h-dvh w-full max-w-[1200px] items-center gap-10 px-6 py-12 md:grid-cols-[1.1fr_1fr] md:px-10 md:py-20">
       <section>
-        <Logo size={44} />
+        <Logo height={48} />
         <Eyebrow className="mt-10">Community water reliability</Eyebrow>
         <h1 className="type-display mt-3 text-ink">AquaSentinel</h1>
         <p className="mt-5 max-w-xl text-[clamp(17px,1.5vw,22px)] leading-normal text-ink-muted">

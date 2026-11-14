@@ -17,7 +17,7 @@ test("health endpoint reports the expected build", async ({ request }) => {
 test("home page renders on desktop and mobile", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "AquaSentinel" })).toBeVisible();
-  await expect(page.getByAltText("AquaSentinel logo")).toBeVisible();
+  await expect(page.getByAltText("AquaSentinel").first()).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
   expect(overflow).toBe(false);
 });
