@@ -82,3 +82,15 @@ export interface RoutineCheck {
   actor_name: string | null;
   issues: number;
 }
+
+/** One line in Home's "Recent activity": an incident timeline entry with its incident's title. */
+export interface RecentEvent {
+  id: number | string;
+  incident_id: string;
+  occurred_at: string;
+  action: string;
+  details: Record<string, unknown>;
+  actor_name: string | null;
+  title: string;
+  reference: string;
+}

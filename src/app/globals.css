@@ -67,6 +67,9 @@
   --color-as-teal: #00afce; /* logo aqua */
   --color-as-navy: #003a72; /* logo navy */
   --color-as-night: #041f3a; /* logo navy, deepened: sidebar base */
+  --color-as-sidebar: #0f5272; /* sidebar top (teal-blue) */
+  --color-as-sidebar-deep: #093650; /* sidebar bottom */
+  --color-as-lagoon: #1b7f9a; /* active navigation item on the sidebar */
   --color-as-orange: #fb4803;
   --color-as-light: #f4f6f6;
   --color-as-cream: #f7f3ed;
@@ -161,39 +164,46 @@
 }
 
 /*
- * Workspace header backdrop (docs/DESIGN_SYSTEM.md §08). A replaceable asset behind the page title only:
- * the illustration sits to the right and fades to the canvas before any operational content.
- * Phones get a plain CSS wash (the image is never downloaded); dark mode shows nothing.
+ * Home header backdrop (docs/DESIGN_SYSTEM.md §08). Behind the top bar and greeting on Home only: the illustration
+ * sits on the right and fades into the canvas before the cards. Phones get a plain CSS wash (the image is never
+ * downloaded); dark mode shows nothing. Replaceable asset; independent of data.
  */
-.water-header {
+.home-backdrop {
   position: absolute;
-  inset: -1.5rem -1rem 0 -1rem;
-  z-index: -1;
+  inset: 0 0 auto 0;
+  height: 22rem;
+  z-index: 0;
   pointer-events: none;
-  background-color: var(--canvas);
   background-image: linear-gradient(180deg, var(--color-water-sky), var(--canvas));
-  -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 100%);
-  mask-image: linear-gradient(180deg, #000 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 70%, transparent 100%);
 }
 @media (min-width: 768px) {
-  .water-header {
-    inset: -2rem -2rem 0 -2rem;
+  .home-backdrop {
+    height: 17rem;
     background-image:
-      linear-gradient(90deg, var(--canvas) 0%, color-mix(in srgb, var(--canvas) 92%, transparent) 38%, transparent 85%),
+      linear-gradient(90deg, var(--canvas) 0%, color-mix(in srgb, var(--canvas) 70%, transparent) 35%, transparent 60%),
       url("/art/water-system-header.svg");
     background-repeat: no-repeat;
-    background-position: center, right bottom;
-    background-size: cover, auto 100%;
-    /* Fade out at the bottom and at the right edge so the art never ends on a hard line. */
-    -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 100%), linear-gradient(90deg, #000 94%, transparent 100%);
-    -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(180deg, #000 60%, transparent 100%), linear-gradient(90deg, #000 94%, transparent 100%);
-    mask-composite: intersect;
+    background-position: center, right 0 top 3rem;
+    background-size: cover, auto 14rem;
+    background-color: var(--color-water-sky);
   }
 }
+
+/* Faint wave along the bottom of a Home card. Decorative only. */
+.card-wave {
+  background-image: url("/art/card-wave.svg");
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: 100% 2.5rem;
+}
+
 @media (prefers-color-scheme: dark) {
-  .water-header {
-    display: none;
+  .home-backdrop,
+  .card-wave,
+  .sidebar-waves {
+    background-image: none;
   }
 }
 

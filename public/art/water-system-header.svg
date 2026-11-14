@@ -1,60 +1,108 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 360" preserveAspectRatio="xMaxYMax slice" fill="none">
-  <!-- AquaSentinel workspace header: a conceptual illustration of community water infrastructure in a semi-arid
-       landscape (not a depiction of the installed Ngomano site). Palette: docs/DESIGN_SYSTEM.md §08. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" preserveAspectRatio="xMaxYMin slice">
+  <!-- AquaSentinel Home header: conceptual illustration of community water infrastructure in a semi-arid landscape.
+       Not a depiction of the installed Ngomano site. See docs/DESIGN_SYSTEM.md §08. -->
   <defs>
-    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#E9F6FC"/>
-      <stop offset="0.75" stop-color="#D7EDF7"/>
-      <stop offset="1" stop-color="#E9F6FC"/>
+    <linearGradient id="tank" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2b8fc4"/>
+      <stop offset="0.45" stop-color="#4fb3e0"/>
+      <stop offset="1" stop-color="#1f74a8"/>
+    </linearGradient>
+    <linearGradient id="cap" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6cc2e8"/>
+      <stop offset="1" stop-color="#3a9dd0"/>
+    </linearGradient>
+    <linearGradient id="grass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9fd6b0"/>
+      <stop offset="1" stop-color="#d6f0e1"/>
+    </linearGradient>
+    <linearGradient id="grass2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#bfe4cc"/>
+      <stop offset="1" stop-color="#e6f6ee"/>
     </linearGradient>
   </defs>
-  <rect width="1440" height="360" fill="url(#sky)"/>
 
-  <!-- Single faint water contour across the open sky -->
-  <path d="M0 150c120-26 240-26 360 0s240 26 360 0 240-26 360 0 240 26 360 0" stroke="#A9D7E9" stroke-width="1.5" opacity="0.6"/>
+  <!-- sky comes from the page (.home-backdrop), so the artwork has no visible edge -->
 
-  <!-- Far hills -->
-  <path d="M0 262c90-30 180-44 290-36 120 9 190-34 320-38 130-4 200 30 330 22 120-8 190-52 300-50 90 2 150 22 200 34V360H0Z" fill="#D7EDF7"/>
-  <path d="M560 276c110-22 210-40 330-30 120 10 200-30 310-28 100 2 170 22 240 36V360H560Z" fill="#A9D7E9" opacity="0.45"/>
+  <!-- soft clouds and a single flowing water line -->
+  <g fill="#ffffff" opacity="0.7">
+    <ellipse cx="420" cy="70" rx="70" ry="12"/>
+    <ellipse cx="460" cy="62" rx="40" ry="10"/>
+    <ellipse cx="720" cy="40" rx="60" ry="9"/>
+  </g>
+  <path d="M140 150c90-22 180-22 270 0s180 22 270 0 180-22 320 0" stroke="#bfe2f1" stroke-width="2" fill="none"/>
 
-  <!-- Near ground -->
-  <path d="M0 300c160-14 330-18 520-12 210 7 420 4 620-6 110-6 210-6 300-2V360H0Z" fill="#88CFBF" opacity="0.28"/>
-  <path d="M700 312c180-10 360-14 520-10 80 2 150 4 220 8V360H700Z" fill="#88CFBF" opacity="0.35"/>
+  <!-- distant hills -->
+  <path d="M200 270c60-30 120-46 190-40 70 6 110-30 190-34 80-4 130 24 210 18 80-6 130-40 210-36v122H200Z" fill="#cfe7ea"/>
+  <path d="M330 290c70-24 150-36 230-28 80 8 140-22 220-22 90 0 150 20 220 32v100H330Z" fill="#b9dccf" opacity="0.85"/>
 
-  <!-- Acacia trees (flat-topped canopy) -->
-  <g fill="#88CFBF">
-    <path d="M832 270h4l2 34h-8z" opacity="0.7"/>
-    <ellipse cx="834" cy="268" rx="34" ry="7" opacity="0.75"/>
-    <ellipse cx="822" cy="262" rx="18" ry="5" opacity="0.6"/>
-    <path d="M1376 278h3l2 30h-7z" opacity="0.7"/>
-    <ellipse cx="1378" cy="276" rx="28" ry="6" opacity="0.75"/>
-    <path d="M664 286h3l1 22h-5z" opacity="0.5"/>
-    <ellipse cx="666" cy="285" rx="20" ry="4.5" opacity="0.55"/>
+  <!-- distant trees -->
+  <g fill="#86bfa9">
+    <path d="M372 262h2.5l1.5 18h-5.5z"/><ellipse cx="373" cy="261" rx="18" ry="4.5"/>
+    <path d="M946 250h2.5l1.5 20h-5.5z"/><ellipse cx="947" cy="249" rx="22" ry="5"/>
+    <path d="M760 262h2l1 14h-4z"/><ellipse cx="761" cy="261" rx="13" ry="3.5"/>
   </g>
 
-  <!-- Solar panel and small pump house -->
-  <g stroke="#54C5DE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M948 262l56-14 6 22-56 14z" fill="#D7EDF7"/>
-    <path d="M966 258l6 22M985 253l6 22M951 273l56-14" opacity="0.6"/>
-    <path d="M976 281v24M996 276v29"/>
-    <path d="M1030 284h46v22h-46z" fill="#E9F6FC"/>
-    <path d="M1026 285l27-14 27 14"/>
-    <path d="M1046 306v-11h14v11" opacity="0.7"/>
+  <!-- large acacia -->
+  <g fill="#5f9f8a">
+    <path d="M520 290l2-44c0-6-8-14-20-22l3-3c10 6 17 12 19 17 2-9 9-17 19-24l3 3c-11 8-16 17-16 26l2 47z"/>
+    <path d="M454 214c18-14 48-20 76-20s58 6 74 18c-12 8-40 12-74 12s-60-3-76-10z"/>
+    <path d="M478 204c14-8 34-12 54-12s38 4 50 10c-14 4-32 6-52 6s-38-1-52-4z" fill="#78b49f"/>
+  </g>
+  <!-- small acacia near the house -->
+  <g fill="#6aa894">
+    <path d="M590 292l1.5-24c-4-4-9-7-13-9l2-2c5 2 9 5 11 8 2-4 6-7 11-9l2 2c-6 3-9 7-9 12l1 22z"/>
+    <path d="M556 260c10-7 26-10 40-10s30 3 38 9c-8 4-22 6-38 6s-32-2-40-5z"/>
   </g>
 
-  <!-- Elevated storage tank on its stand -->
-  <g stroke="#54C5DE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M1168 150c0-6 18-10 40-10s40 4 40 10v52c0 6-18 10-40 10s-40-4-40-10z" fill="#E9F6FC"/>
-    <path d="M1168 150c0 6 18 10 40 10s40-4 40-10"/>
-    <path d="M1168 176c0 6 18 10 40 10s40-4 40-10" opacity="0.45"/>
-    <path d="M1176 210l-12 98M1240 210l12 98M1208 212v96"/>
-    <path d="M1172 244h72M1168 276h80" opacity="0.7"/>
-    <path d="M1176 244l64 32M1240 244l-64 32" opacity="0.35"/>
+  <!-- pump house -->
+  <g>
+    <path d="M622 262h112v44H622z" fill="#f7fbfd"/>
+    <path d="M616 264l62-22 62 22z" fill="#dbe8ee"/>
+    <path d="M616 264h124v5H616z" fill="#c7dbe4"/>
+    <path d="M650 278h18v28h-18z" fill="#2e86b5"/>
+    <path d="M688 276h30v14h-30z" fill="#bfe0ef"/>
+    <path d="M703 276v14M688 283h30" stroke="#f7fbfd" stroke-width="1.5"/>
   </g>
 
-  <!-- Pipework: pump house to tank, tank down to the community line -->
-  <g stroke="#54C5DE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85">
-    <path d="M1076 298h66c8 0 12-4 12-12v-62c0-8 4-12 12-12h2"/>
-    <path d="M1248 200h20c8 0 12 4 12 12v86c0 8 4 12 12 12h148"/>
+  <!-- pipework -->
+  <g fill="none" stroke="#9fc9dc" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M734 296h40c10 0 14-4 14-14V140"/>
+    <path d="M622 300h-60c-8 0-12 4-12 12v6h-90"/>
+  </g>
+  <g fill="#7fb4cc">
+    <rect x="770" y="290" width="8" height="12" rx="2"/>
+    <rect x="782" y="200" width="12" height="7" rx="2"/>
+    <rect x="556" y="294" width="8" height="12" rx="2"/>
+  </g>
+
+  <!-- elevated tank: stand -->
+  <g stroke="#2d7fae" stroke-width="5" stroke-linecap="round" fill="none">
+    <path d="M818 150l-22 158M902 150l22 158"/>
+    <path d="M848 150l-6 158M872 150l6 158" stroke-width="3.5" opacity="0.8"/>
+  </g>
+  <g stroke="#3c8fbb" stroke-width="2.5" fill="none" opacity="0.9">
+    <path d="M814 180h92M809 218h102M804 258h112M800 296h120"/>
+    <path d="M814 180l97 38M906 180l-97 38M809 218l107 40M911 218l-107 40M804 258l116 38M916 258l-116 38"/>
+  </g>
+  <!-- tank body -->
+  <path d="M806 70c0-10 24-16 54-16s54 6 54 16v72c0 9-24 15-54 15s-54-6-54-15z" fill="url(#tank)"/>
+  <path d="M806 96c0 9 24 15 54 15s54-6 54-15M806 122c0 9 24 15 54 15s54-6 54-15" stroke="#1f6f9f" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <ellipse cx="860" cy="70" rx="54" ry="16" fill="url(#cap)"/>
+  <path d="M818 64c8-30 76-30 84 0" fill="#5ab4de"/>
+  <path d="M856 36h8v8h-8z" fill="#2b8fc4"/>
+  <path d="M830 80v60" stroke="#ffffff" stroke-width="4" opacity="0.35" stroke-linecap="round"/>
+  <!-- ladder -->
+  <g stroke="#2a6f98" stroke-width="2" opacity="0.9">
+    <path d="M884 150v150M894 150v150"/>
+    <path d="M884 165h10M884 185h10M884 205h10M884 225h10M884 245h10M884 265h10M884 285h10"/>
+  </g>
+
+  <!-- foreground grass -->
+  <path d="M260 340c120-26 260-36 400-30 140 6 240-6 340-22v112H260Z" fill="url(#grass2)"/>
+  <path d="M420 360c120-30 240-40 360-34 90 5 160-4 220-16v90H420Z" fill="url(#grass)"/>
+  <g fill="#8ccaa3" opacity="0.8">
+    <ellipse cx="610" cy="312" rx="16" ry="5"/>
+    <ellipse cx="760" cy="316" rx="20" ry="5"/>
+    <ellipse cx="960" cy="318" rx="18" ry="5"/>
   </g>
 </svg>

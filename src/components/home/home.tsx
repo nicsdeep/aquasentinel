@@ -1,22 +1,24 @@
 "use client";
 
-import Link from "next/link";
-import { ArrowRight, CircleCheck } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { TaskRow } from "@/components/tasks/task-row";
 import { useSession } from "@/lib/auth/session";
 import { useSiteData } from "@/lib/data/site-data";
 import { deriveTasks } from "@/lib/tasks";
 import { useNow } from "@/lib/use-now";
-import { ActiveAlerts } from "./active-alerts";
+import { Power, Waves } from "lucide-react";
+import type { Evidence } from "@/lib/data/types";
+import { ActiveAlerts, incidentIcon } from "./active-alerts";
+import { FlowChart } from "./flow-chart";
 import { Greeting } from "./greeting";
 import { KeyTiles } from "./key-tiles";
-import { NextStep } from "./next-step";
 import { QuickActions } from "./quick-actions";
+import { RecentActivity } from "./recent-activity";
+import { Today } from "./today";
 
 /**
- * Operator Home answers, in this order: Is water flowing? Is something wrong? Who is responsible?
- * What should I do next? Exactly one orange action: the incident's next step, otherwise today's routine check.
+ * Home answers, in this order: Is water flowing? Is something wrong, and who is on it? What should I do today?
+ * Then quick actions, the day's water flow and what happened recently. Layout follows the owner's approved
+ * reference design (14 Nov 2026). Every row and button opens a working screen or dialog.
  */
 export function Home() {
   const session = useSession();
@@ -48,40 +50,25 @@ export function Home() {
     role, userId: session.user.id, timezone: data.site.timezone, status: data.site.status,
     active: data.active, members: data.members, checks: data.checks, now,
   });
-  const top = [...data.active].sort((a, b) =>
-    a.severity === b.severity ? b.detected_at.localeCompare(a.detected_at) : a.severity === "needs_attention" ? -1 : 1,
-  )[0];
   const canCheck = role === "operator" || role === "technician" || role === "admin";
+  const flowProblem = data.active.some((i) => {
+    const icon = incidentIcon(i.evidence as Evidence & { metric?: string });
+    return icon === Power || icon === Waves;
+  });
 
   return (
-    <div className="space-y-6">
+    <div className="relative space-y-5 md:space-y-6">
       <Greeting name={session.profile?.fullName ?? ""} site={data.site} now={now} />
-      {top && <NextStep incident={top} more={data.active.length - 1} members={data.members} role={role} userId={session.user.id} />}
       <KeyTiles latest={data.latest} timezone={data.site.timezone} now={now} />
-      <div className="grid gap-5 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
-        <ActiveAlerts active={data.active} members={data.members} timezone={data.site.timezone} />
-        <section className="rounded-2xl border border-line bg-surface shadow-card">
-          <div className="flex items-center justify-between px-5 pt-5">
-            <h2 className="text-base font-semibold">Today</h2>
-            <Link href="/tasks" className="inline-flex min-h-11 items-center gap-1 text-sm font-medium text-accent hover:underline">
-              All tasks <ArrowRight className="size-4" aria-hidden />
-            </Link>
-          </div>
-          {tasks.length === 0 ? (
-            <p className="flex items-center gap-2 px-5 pb-5 pt-2 text-sm text-ink-muted">
-              <CircleCheck className="size-4 text-ok" aria-hidden />
-              Nothing needs doing right now.
-            </p>
-          ) : (
-            <div className="px-2 pb-2 pt-1">
-              {tasks.slice(0, 3).map((t) => (
-                <TaskRow key={t.id} task={t} primary={!top && t.id === "routine"} />
-              ))}
-            </div>
-          )}
-        </section>
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]">
+        <ActiveAlerts active={data.active} members={data.members} />
+        <Today tasks={tasks} />
       </div>
       <QuickActions canCheck={canCheck} />
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
+        <FlowChart history={data.history} timezone={data.site.timezone} alarm={flowProblem} />
+        <RecentActivity events={data.recent} timezone={data.site.timezone} />
+      </div>
     </div>
   );
 }

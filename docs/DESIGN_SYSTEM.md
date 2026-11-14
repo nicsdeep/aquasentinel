@@ -10,8 +10,8 @@ Use token names in classes (`bg-as-dark`), never raw hex in components.
 
 | Token | Hex | Use |
 |---|---|---|
-| `as-navy` | `#003A72` | Logo navy: top of the sidebar gradient |
-| `as-night` | `#041F3A` | Logo navy, deepened: base of the sidebar gradient |
+| `as-navy` | `#003A72` | Logo navy (reserved) |
+| `as-night` | `#041F3A` | Logo navy, deepened (reserved) |
 | `as-dark` | `#0A1515` | Dark surfaces, strong (dark) buttons, primary text |
 | `as-deep` | `#0F2626` | Deep panels, dark-mode surfaces |
 | `as-teal` | `#00AFCE` | Logo aqua: accent on dark surfaces, chart area, focus ring, icons in dark chips |
@@ -36,8 +36,10 @@ Use token names in classes (`bg-as-dark`), never raw hex in components.
 | Offline | slate | wifi-off | No recent data. Readings may be out of date. |
 
 ## 02 · Type: two families, one voice
-- **Serif: Instrument Serif** for the voice, used sparingly: the Home greeting (with one emphasised status phrase in
-  italic, coloured by status) and page titles. Card titles use Geist semibold.
+- **Serif: Instrument Serif** for the voice, used sparingly: page titles and the sign-in hero.
+- **Home greeting** (owner's reference design, 14 Nov 2026): Geist bold, "Good morning, Name." with the status
+  sentence below it. The status phrase is bold italic and coloured by status. Card titles on Home are Geist bold
+  18 px, each with a leading icon.
 - **Sans: Geist** for the work: UI, body text and numbers. Never italic.
 - Both are self-hosted (no runtime font requests).
 
@@ -76,7 +78,7 @@ Headings are always clamped, never fixed pixel sizes.
 | `danger` | red | Destructive actions only. |
 
 **Where orange goes:**
-- Home: the most urgent incident's next step for the signed-in role, otherwise today's routine check (**Start**);
+- Home: none (owner's reference design, §08);
 - on the incident page, the next step for the signed-in role (Acknowledge → Assign / Take this job →
   Record findings → Confirm water is flowing → Close incident);
 - the submit button inside a dialog.
@@ -133,24 +135,39 @@ Rules:
 - Use the navy version on light surfaces and Logo2 on dark surfaces. Never put the navy version on a dark background.
 - To change the logo, replace the originals and regenerate every file in this folder in the same PR.
 
-## 08 · Workspace header background
-A quiet illustration of community water infrastructure (low hills, acacia trees, an elevated tank, pipework, a
-small pump house and solar panel) sits behind the Home greeting, to the right. It sets the context. It is a
-**conceptual illustration, not a depiction of the installed Ngomano site**, and must never be presented as one.
+## 08 · Home reference design and background art
+Home follows the owner's reference design (14 Nov 2026). It is the owner's choice and overrides earlier "no waves
+in cards" guidance for Home only.
 
-- **Asset:** `public/art/water-system-header.svg` (about 4 KB, replaceable). It is applied by the `.water-header` class in
-  `globals.css`, and used only in the Home greeting. It is independent of data: no readings, names or incident state
-  change it.
-- **Laptop:** the artwork is on the right; a fade keeps the title side near-white. It fades out at the bottom and the
-  right edge, before any card or alert, and never sits behind small text.
-- **Phone:** a plain sky-to-canvas CSS wash. The image is not downloaded, and the page gets no taller.
-- **Dark mode:** hidden.
-- **Do not:** add photos, glowing tech effects, animated water, people, or repeated waves inside cards.
+- **Layout, top to bottom:**
+  - greeting;
+  - four reading tiles (round tinted icon, value, status pill, data age);
+  - Active alerts (tinted rows: icon by problem type, what is wrong, status and who is responsible) beside Today
+    (task rows that open the task);
+  - Quick actions (Report a problem, Log routine check for roles that can, Messages);
+  - Water flow for the last 24 hours (the trailing zero stretch is red only while a pump or flow problem is open);
+  - Recent activity (from the audit trail; each line opens its incident).
+- **Header art** `public/art/water-system-header.svg`: a conceptual illustration of community water infrastructure
+  (hills, acacias, elevated tank, pipework, pump house). It is **not a depiction of the installed Ngomano site** and
+  must never be presented as one.
+  - It sits behind the top bar and greeting on Home, on the right, and fades into the canvas before the cards.
+  - The top bar is transparent over it until the page scrolls.
+  - Phones get a plain CSS wash (no image download). Hidden in dark mode.
+- **Sidebar:** teal-blue gradient (`as-sidebar` → `as-sidebar-deep`) with decorative waves
+  (`public/art/sidebar-waves.svg`). The active item is `as-lagoon`. The account card opens the account and environment menu.
+- **Card waves:** `.card-wave` adds a faint wave along the bottom of Home tiles and quick actions. Decorative only.
+- **Status colours keep their meaning.** A stopped pump reads red only in daylight. At night a solar pump is
+  normally off, so it stays neutral.
+- **No orange on Home** in the reference design. The next step for an incident is the orange button on its
+  incident page, one tap from the alert row or the Today task.
+- **Assets are independent of data**: no readings, names or incident state change any artwork.
 
 | Token | Hex | Use |
 |---|---|---|
 | `water-sky` | `#E9F6FC` | Upper atmosphere; phone wash |
 | `water-mist` | `#D7EDF7` | Far hills, horizon |
 | `water-blue` | `#A9D7E9` | Faint contour and landscape accents |
-| `water-cyan` | `#54C5DE` | Sparse line details (tank, pipes, panel) |
+| `water-cyan` | `#54C5DE` | Sparse line details |
 | `water-green` | `#88CFBF` | Vegetation, ground |
+| `as-sidebar` / `as-sidebar-deep` | `#0F5272` / `#093650` | Sidebar gradient |
+| `as-lagoon` | `#1B7F9A` | Active navigation item |

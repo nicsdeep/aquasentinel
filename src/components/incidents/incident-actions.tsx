@@ -25,9 +25,7 @@ export function IncidentActions({
   userId,
   technicians,
   onDone,
-  mode = "all",
 }: {
-  mode?: "all" | "next";
   incident: IncidentDetail;
   role: Role;
   userId: string;
@@ -73,8 +71,6 @@ export function IncidentActions({
     : s === "recovered" && manager ? "close"
     : null;
   const v = (key: string) => (next === key ? "primary" : "secondary") as "primary" | "secondary";
-  // "next" mode (Home): show only the single next step for this person.
-  const show = (key: string) => mode === "all" || next === key;
 
   async function call(fn: string, args: Record<string, unknown>, success: string) {
     setBusy(true);
@@ -91,37 +87,37 @@ export function IncidentActions({
 
   return (
     <div className="flex flex-wrap gap-2">
-      {s === "open" && show("ack") && (
+      {s === "open" && (
         <Button variant={v("ack")} onClick={() => call("incident_acknowledge", { p_incident: incident.id }, `${incident.reference} acknowledged.`)} loading={busy}>
           <CircleCheck className="size-4" aria-hidden />
           Acknowledge
         </Button>
       )}
-      {active && manager && technicians.length > 0 && show("assign") && (
+      {active && manager && technicians.length > 0 && (
         <Button variant={v("assign")} onClick={() => setModal("assign")} disabled={busy}>
           <UserRound className="size-4" aria-hidden />
           {incident.assigned_to ? "Reassign technician" : "Assign technician"}
         </Button>
       )}
-      {active && role === "technician" && !mine && show("take") && (
+      {active && role === "technician" && !mine && (
         <Button variant={v("take")} onClick={() => call("incident_assign", { p_incident: incident.id, p_technician: userId }, "You have taken this job.")} loading={busy}>
           <HandHelping className="size-4" aria-hidden />
           Take this job
         </Button>
       )}
-      {((role === "technician" && mine) || role === "admin") && show("work") && (
+      {((role === "technician" && mine) || role === "admin") && (
         <Button variant={v("work")} onClick={openWork} disabled={busy}>
           <ClipboardList className="size-4" aria-hidden />
           {incident.diagnosis ? "Update work record" : "Record findings and repair"}
         </Button>
       )}
-      {active && (role === "technician" || role === "admin") && show("verify") && (
+      {active && (role === "technician" || role === "admin") && (
         <Button variant={v("verify")} onClick={() => setModal("verify")} disabled={busy}>
           <ShieldCheck className="size-4" aria-hidden />
           Confirm water is flowing
         </Button>
       )}
-      {manager && (mode === "all" || next === "close") && (
+      {manager && (
         <Button variant={s === "recovered" ? v("close") : "ghost"} onClick={openClose} disabled={busy}>
           {s === "recovered" ? "Close incident" : "Close as false alarm"}
         </Button>
