@@ -5,25 +5,21 @@ import { useSession } from "@/lib/auth/session";
 import { useSiteData } from "@/lib/data/site-data";
 import { deriveTasks } from "@/lib/tasks";
 import { useNow } from "@/lib/use-now";
-import { Power, Waves } from "lucide-react";
-import type { Evidence } from "@/lib/data/types";
-import { ActiveAlerts, incidentIcon } from "./active-alerts";
-import { FlowChart } from "./flow-chart";
-import { Greeting } from "./greeting";
-import { KeyTiles } from "./key-tiles";
-import { QuickActions } from "./quick-actions";
-import { RecentActivity } from "./recent-activity";
-import { Today } from "./today";
+import { Info } from "lucide-react";
+import { ActionCenter } from "./action-center";
+import { Hero } from "./hero";
+import { Journey } from "./journey";
+import { AlertsCard, SystemCard } from "./summary-cards";
 
 /**
- * Home answers, in this order: Is water flowing? Is something wrong, and who is on it? What should I do today?
- * Then quick actions, the day's water flow and what happened recently. Layout follows the owner's approved
- * reference design (14 Nov 2026). Every row and button opens a working screen or dialog.
+ * Home answers, in this order: Is my water system OK? Is anything wrong, and where is it in its journey?
+ * What needs doing today? Calm, card-based layout (owner's reference, 14 Nov 2026). At most one orange action:
+ * "View open alerts" while alerts are open, otherwise "Report a problem". Every button opens a working screen.
  */
 export function Home() {
   const session = useSession();
   const now = useNow();
-  const { data, error } = useSiteData();
+  const { data, error, reload } = useSiteData();
   if (session.status !== "signed_in") return null;
   const membership = session.memberships[0];
 
@@ -51,24 +47,23 @@ export function Home() {
     active: data.active, members: data.members, checks: data.checks, now,
   });
   const canCheck = role === "operator" || role === "technician" || role === "admin";
-  const flowProblem = data.active.some((i) => {
-    const icon = incidentIcon(i.evidence as Evidence & { metric?: string });
-    return icon === Power || icon === Waves;
-  });
 
   return (
     <div className="relative space-y-5 md:space-y-6">
-      <Greeting name={session.profile?.fullName ?? ""} site={data.site} now={now} />
-      <KeyTiles latest={data.latest} timezone={data.site.timezone} now={now} />
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]">
-        <ActiveAlerts active={data.active} members={data.members} />
-        <Today tasks={tasks} />
+      <Hero name={session.profile?.fullName ?? ""} site={data.site} now={now} orange={data.active.length === 0} />
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+        <AlertsCard active={data.active} members={data.members} />
+        <SystemCard latest={data.latest} timezone={data.site.timezone} now={now} />
       </div>
-      <QuickActions canCheck={canCheck} />
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
-        <FlowChart history={data.history} timezone={data.site.timezone} alarm={flowProblem} />
-        <RecentActivity events={data.recent} timezone={data.site.timezone} />
-      </div>
+      <p className="flex items-start gap-2 rounded-2xl border border-info/20 bg-info-soft px-4 py-3 text-sm text-ink-muted">
+        <Info className="mt-0.5 size-4 shrink-0 text-info" aria-hidden />
+        <span>
+          <b className="font-semibold text-ink">How it works:</b> readings are checked against plain-language rules. Alerts reach the team on
+          the dashboard and by SMS, even without internet. AquaSentinel watches and coordinates; it never controls the pump.
+        </span>
+      </p>
+      <Journey active={data.active} recent={data.recent} />
+      <ActionCenter tasks={tasks} checks={data.checks} canCheck={canCheck} timezone={data.site.timezone} onRefresh={reload} />
     </div>
   );
 }

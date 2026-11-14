@@ -10,14 +10,15 @@
  * Status colours are functional and separate from brand colours, and ALWAYS paired with an icon and a word.
  */
 :root {
-  --canvas: #f4f6f6; /* as-light */
+  --canvas: #f5fbfa; /* light canvas, a whisper of mint */
   --surface: #ffffff; /* as-white */
-  --surface-muted: #eaf0f0;
+  --surface-muted: #eff6f5;
+  --surface-soft: #f9fbfb; /* chips and inputs inside cards */
   --surface-warm: #f7f3ed; /* as-cream */
   --ink: #0a1515; /* as-dark */
   --ink-muted: #4a5f5f;
   --ink-subtle: #5f7474; /* as-muted, deepened for small-text contrast (WCAG AA) */
-  --line: #cfdada; /* as-gray2 */
+  --line: #dce8e6; /* hairline borders */
   --focus: #00afce; /* as-teal (logo aqua) */
   --accent-ink: #00738c; /* logo aqua, deepened for text on light surfaces (WCAG AA) */
 
@@ -38,6 +39,7 @@
     --canvas: #0a1515;
     --surface: #0f2626;
     --surface-muted: #143131;
+    --surface-soft: #122c2c;
     --surface-warm: #1a2a26;
     --ink: #f4f6f6;
     --ink-muted: #b3c4c4;
@@ -65,11 +67,9 @@
   --color-as-dark: #0a1515;
   --color-as-deep: #0f2626;
   --color-as-teal: #00afce; /* logo aqua */
+  --color-as-teal-strong: #0093ae; /* logo aqua, deepened for large display text (3.5:1 on canvas) */
   --color-as-navy: #003a72; /* logo navy */
   --color-as-night: #041f3a; /* logo navy, deepened: sidebar base */
-  --color-as-sidebar: #0f5272; /* sidebar top (teal-blue) */
-  --color-as-sidebar-deep: #093650; /* sidebar bottom */
-  --color-as-lagoon: #1b7f9a; /* active navigation item on the sidebar */
   --color-as-orange: #fb4803;
   --color-as-light: #f4f6f6;
   --color-as-cream: #f7f3ed;
@@ -80,6 +80,7 @@
   --color-canvas: var(--canvas);
   --color-surface: var(--surface);
   --color-surface-muted: var(--surface-muted);
+  --color-surface-soft: var(--surface-soft);
   --color-surface-warm: var(--surface-warm);
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
@@ -98,16 +99,9 @@
   --color-info: var(--info-fg);
   --color-info-soft: var(--info-bg);
 
-  /* Background atmosphere (water-system header art only; never behind small text or data) */
-  --color-water-sky: #e9f6fc;
-  --color-water-mist: #d7edf7;
-  --color-water-blue: #a9d7e9;
-  --color-water-cyan: #54c5de;
-  --color-water-green: #88cfbf;
-
   --radius-card: 1rem; /* rounded-2xl */
   --radius-panel: 1.5rem; /* rounded-3xl */
-  --shadow-card: 0 30px 80px -40px rgb(10 21 21 / 0.18), 0 1px 2px rgb(10 21 21 / 0.04);
+  --shadow-card: 0 10px 30px rgb(26 70 70 / 0.06);
 }
 
 @layer base {
@@ -163,48 +157,14 @@
   }
 }
 
-/*
- * Home header backdrop (docs/DESIGN_SYSTEM.md §08). Behind the top bar and greeting on Home only: the illustration
- * sits on the right and fades into the canvas before the cards. Phones get a plain CSS wash (the image is never
- * downloaded); dark mode shows nothing. Replaceable asset; independent of data.
- */
-.home-backdrop {
+/* Soft aqua haze behind the Home headline. Decorative only. */
+.home-glow {
   position: absolute;
-  inset: 0 0 auto 0;
+  inset: -3rem 0 auto 0;
   height: 22rem;
   z-index: 0;
   pointer-events: none;
-  background-image: linear-gradient(180deg, var(--color-water-sky), var(--canvas));
-  -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent 100%);
-  mask-image: linear-gradient(180deg, #000 70%, transparent 100%);
-}
-@media (min-width: 768px) {
-  .home-backdrop {
-    height: 17rem;
-    background-image:
-      linear-gradient(90deg, var(--canvas) 0%, color-mix(in srgb, var(--canvas) 70%, transparent) 35%, transparent 60%),
-      url("/art/water-system-header.svg");
-    background-repeat: no-repeat;
-    background-position: center, right 0 top 3rem;
-    background-size: cover, auto 14rem;
-    background-color: var(--color-water-sky);
-  }
-}
-
-/* Faint wave along the bottom of a Home card. Decorative only. */
-.card-wave {
-  background-image: url("/art/card-wave.svg");
-  background-repeat: no-repeat;
-  background-position: right bottom;
-  background-size: 100% 2.5rem;
-}
-
-@media (prefers-color-scheme: dark) {
-  .home-backdrop,
-  .card-wave,
-  .sidebar-waves {
-    background-image: none;
-  }
+  background: radial-gradient(60% 70% at 18% 20%, color-mix(in srgb, var(--color-as-teal) 14%, transparent), transparent 70%);
 }
 
 @media (prefers-reduced-motion: reduce) {

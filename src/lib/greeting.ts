@@ -15,18 +15,18 @@ export function firstName(fullName: string | undefined | null): string {
 }
 
 /**
- * The headline answer to "Is my water OK?": one sentence with one emphasised phrase,
- * coloured by the status tone (never colour alone: the words carry the meaning).
+ * The headline answer to "Is my water OK?": a short phrase after the greeting, coloured by the status tone
+ * (never colour alone: the words carry the meaning).
  */
-export function statusSentence(status: SiteStatus): { lead: string; emphasis: string; tone: Tone } {
+export function statusPhrase(status: SiteStatus): { text: string; tone: Tone } {
   switch (status) {
     case "normal":
-      return { lead: "Your water system is", emphasis: "running well.", tone: "info" };
+      return { text: "Running well.", tone: "ok" };
     case "warning":
-      return { lead: "Your water system", emphasis: "needs a check.", tone: "warn" };
+      return { text: "Needs a check.", tone: "warn" };
     case "needs_attention":
-      return { lead: "Your water system", emphasis: "needs attention.", tone: "crit" };
+      return { text: "Needs attention.", tone: "crit" };
     case "offline":
-      return { lead: "Your water system", emphasis: "is not reporting.", tone: "off" };
+      return { text: "Not reporting.", tone: "off" };
   }
 }
