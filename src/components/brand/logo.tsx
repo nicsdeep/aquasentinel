@@ -2,7 +2,7 @@ import Image from "next/image";
 import { cn } from "@/lib/cn";
 
 /*
- * Approved AquaSentinel logo (owner's logo kit, 14 Nov 2026; masters in design/brand).
+ * Approved AquaSentinel logo (owner's logo kit, 14 Nov 2026; all files in public/brand, masters in originals/).
  * Use the artwork as supplied: never redraw, recolour or retype it.
  * - logo.png:  navy wordmark, for light backgrounds.
  * - logo2.png: white wordmark ("Logo2"), for dark backgrounds such as the sidebar.

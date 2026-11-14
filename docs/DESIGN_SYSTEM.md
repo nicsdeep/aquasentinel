@@ -112,18 +112,23 @@ Headings are always clamped, never fixed pixel sizes.
 
 ## 07 · Logo
 The approved logo is the owner's logo kit of 14 Nov 2026: an "a" water mark (navy letter, aqua water waves) and the
-"aquaSentinel" wordmark. It replaces the earlier "A" mark. The unmodified masters are in `design/brand/`.
+"aquaSentinel" wordmark. It replaces the earlier "A" mark.
+
+**Every logo file is in one folder: `public/brand/`.** Git is the source of truth. Vercel serves the files from
+`/brand/…`.
 
 | File | Use |
 |---|---|
-| `public/brand/logo.png` | Horizontal logo with navy wordmark, for light backgrounds (sign-in, phone header) |
-| `public/brand/logo2.png` | **Logo2**: the same logo with white wordmark, for dark backgrounds (sidebar) |
-| `public/brand/logo-mark.png` | The water mark alone, for square spaces |
-| `src/app/icon.png`, `src/app/apple-icon.png` | Browser favicon and iPhone home-screen icon |
-| `public/brand/icon-192.png`, `icon-512.png` | Installable app (PWA) icons |
+| `originals/AquaSentinel_Favicon.svg`, `originals/AquaSentinel_Logo_Horizontal.svg` | The owner's files, unmodified (masters). Not used in the UI because of their size. |
+| `logo.png` | Horizontal logo with navy wordmark, for light backgrounds (sign-in, phone header) |
+| `logo2.png` | **Logo2**: the same logo with white wordmark, for dark backgrounds (sidebar) |
+| `logo-mark.png` | The water mark alone, for square spaces |
+| `icon.png`, `apple-icon.png` | Browser favicon and iPhone home-screen icon (linked in `src/app/layout.tsx`) |
+| `icon-192.png`, `icon-512.png` | Installable app (PWA) icons (`src/app/manifest.ts`) |
 
 Rules:
 - Always render it through the `Logo` component.
 - Never redraw, recolour, stretch or retype the logo.
 - Minimum height is 24 px. Keep clear space of at least half the logo height around it.
 - Use the navy version on light surfaces and Logo2 on dark surfaces. Never put the navy version on a dark background.
+- To change the logo, replace the originals and regenerate every file in this folder in the same PR.
