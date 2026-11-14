@@ -5,6 +5,10 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import type { HistoryPoint, Metric } from "@/lib/data/types";
 import { cn } from "@/lib/cn";
 
+/** SVG attributes cannot read CSS variables reliably, so the chart mirrors two tokens: as-teal and accent. */
+const AQUA = "#00afce";
+const AQUA_INK = "#00738c";
+
 const SERIES: { metric: Metric; label: string; unit: string; domain: [number, number]; caption: string }[] = [
   { metric: "tank_level", label: "Storage", unit: "%", domain: [0, 100], caption: "How full storage is. It should rise while the solar pump runs by day and fall slowly at night." },
   { metric: "flow_rate", label: "Flow", unit: "m³/h", domain: [0, 16], caption: "Water moving from the river intake to storage. Zero at night is normal for a solar pump." },
@@ -45,8 +49,8 @@ export function HistoryChart({ history, timezone }: { history: HistoryPoint[]; t
             <AreaChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: -4 }}>
               <defs>
                 <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#59c3c3" stopOpacity={0.35} />
-                  <stop offset="100%" stopColor="#59c3c3" stopOpacity={0.02} />
+                  <stop offset="0%" stopColor={AQUA} stopOpacity={0.35} />
+                  <stop offset="100%" stopColor={AQUA} stopOpacity={0.02} />
                 </linearGradient>
               </defs>
               <CartesianGrid stroke="var(--line)" strokeDasharray="3 3" vertical={false} />
@@ -57,7 +61,7 @@ export function HistoryChart({ history, timezone }: { history: HistoryPoint[]; t
                 formatter={(v) => [`${v} ${s.unit}`, s.label]}
                 contentStyle={{ background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 12, color: "var(--ink)" }}
               />
-              <Area type={metric === "flow_rate" ? "stepAfter" : "monotone"} dataKey="v" stroke="#1d7a7a" strokeWidth={2} fill="url(#fill)" isAnimationActive={false} />
+              <Area type={metric === "flow_rate" ? "stepAfter" : "monotone"} dataKey="v" stroke={AQUA_INK} strokeWidth={2} fill="url(#fill)" isAnimationActive={false} />
             </AreaChart>
           </ResponsiveContainer>
         )}

@@ -123,9 +123,9 @@ function Frame({
     <ShellContext.Provider value={actions}>
       <div className="min-h-dvh md:grid md:grid-cols-[17rem_1fr]">
         {/* Laptop sidebar */}
-        <aside className="sticky top-0 hidden h-dvh flex-col bg-gradient-to-b from-as-deep to-as-dark px-4 py-6 md:flex">
+        <aside className="sticky top-0 hidden h-dvh flex-col bg-gradient-to-b from-as-navy to-as-night px-4 py-6 md:flex">
           <Link href="/dashboard" className="px-2">
-            <Logo inverted size={38} />
+            <Logo inverted height={40} />
           </Link>
           <nav className="mt-10 flex flex-col gap-1" aria-label="Main">
             <NavLinks variant="sidebar" alerts={alerts} />
@@ -159,7 +159,7 @@ function Frame({
           {/* Top bar (laptop) / header (phone) */}
           <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-line/70 bg-canvas/90 px-4 backdrop-blur md:px-8">
             <span className="md:hidden">
-              <Logo size={30} />
+              <Logo height={30} />
             </span>
             {siteName && (
               <span className="hidden items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-sm font-medium md:inline-flex">

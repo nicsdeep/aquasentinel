@@ -49,6 +49,9 @@ has supplied or approved.
   source (`readings.source`; shown via "Inspect data source" on the Site page), and SMS show "Delivered" **only**
   when a real provider confirms delivery (demo gateway messages are "Sent"). The /brief page keeps its data-source
   note. Never claim field telemetry, real deployments, partners or measured impact. Every button must work.
+- **Logo (owner decision, 14 Nov 2026):** the approved logo and favicon are the owner's logo kit (masters in
+  `design/brand/`; usage in `docs/DESIGN_SYSTEM.md` §07). Logo2 (white wordmark) is for dark backgrounds.
+  UI accents (aqua, navy sidebar) are aligned to it; orange stays the one primary action.
 - Do not access Lovable, ShiftNex or any unrelated project/account for AquaSentinel work.
 
 ## Reporting — required at the end of every completed task
