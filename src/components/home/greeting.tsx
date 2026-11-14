@@ -17,8 +17,8 @@ export function Greeting({ name, site, now }: { name: string; site: SiteData["si
   const s = statusSentence(site.status);
   const age = secondsSince(site.last_reading_at, now);
   return (
-    <section className="relative overflow-hidden">
-      <WaterTower className="pointer-events-none absolute -right-2 -top-4 hidden h-44 w-44 text-as-teal/50 lg:block" />
+    <section className="relative isolate md:pb-4">
+      <div className="water-header" aria-hidden />
       <h1 className="type-h1 max-w-3xl text-ink">
         {greeting(site.timezone, new Date(now))}
         {firstName(name) ? `, ${firstName(name)}.` : "."}
@@ -35,18 +35,5 @@ export function Greeting({ name, site, now }: { name: string; site: SiteData["si
         {site.last_reading_at && <span className="text-ink-subtle">({formatSiteTime(site.last_reading_at, site.timezone)})</span>}
       </p>
     </section>
-  );
-}
-
-/** Minimal line drawing of an elevated tank: quiet context, not decoration (no photos on work screens). */
-function WaterTower({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className={className} aria-hidden>
-      <ellipse cx="60" cy="22" rx="22" ry="5" />
-      <path d="M38 22v26c0 3 10 5 22 5s22-2 22-5V22" />
-      <path d="M38 34c0 3 10 5 22 5s22-2 22-5" opacity="0.5" />
-      <path d="M44 53 36 104M76 53l8 51M60 53v51M40 78h40M38 92h44" />
-      <path d="M10 108c8-4 16-4 24 0s16 4 24 0 16-4 24 0 16 4 24 0" />
-    </svg>
   );
 }

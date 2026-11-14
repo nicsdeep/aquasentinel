@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 360" preserveAspectRatio="xMaxYMax slice" fill="none">
+  <!-- AquaSentinel workspace header: a conceptual illustration of community water infrastructure in a semi-arid
+       landscape (not a depiction of the installed Ngomano site). Palette: docs/DESIGN_SYSTEM.md §08. -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E9F6FC"/>
+      <stop offset="0.75" stop-color="#D7EDF7"/>
+      <stop offset="1" stop-color="#E9F6FC"/>
+    </linearGradient>
+  </defs>
+  <rect width="1440" height="360" fill="url(#sky)"/>
+
+  <!-- Single faint water contour across the open sky -->
+  <path d="M0 150c120-26 240-26 360 0s240 26 360 0 240-26 360 0 240 26 360 0" stroke="#A9D7E9" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Far hills -->
+  <path d="M0 262c90-30 180-44 290-36 120 9 190-34 320-38 130-4 200 30 330 22 120-8 190-52 300-50 90 2 150 22 200 34V360H0Z" fill="#D7EDF7"/>
+  <path d="M560 276c110-22 210-40 330-30 120 10 200-30 310-28 100 2 170 22 240 36V360H560Z" fill="#A9D7E9" opacity="0.45"/>
+
+  <!-- Near ground -->
+  <path d="M0 300c160-14 330-18 520-12 210 7 420 4 620-6 110-6 210-6 300-2V360H0Z" fill="#88CFBF" opacity="0.28"/>
+  <path d="M700 312c180-10 360-14 520-10 80 2 150 4 220 8V360H700Z" fill="#88CFBF" opacity="0.35"/>
+
+  <!-- Acacia trees (flat-topped canopy) -->
+  <g fill="#88CFBF">
+    <path d="M832 270h4l2 34h-8z" opacity="0.7"/>
+    <ellipse cx="834" cy="268" rx="34" ry="7" opacity="0.75"/>
+    <ellipse cx="822" cy="262" rx="18" ry="5" opacity="0.6"/>
+    <path d="M1376 278h3l2 30h-7z" opacity="0.7"/>
+    <ellipse cx="1378" cy="276" rx="28" ry="6" opacity="0.75"/>
+    <path d="M664 286h3l1 22h-5z" opacity="0.5"/>
+    <ellipse cx="666" cy="285" rx="20" ry="4.5" opacity="0.55"/>
+  </g>
+
+  <!-- Solar panel and small pump house -->
+  <g stroke="#54C5DE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M948 262l56-14 6 22-56 14z" fill="#D7EDF7"/>
+    <path d="M966 258l6 22M985 253l6 22M951 273l56-14" opacity="0.6"/>
+    <path d="M976 281v24M996 276v29"/>
+    <path d="M1030 284h46v22h-46z" fill="#E9F6FC"/>
+    <path d="M1026 285l27-14 27 14"/>
+    <path d="M1046 306v-11h14v11" opacity="0.7"/>
+  </g>
+
+  <!-- Elevated storage tank on its stand -->
+  <g stroke="#54C5DE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M1168 150c0-6 18-10 40-10s40 4 40 10v52c0 6-18 10-40 10s-40-4-40-10z" fill="#E9F6FC"/>
+    <path d="M1168 150c0 6 18 10 40 10s40-4 40-10"/>
+    <path d="M1168 176c0 6 18 10 40 10s40-4 40-10" opacity="0.45"/>
+    <path d="M1176 210l-12 98M1240 210l12 98M1208 212v96"/>
+    <path d="M1172 244h72M1168 276h80" opacity="0.7"/>
+    <path d="M1176 244l64 32M1240 244l-64 32" opacity="0.35"/>
+  </g>
+
+  <!-- Pipework: pump house to tank, tank down to the community line -->
+  <g stroke="#54C5DE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85">
+    <path d="M1076 298h66c8 0 12-4 12-12v-62c0-8 4-12 12-12h2"/>
+    <path d="M1248 200h20c8 0 12 4 12 12v86c0 8 4 12 12 12h148"/>
+  </g>
+</svg>
