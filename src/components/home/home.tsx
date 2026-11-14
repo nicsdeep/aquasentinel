@@ -60,12 +60,12 @@ export function Home() {
     <div className="relative space-y-5 md:space-y-6">
       <Greeting name={session.profile?.fullName ?? ""} site={data.site} now={now} />
       <KeyTiles latest={data.latest} timezone={data.site.timezone} now={now} />
-      <div className="grid gap-5 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]">
         <ActiveAlerts active={data.active} members={data.members} />
         <Today tasks={tasks} />
       </div>
       <QuickActions canCheck={canCheck} />
-      <div className="grid gap-5 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
         <FlowChart history={data.history} timezone={data.site.timezone} alarm={flowProblem} />
         <RecentActivity events={data.recent} timezone={data.site.timezone} />
       </div>

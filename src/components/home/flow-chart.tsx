@@ -32,7 +32,7 @@ export function FlowChart({ history, timezone, alarm }: { history: HistoryPoint[
   }
 
   return (
-    <section className="rounded-2xl border border-line bg-surface p-4 shadow-card md:p-5">
+    <section className="min-w-0 rounded-2xl border border-line bg-surface p-4 shadow-card md:p-5">
       <h2 className="flex items-center gap-2.5 text-lg font-bold">
         <BarChart3 className="size-6 text-accent" aria-hidden />
         Water flow <span className="font-normal text-ink-muted">(last 24 hours)</span>
