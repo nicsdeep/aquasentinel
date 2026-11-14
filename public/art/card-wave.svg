@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 60" preserveAspectRatio="none">
-  <!-- Faint decorative wave along the bottom of Home cards. -->
-  <path d="M0 40c60-16 120-18 190-4s130 14 210-6v30H0Z" fill="#d9f0f5" opacity="0.7"/>
-  <path d="M120 50c50-14 100-14 160-2s80 8 120-4v16H120Z" fill="#cfeee3" opacity="0.6"/>
-</svg>

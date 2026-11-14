@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { deriveTasks, type TaskInput } from "@/lib/tasks";
-import { firstName, greeting, statusSentence } from "@/lib/greeting";
+import { firstName, greeting, statusPhrase } from "@/lib/greeting";
 import type { IncidentSummary } from "@/lib/data/types";
 
 const now = Date.parse("2026-11-14T09:00:00Z"); // 12:00 in Nairobi
@@ -53,8 +53,8 @@ describe("greeting", () => {
   });
 
   it("answers 'is my water OK?' in words for every status", () => {
-    expect(statusSentence("normal").emphasis).toBe("running well.");
-    expect(statusSentence("needs_attention").tone).toBe("crit");
-    expect(statusSentence("offline").emphasis).toBe("is not reporting.");
+    expect(statusPhrase("normal").text).toBe("Running well.");
+    expect(statusPhrase("needs_attention").tone).toBe("crit");
+    expect(statusPhrase("offline").text).toBe("Not reporting.");
   });
 });

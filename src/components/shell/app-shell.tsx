@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { BookOpenCheck, Check, ChevronDown, ChevronRight, LoaderCircle, MapPin, MessageSquare } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useMemo, useState } from "react";
+import { Bell, BookOpenCheck, LoaderCircle } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { ReportProblemDialog } from "@/components/actions/report-problem";
 import { RoutineCheckDialog } from "@/components/actions/routine-check";
@@ -11,41 +11,89 @@ import { Phone } from "@/components/sms/phone";
 import { Sheet } from "@/components/ui/sheet";
 import { ROLE_LABEL, useSession, type Membership } from "@/lib/auth/session";
 import { SiteDataProvider, useSiteData } from "@/lib/data/site-data";
+import { firstName } from "@/lib/greeting";
 import { cn } from "@/lib/cn";
 import { EnvironmentDialog } from "./environment-dialog";
 import { NAV_ITEMS } from "./nav";
+import { SearchBox } from "./search-box";
 import { ShellContext, type ShellActions } from "./shell-context";
+import { SiteMenu } from "./site-menu";
 
 function initials(name: string) {
   return name.trim().split(/\s+/).slice(0, 2).map((p) => p[0]?.toUpperCase()).join("");
 }
 
-function NavLinks({ variant, alerts }: { variant: "sidebar" | "bottom"; alerts: number }) {
+/** Sub-pages of "Alerts & incidents" shown under it in the sidebar while that section is open. */
+function IncidentSubNav() {
+  const tab = useSearchParams().get("tab");
+  const items = [
+    { href: "/incidents", label: "Open", active: tab !== "closed" },
+    { href: "/incidents?tab=closed", label: "Closed", active: tab === "closed" },
+  ];
+  return (
+    <>
+      {items.map((i) => (
+        <Link
+          key={i.href}
+          href={i.href}
+          aria-current={i.active ? "page" : undefined}
+          className={cn(
+            "flex min-h-10 items-center rounded-xl pl-11 pr-3 text-sm transition-colors",
+            i.active ? "bg-info-soft font-semibold text-ink" : "text-ink-muted hover:bg-surface-muted",
+          )}
+        >
+          {i.label}
+        </Link>
+      ))}
+    </>
+  );
+}
+
+function SidebarNav({ alerts }: { alerts: number }) {
   const pathname = usePathname();
   return (
     <>
-      {NAV_ITEMS.map(({ href, label, short, icon: Icon, badge }) => {
+      {NAV_ITEMS.map(({ href, label, icon: Icon, badge }) => {
         const active = pathname === href || pathname.startsWith(`${href}/`);
         const count = badge === "alerts" ? alerts : 0;
-        return variant === "sidebar" ? (
-          <Link
-            key={href}
-            href={href}
-            aria-current={active ? "page" : undefined}
-            className={cn(
-              "flex min-h-11 items-center gap-3 rounded-xl px-3 text-[15px] transition-colors",
-              active ? "bg-as-lagoon font-semibold text-white shadow-sm" : "text-white/85 hover:bg-white/10 hover:text-white",
+        return (
+          <div key={href} className="space-y-1">
+            <Link
+              href={href}
+              aria-current={active ? "page" : undefined}
+              className={cn(
+                "flex min-h-11 items-center gap-3 rounded-xl px-3 text-[15px] transition-colors",
+                active ? "bg-info-soft font-semibold text-ink" : "text-ink-muted hover:bg-surface-muted hover:text-ink",
+              )}
+            >
+              <Icon className={cn("size-[18px]", active ? "text-accent" : "text-ink-subtle")} strokeWidth={2} aria-hidden />
+              <span className="flex-1">{label}</span>
+              {count > 0 && (
+                <span className="grid min-w-6 place-items-center rounded-full bg-as-orange px-1.5 text-xs font-semibold text-white" aria-label={`${count} open`}>
+                  {count}
+                </span>
+              )}
+            </Link>
+            {href === "/incidents" && active && (
+              <Suspense>
+                <IncidentSubNav />
+              </Suspense>
             )}
-          >
-            <Icon className="size-[18px]" strokeWidth={2} aria-hidden />
-            <span className="flex-1">{label}</span>
-            {count > 0 && (
-              <span className="grid min-w-6 place-items-center rounded-full bg-as-orange px-1.5 text-xs font-semibold text-white" aria-label={`${count} open`}>
-                {count}
-              </span>
-            )}
-          </Link>
-        ) : (
+          </div>
+        );
+      })}
+    </>
+  );
+}
+
+function BottomNav({ alerts }: { alerts: number }) {
+  const pathname = usePathname();
+  return (
+    <>
+      {NAV_ITEMS.map(({ href, short, icon: Icon, badge }) => {
+        const active = pathname === href || pathname.startsWith(`${href}/`);
+        const count = badge === "alerts" ? alerts : 0;
+        return (
           <Link
             key={href}
             href={href}
@@ -66,7 +114,7 @@ function NavLinks({ variant, alerts }: { variant: "sidebar" | "bottom"; alerts: 
   );
 }
 
-/** Responsive app frame. Laptop: deep-teal sidebar + top bar. Phone: compact header + bottom navigation. */
+/** Responsive app frame. Laptop: floating sidebar card + top bar card. Phone: compact header + bottom navigation. */
 export function AppShell({ children }: { children: React.ReactNode }) {
   const session = useSession();
   const router = useRouter();
@@ -128,74 +176,78 @@ function Frame({
   const alerts = data?.active.length ?? 0;
   const siteName = data?.site.name ?? membership?.siteName ?? "";
   const tz = data?.site.timezone ?? membership?.timezone ?? "Africa/Nairobi";
-  const canControl = membership?.role === "committee" || membership?.role === "admin";
-  const pathname = usePathname();
-  const home = pathname === "/dashboard";
-  const scrolled = useScrolled();
+  const role = membership?.role;
+  const canControl = role === "committee" || role === "admin";
+  const canCheck = role === "operator" || role === "technician" || role === "admin";
   const unread = !!data?.lastMessageAt && (!seenAt || data.lastMessageAt > seenAt);
 
   return (
     <ShellContext.Provider value={actions}>
-      <div className="min-h-dvh md:grid md:grid-cols-[17rem_1fr]">
-        {/* Laptop sidebar */}
-        <aside className="sticky top-0 hidden h-dvh flex-col overflow-hidden bg-gradient-to-b from-as-sidebar to-as-sidebar-deep px-4 py-6 md:flex">
-          <div className="sidebar-waves pointer-events-none absolute inset-x-0 top-[38%] h-[48%] bg-[url('/art/sidebar-waves.svg')] bg-[length:100%_100%] bg-no-repeat" aria-hidden />
-          <Link href="/dashboard" className="relative px-2">
-            <Logo inverted height={40} />
-          </Link>
-          <nav className="relative mt-10 flex flex-col gap-1.5" aria-label="Main">
-            <NavLinks variant="sidebar" alerts={alerts} />
-          </nav>
-          <div className="relative mt-auto space-y-3">
-            <Link href="/brief" className="flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm text-white/80 hover:bg-white/10 hover:text-white">
-              <BookOpenCheck className="size-4" aria-hidden />
+      <div className="min-h-dvh md:grid md:grid-cols-[17.5rem_minmax(0,1fr)]">
+        {/* Laptop sidebar: a floating card */}
+        <aside className="hidden md:block md:p-3 md:pr-0">
+          <div className="sticky top-3 flex h-[calc(100dvh-1.5rem)] flex-col overflow-y-auto rounded-3xl border border-line bg-surface px-3 pb-4 pt-3 shadow-card">
+            <Link href="/dashboard" className="block rounded-2xl bg-surface-soft px-4 py-4" aria-label="AquaSentinel home">
+              <Logo height={34} />
+            </Link>
+            <div className="mx-1 mt-3 border-t border-line" />
+            <p className="type-eyebrow px-3 pb-2 pt-5 text-[10px] text-ink-subtle">Main</p>
+            <nav className="flex flex-col gap-1" aria-label="Main">
+              <SidebarNav alerts={alerts} />
+            </nav>
+            <p className="type-eyebrow px-3 pb-2 pt-6 text-[10px] text-ink-subtle">Programme</p>
+            <Link href="/brief" className="flex min-h-11 items-center gap-3 rounded-xl px-3 text-[15px] text-ink-muted hover:bg-surface-muted hover:text-ink">
+              <BookOpenCheck className="size-[18px] text-ink-subtle" aria-hidden />
               How it meets the brief
             </Link>
-            <button
-              onClick={() => setPanel("environment")}
-              className="flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] p-3 text-left hover:bg-white/10"
-              aria-label="Account and environment"
-            >
-              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-as-teal text-sm font-semibold text-as-dark">{initials(name)}</span>
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-[15px] font-semibold text-white">{name}</span>
-                {membership && <span className="block truncate text-xs text-white/70">{ROLE_LABEL[membership.role]}</span>}
-              </span>
-              <ChevronRight className="size-4 shrink-0 text-white/70" aria-hidden />
-            </button>
           </div>
         </aside>
 
-        <div className="relative flex min-w-0 flex-col">
-          {home && <div className="home-backdrop" aria-hidden />}
-          {/* Top bar (laptop) / header (phone). On Home it sits on the header art until the page scrolls. */}
-          <header
-            className={cn(
-              "sticky top-0 z-30 flex h-16 items-center gap-3 px-4 transition-colors md:h-[4.5rem] md:px-8",
-              home && !scrolled ? "bg-transparent" : "border-b border-line/70 bg-canvas/90 backdrop-blur",
-            )}
-          >
-            <span className="md:hidden">
-              <Logo height={30} />
-            </span>
-            {siteName && <SiteMenu name={siteName} />}
-            <div className="ml-auto flex items-center gap-1">
-              <button onClick={actions.openMessages} className="relative inline-flex min-h-11 items-center gap-2 rounded-full px-3 text-[15px] font-medium text-ink hover:bg-surface/70" aria-label={unread ? "Messages, new messages" : "Messages"}>
-                <MessageSquare className="size-5" aria-hidden />
-                <span className="hidden sm:inline">Messages</span>
-                {unread && <span className="absolute right-1.5 top-2 size-2.5 rounded-full bg-as-teal ring-2 ring-canvas" aria-hidden />}
-              </button>
-              <button onClick={() => setPanel("environment")} className="grid size-11 place-items-center rounded-full md:hidden" aria-label="Account">
-                <span className="grid size-9 place-items-center rounded-full bg-as-teal text-xs font-semibold text-as-dark">{initials(name)}</span>
-              </button>
-            </div>
-          </header>
+        <div className="flex min-w-0 flex-col">
+          {/* Top bar: a floating card on laptop, a compact header on phone */}
+          <div className="sticky top-0 z-30 md:px-3 md:pt-3">
+            <header className="flex h-16 items-center gap-3 border-b border-line bg-surface/95 px-4 backdrop-blur md:h-[4.25rem] md:rounded-3xl md:border md:px-5 md:shadow-card">
+              <span className="md:hidden">
+                <Logo height={28} />
+              </span>
+              {siteName && <SiteMenu name={siteName} />}
+              <SearchBox
+                incidents={data?.active ?? []}
+                recent={data?.recent ?? []}
+                canCheck={canCheck}
+                onReport={actions.openReport}
+                onRoutine={actions.openRoutine}
+                onMessages={actions.openMessages}
+              />
+              <div className="ml-auto flex items-center gap-2 whitespace-nowrap md:gap-3">
+                <span className="hidden text-sm text-ink-muted xl:inline">
+                  Welcome <b className="font-semibold text-ink">{firstName(name) || name}</b>
+                </span>
+                {role && (
+                  <span className="hidden rounded-full bg-info-soft px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-accent lg:inline">
+                    {ROLE_LABEL[role]}
+                  </span>
+                )}
+                <button
+                  onClick={actions.openMessages}
+                  className="relative grid size-11 place-items-center rounded-full border border-line bg-surface text-ink hover:bg-surface-muted"
+                  aria-label={unread ? "Messages, new messages" : "Messages"}
+                >
+                  <Bell className="size-[18px]" aria-hidden />
+                  {unread && <span className="absolute right-2.5 top-2.5 size-2.5 rounded-full bg-as-orange ring-2 ring-surface" aria-hidden />}
+                </button>
+                <button onClick={() => setPanel("environment")} className="grid size-11 place-items-center rounded-full" aria-label="Account and environment">
+                  <span className="grid size-10 place-items-center rounded-full bg-surface-muted text-sm font-bold text-ink-muted">{initials(name)}</span>
+                </button>
+              </div>
+            </header>
+          </div>
 
-          <main className={cn("relative mx-auto w-full flex-1 px-4 pb-28 pt-6 md:px-8 md:pb-12", home ? "max-w-[88rem] md:pt-4" : "max-w-6xl md:pt-6")}>{children}</main>
+          <main className="relative mx-auto w-full max-w-[88rem] flex-1 px-4 pb-28 pt-6 md:px-8 md:pb-12 md:pt-8">{children}</main>
 
           {/* Phone bottom navigation */}
           <nav className="fixed inset-x-0 bottom-0 z-30 flex border-t border-line bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden" aria-label="Main">
-            <NavLinks variant="bottom" alerts={alerts} />
+            <BottomNav alerts={alerts} />
           </nav>
         </div>
       </div>
@@ -240,61 +292,4 @@ function writeSeen(at: string) {
   } catch {
     /* private mode: the dot simply shows again next time */
   }
-}
-
-function useScrolled() {
-  const [scrolled, setScrolled] = useState(false);
-  useEffect(() => {
-    const on = () => setScrolled(window.scrollY > 8);
-    on();
-    window.addEventListener("scroll", on, { passive: true });
-    return () => window.removeEventListener("scroll", on);
-  }, []);
-  return scrolled;
-}
-
-/** Site switcher. Members currently belong to one site; the menu shows it and opens its details. */
-function SiteMenu({ name }: { name: string }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (!open) return;
-    const close = (e: MouseEvent | KeyboardEvent) => {
-      if (e instanceof KeyboardEvent ? e.key === "Escape" : !ref.current?.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("mousedown", close);
-    document.addEventListener("keydown", close);
-    return () => {
-      document.removeEventListener("mousedown", close);
-      document.removeEventListener("keydown", close);
-    };
-  }, [open]);
-  return (
-    <div ref={ref} className="relative hidden md:block">
-      <button
-        onClick={() => setOpen((o) => !o)}
-        aria-expanded={open}
-        aria-haspopup="menu"
-        className="inline-flex min-h-11 items-center gap-2 rounded-full border border-line bg-surface px-4 text-[15px] font-medium shadow-sm hover:bg-surface-muted"
-      >
-        <MapPin className="size-4 text-accent" aria-hidden />
-        {name}
-        <ChevronDown className={cn("size-4 text-accent transition-transform", open && "rotate-180")} aria-hidden />
-      </button>
-      {open && (
-        <div role="menu" className="absolute left-0 top-full z-40 mt-2 w-72 rounded-2xl border border-line bg-surface p-2 shadow-card">
-          <p className="px-3 pb-1 pt-2 text-xs font-medium text-ink-muted">Your water systems</p>
-          <div role="menuitemradio" aria-checked="true" className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium">
-            <MapPin className="size-4 text-accent" aria-hidden />
-            <span className="flex-1">{name}</span>
-            <Check className="size-4 text-accent" aria-hidden />
-          </div>
-          <Link role="menuitem" href="/site" onClick={() => setOpen(false)} className="flex min-h-11 items-center gap-2 rounded-xl px-3 text-sm text-accent hover:bg-surface-muted">
-            Open site details
-            <ChevronRight className="ml-auto size-4" aria-hidden />
-          </Link>
-        </div>
-      )}
-    </div>
-  );
 }

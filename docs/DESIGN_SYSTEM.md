@@ -16,10 +16,10 @@ Use token names in classes (`bg-as-dark`), never raw hex in components.
 | `as-deep` | `#0F2626` | Deep panels, dark-mode surfaces |
 | `as-teal` | `#00AFCE` | Logo aqua: accent on dark surfaces, chart area, focus ring, icons in dark chips |
 | `as-orange` | `#FB4803` | **The one primary action per screen.** Orange is earned. |
-| `as-light` | `#F4F6F6` | App canvas |
+| `as-light` | `#F4F6F6` | Neutral light surface (the canvas is `#F5FBFA`, §08) |
 | `as-cream` | `#F7F3ED` | Warm panels (sign-in story, highlights) |
 | `as-white` | `#FFFFFF` | Cards |
-| `as-gray2` | `#CFDADA` | Borders and dividers |
+| `as-gray2` | `#CFDADA` | Strong dividers (hairlines use `line` `#DCE8E6`, §08) |
 | `as-muted` | `#7B9090` | Large or decorative secondary text only |
 
 **Accessibility adjustments** (accessibility outranks style):
@@ -37,9 +37,7 @@ Use token names in classes (`bg-as-dark`), never raw hex in components.
 
 ## 02 · Type: two families, one voice
 - **Serif: Instrument Serif** for the voice, used sparingly: page titles and the sign-in hero.
-- **Home greeting** (owner's reference design, 14 Nov 2026): Geist bold, "Good morning, Name." with the status
-  sentence below it. The status phrase is bold italic and coloured by status. Card titles on Home are Geist bold
-  18 px, each with a leading icon.
+- **Home greeting and card titles** use Instrument Serif (§08). The status phrase is italic and coloured.
 - **Sans: Geist** for the work: UI, body text and numbers. Never italic.
 - Both are self-hosted (no runtime font requests).
 
@@ -57,7 +55,7 @@ Headings are always clamped, never fixed pixel sizes.
 ## 03 · Layout and spacing
 - **Sign-in page** (public): page max width 1200 px, `px-6 md:px-10`. Light hero, then a cream story panel.
 - **App workspace:** an operational shell, not scroll-snap frames.
-  - Laptop: a dark sidebar (16.5 rem) and content up to 72 rem.
+  - Laptop: a floating white sidebar card (17.5 rem) and a top bar card; content up to 88 rem (§08).
   - Phone: a header with hamburger menu, a bottom bar, a 16 px gutter, no horizontal scroll and safe-area padding.
 - **Shape:**
   - cards `rounded-2xl` (`rounded-card`);
@@ -78,7 +76,7 @@ Headings are always clamped, never fixed pixel sizes.
 | `danger` | red | Destructive actions only. |
 
 **Where orange goes:**
-- Home: none (owner's reference design, §08);
+- Home: **View open alerts** while alerts are open, otherwise **Report a problem** (§08);
 - on the incident page, the next step for the signed-in role (Acknowledge → Assign / Take this job →
   Record findings → Confirm water is flowing → Close incident);
 - the submit button inside a dialog.
@@ -123,7 +121,7 @@ The approved logo is the owner's logo kit of 14 Nov 2026: an "a" water mark (nav
 |---|---|
 | `originals/AquaSentinel_Favicon.svg`, `originals/AquaSentinel_Logo_Horizontal.svg` | The owner's files, unmodified (masters). Not used in the UI because of their size. |
 | `logo.png` | Horizontal logo with navy wordmark, for light backgrounds (sign-in, phone header) |
-| `logo2.png` | **Logo2**: the same logo with white wordmark, for dark backgrounds (sidebar) |
+| `logo2.png` | **Logo2**: the same logo with white wordmark, for dark backgrounds |
 | `logo-mark.png` | The water mark alone, for square spaces |
 | `icon.png`, `apple-icon.png` | Browser favicon and iPhone home-screen icon (linked in `src/app/layout.tsx`) |
 | `icon-192.png`, `icon-512.png` | Installable app (PWA) icons (`src/app/manifest.ts`) |
@@ -135,39 +133,42 @@ Rules:
 - Use the navy version on light surfaces and Logo2 on dark surfaces. Never put the navy version on a dark background.
 - To change the logo, replace the originals and regenerate every file in this folder in the same PR.
 
-## 08 · Home reference design and background art
-Home follows the owner's reference design (14 Nov 2026). It is the owner's choice and overrides earlier "no waves
-in cards" guidance for Home only.
+## 08 · Clean workspace (owner's reference, 14 Nov 2026)
+The interface is calm and light: white cards on a whisper-of-mint canvas, hairline borders, a soft shadow, serif
+headings and generous space. It replaces the earlier teal sidebar, header illustration and card waves.
 
-- **Layout, top to bottom:**
-  - greeting;
-  - four reading tiles (round tinted icon, value, status pill, data age);
-  - Active alerts (tinted rows: icon by problem type, what is wrong, status and who is responsible) beside Today
-    (task rows that open the task);
-  - Quick actions (Report a problem, Log routine check for roles that can, Messages);
-  - Water flow for the last 24 hours (the trailing zero stretch is red only while a pump or flow problem is open);
-  - Recent activity (from the audit trail; each line opens its incident).
-- **Header art** `public/art/water-system-header.svg`: a conceptual illustration of community water infrastructure
-  (hills, acacias, elevated tank, pipework, pump house). It is **not a depiction of the installed Ngomano site** and
-  must never be presented as one.
-  - It sits behind the top bar and greeting on Home, on the right, and fades into the canvas before the cards.
-  - The top bar is transparent over it until the page scrolls.
-  - Phones get a plain CSS wash (no image download). Hidden in dark mode.
-- **Sidebar:** teal-blue gradient (`as-sidebar` → `as-sidebar-deep`) with decorative waves
-  (`public/art/sidebar-waves.svg`). The active item is `as-lagoon`. The account card opens the account and environment menu.
-- **Card waves:** `.card-wave` adds a faint wave along the bottom of Home tiles and quick actions. Decorative only.
-- **Status colours keep their meaning.** A stopped pump reads red only in daylight. At night a solar pump is
-  normally off, so it stays neutral.
-- **No orange on Home** in the reference design. The next step for an incident is the orange button on its
-  incident page, one tap from the alert row or the Today task.
-- **Assets are independent of data**: no readings, names or incident state change any artwork.
+- **Shell:**
+  - **Floating sidebar card** (white, `rounded-3xl`). Logo in a soft panel; section labels **Main** and **Programme**;
+    the active item is `info-soft` with a teal icon. *Alerts & incidents* opens its sub-items **Open** and **Closed**.
+  - **Top bar card:**
+    - the site menu (with a status dot);
+    - **search** across open alerts, recent incidents, screens and actions (every result opens something real);
+    - *Welcome Name* and a **role chip**;
+    - a **bell** for Messages (orange dot when there are unread messages);
+    - an **avatar** that opens the account and environment menu.
+  - **Phone:** a compact header (logo, bell, avatar) and the bottom navigation.
+- **Home, top to bottom:**
+  - **Hero:**
+    - a serif display greeting with the status phrase in italic: "Running well." in the deep logo aqua
+      (`as-teal-strong`), or the status colour when not well;
+    - a subtitle with the site and data age;
+    - **Messages** and **Report a problem** on the right.
+  - **Two summary cards:**
+    - **Open alerts**: count, the most urgent alert in words with its owner, and chips for New / Being repaired /
+      Water back, to close.
+    - **Water system**: pump state, and chips for flow, storage and solar, each greyed when out of date.
+  - **How it works** note (rules, SMS without internet, never controls the pump).
+  - **Incident journey**: Detected → Alerted → Acknowledged → Technician assigned → Repaired → Verified and closed, for
+    the most urgent open incident, or the last closed one.
+  - **Today** action centre: Tasks for you, Routine check and Messages, plus **Refresh**.
+- **Orange:** at most one on Home. It is **View open alerts** while alerts are open; otherwise **Report a problem**.
+- **Cards:** `rounded-3xl`, border `line`, shadow `0 10px 30px rgb(26 70 70 / .06)`. Card titles in Instrument Serif;
+  stat chips in `surface-soft` with serif numbers.
 
-| Token | Hex | Use |
+| Token | Value | Use |
 |---|---|---|
-| `water-sky` | `#E9F6FC` | Upper atmosphere; phone wash |
-| `water-mist` | `#D7EDF7` | Far hills, horizon |
-| `water-blue` | `#A9D7E9` | Faint contour and landscape accents |
-| `water-cyan` | `#54C5DE` | Sparse line details |
-| `water-green` | `#88CFBF` | Vegetation, ground |
-| `as-sidebar` / `as-sidebar-deep` | `#0F5272` / `#093650` | Sidebar gradient |
-| `as-lagoon` | `#1B7F9A` | Active navigation item |
+| `canvas` | `#F5FBFA` | App background |
+| `line` | `#DCE8E6` | Hairline borders |
+| `surface-muted` | `#EFF6F5` | Hover, neutral chips |
+| `surface-soft` | `#F9FBFB` | Stat chips, inputs, logo panel |
+| `as-teal-strong` | `#0093AE` | Logo aqua deepened for large display text (3.5:1) |
