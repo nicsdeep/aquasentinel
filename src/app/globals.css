@@ -95,6 +95,13 @@
   --color-info: var(--info-fg);
   --color-info-soft: var(--info-bg);
 
+  /* Background atmosphere (water-system header art only; never behind small text or data) */
+  --color-water-sky: #e9f6fc;
+  --color-water-mist: #d7edf7;
+  --color-water-blue: #a9d7e9;
+  --color-water-cyan: #54c5de;
+  --color-water-green: #88cfbf;
+
   --radius-card: 1rem; /* rounded-2xl */
   --radius-panel: 1.5rem; /* rounded-3xl */
   --shadow-card: 0 30px 80px -40px rgb(10 21 21 / 0.18), 0 1px 2px rgb(10 21 21 / 0.04);
@@ -150,6 +157,43 @@
   }
   .tabular {
     font-variant-numeric: tabular-nums;
+  }
+}
+
+/*
+ * Workspace header backdrop (docs/DESIGN_SYSTEM.md §08). A replaceable asset behind the page title only:
+ * the illustration sits to the right and fades to the canvas before any operational content.
+ * Phones get a plain CSS wash (the image is never downloaded); dark mode shows nothing.
+ */
+.water-header {
+  position: absolute;
+  inset: -1.5rem -1rem 0 -1rem;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--canvas);
+  background-image: linear-gradient(180deg, var(--color-water-sky), var(--canvas));
+  -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 60%, transparent 100%);
+}
+@media (min-width: 768px) {
+  .water-header {
+    inset: -2rem -2rem 0 -2rem;
+    background-image:
+      linear-gradient(90deg, var(--canvas) 0%, color-mix(in srgb, var(--canvas) 92%, transparent) 38%, transparent 85%),
+      url("/art/water-system-header.svg");
+    background-repeat: no-repeat;
+    background-position: center, right bottom;
+    background-size: cover, auto 100%;
+    /* Fade out at the bottom and at the right edge so the art never ends on a hard line. */
+    -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 100%), linear-gradient(90deg, #000 94%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(180deg, #000 60%, transparent 100%), linear-gradient(90deg, #000 94%, transparent 100%);
+    mask-composite: intersect;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  .water-header {
+    display: none;
   }
 }
 

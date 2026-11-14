@@ -27,6 +27,8 @@ has supplied or approved.
    `PUT /repos/nicsdeep/aquasentinel/pulls/<n>/ccr/auto_merge`, or merge with the REST merge endpoint after confirming
    every check passed). Merging to `main` deploys to production automatically. Never merge with failing or pending checks,
    never bypass the ruleset, and stop and ask the owner first for anything destructive, security-sensitive or irreversible.
+   **Owner decision (14 Nov 2026): "Always make it live."** This includes design and UI changes. Do not wait for
+   preview approval; share the preview and screenshots in the report instead. The stop-and-ask rule above still applies.
 7. After the merge, watch the Release run and verify the live URL before reporting.
 8. To undo or delete anything (code, deployment, tables, data), follow docs/DEPLOYMENT.md → "Undo, revert and delete".
 

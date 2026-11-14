@@ -132,3 +132,25 @@ Rules:
 - Minimum height is 24 px. Keep clear space of at least half the logo height around it.
 - Use the navy version on light surfaces and Logo2 on dark surfaces. Never put the navy version on a dark background.
 - To change the logo, replace the originals and regenerate every file in this folder in the same PR.
+
+## 08 · Workspace header background
+A quiet illustration of community water infrastructure (low hills, acacia trees, an elevated tank, pipework, a
+small pump house and solar panel) sits behind the Home greeting, to the right. It sets the context. It is a
+**conceptual illustration, not a depiction of the installed Ngomano site**, and must never be presented as one.
+
+- **Asset:** `public/art/water-system-header.svg` (about 4 KB, replaceable). It is applied by the `.water-header` class in
+  `globals.css`, and used only in the Home greeting. It is independent of data: no readings, names or incident state
+  change it.
+- **Laptop:** the artwork is on the right; a fade keeps the title side near-white. It fades out at the bottom and the
+  right edge, before any card or alert, and never sits behind small text.
+- **Phone:** a plain sky-to-canvas CSS wash. The image is not downloaded, and the page gets no taller.
+- **Dark mode:** hidden.
+- **Do not:** add photos, glowing tech effects, animated water, people, or repeated waves inside cards.
+
+| Token | Hex | Use |
+|---|---|---|
+| `water-sky` | `#E9F6FC` | Upper atmosphere; phone wash |
+| `water-mist` | `#D7EDF7` | Far hills, horizon |
+| `water-blue` | `#A9D7E9` | Faint contour and landscape accents |
+| `water-cyan` | `#54C5DE` | Sparse line details (tank, pipes, panel) |
+| `water-green` | `#88CFBF` | Vegetation, ground |
