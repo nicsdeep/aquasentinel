@@ -1,14 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, MapPin } from "lucide-react";
-import { CHALLENGE_SUMMARY, PILLARS, PILOT_STRIP, SITE_NAV } from "@/lib/site/content";
+import { CHALLENGE_SUMMARY, PILLARS, PILOT_STRIP } from "@/lib/site/content";
 import { cn } from "@/lib/cn";
 import { siteContainer } from "./layout";
 import { Eyebrow, SectionWaves } from "./page-kit";
 
 /*
  * Homepage = a gateway, not a document (owner's approved references, 16 Nov 2026).
- * Phone: headline, one action, one quiet link, four destinations, the pilot strip. Laptop: the approved desktop hero,
+ * Phone: headline, one action, one quiet link, the pilot strip; the four destinations live in the menu. Laptop: the approved desktop hero,
  * pillars and challenge summary. Details live on their own pages.
  * The photo is illustrative, not a picture of the Ngomano site.
  */
@@ -68,28 +68,11 @@ function MobileHome() {
             className="object-cover object-[50%_center] [mask-composite:intersect] [mask-image:linear-gradient(to_bottom,transparent_0%,black_22%),linear-gradient(to_right,transparent_0%,black_38%),radial-gradient(125%_105%_at_100%_62%,black_58%,transparent_90%)] [-webkit-mask-composite:source-in]"
           />
         </div>
-        <AquaWave className="absolute inset-x-0 bottom-0 h-[4.5rem] w-full" />
+        <AquaWave className="absolute inset-x-0 bottom-0 h-[4.5rem] w-full" base="#0b2c5c" />
       </section>
 
-      <nav aria-label="Explore AquaSentinel" className="bg-white px-2 pb-9 pt-3">
-        <ul className="grid grid-cols-4">
-          {SITE_NAV.map(({ href, label, icon: Icon }, i) => (
-            <li key={href} className={cn(i > 0 && "border-l border-[#dbe8ef]")}>
-              <Link href={href} className="flex min-h-[84px] flex-col items-center justify-start gap-2 px-1 pt-1 text-center text-[14.5px] leading-tight text-lp-ink active:bg-lp-band">
-                <Icon className="size-8 text-lp-cyan" strokeWidth={1.5} aria-hidden />
-                <span className="max-w-[6.5rem]">{label}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
 
-      <Link href="/pilot" className="group relative mt-4 block bg-gradient-to-b from-[#0b2c5c] to-lp-ink pb-7 pt-6 text-white">
-        <svg className="absolute inset-x-0 top-0 h-14 w-full -translate-y-[72%]" viewBox="0 0 400 56" preserveAspectRatio="none" aria-hidden>
-          <path d="M0 40C80 30 160 30 240 18S360 0 400 6v50H0Z" fill="#5fd0ea" opacity="0.85" />
-          <path d="M0 46C90 36 170 36 250 26s110-16 150-12v42H0Z" fill="#26b9de" opacity="0.6" />
-          <path d="M0 50C100 42 180 42 260 34s100-12 140-10v32H0Z" fill="#0b2c5c" />
-        </svg>
+      <Link href="/pilot" className="group relative block bg-gradient-to-b from-[#0b2c5c] to-lp-ink pb-8 pt-4 text-white">
         <span className="flex items-center gap-4 px-5">
           <MapPin className="size-9 shrink-0 fill-lp-cyan text-lp-cyan [&>circle]:fill-[#0b2c5c] [&>circle]:stroke-[#0b2c5c]" aria-hidden />
           <span className="min-w-0 flex-1">

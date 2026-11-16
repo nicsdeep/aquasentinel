@@ -1,4 +1,4 @@
-import { BarChart3, Bell, ClipboardCheck, Droplet, Gauge, GraduationCap, Handshake, Info, Layers, MapPin, Radio, Siren, Users, Wrench, type LucideIcon } from "lucide-react";
+import { BarChart3, Bell, ClipboardCheck, Droplet, Gauge, GraduationCap, Handshake, Layers, Mail, MapPin, Radio, Siren, Users, Wrench, type LucideIcon } from "lucide-react";
 
 /*
  * Public website content, in one place so nothing is written twice.
@@ -15,7 +15,7 @@ export const SITE_NAV: { href: string; label: string; icon: LucideIcon }[] = [
 ];
 
 export const SITE_SECONDARY: { href: string; label: string; icon: LucideIcon }[] = [
-  { href: "/contact", label: "Contact", icon: Info },
+  { href: "/contact", label: "Contact", icon: Mail },
 ];
 
 export const SOURCE_NOTE = "Source: IFSL Digital Innovation Challenge, Lower Eastern information pack, section 3.2 “Scarcity of Water”.";

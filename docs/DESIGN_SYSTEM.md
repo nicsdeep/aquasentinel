@@ -202,7 +202,7 @@ own pages (progressive disclosure).
 
 | Route | Purpose |
 |---|---|
-| `/` | Gateway. **Phone:** the approved mobile design (logo and menu; headline with a cyan underline under "water."; one sentence; **See How It Works**; quiet **Explore the Challenge** link; compact photo and aqua wave; four destination links; navy Ngomano pilot strip). **Laptop:** the approved desktop hero, pillars band and challenge summary. |
+| `/` | Gateway. **Phone:** the approved mobile design (logo and menu; headline with a cyan underline under "water."; one sentence; **See How It Works**; quiet **Explore the Challenge** link; compact photo with an aqua wave that flows into the navy Ngomano pilot strip). The four destinations live in the menu, not on the page (owner decision, 16 Nov 2026). **Laptop:** the approved desktop hero, pillars band and challenge summary. |
 | `/challenge` | Water challenges in Ngomano, grouped facts from IFSL pack §3.2, source named |
 | `/approach` | Detect → Alert → Respond → Record, what it would not do, SMS, optional detail, prototype link |
 | `/pilot` | Proposed activities, evaluation, limitations, indicative KES 350,000 |
@@ -213,8 +213,9 @@ own pages (progressive disclosure).
 - **One shared shell** (`src/components/public/site-shell.tsx`) for every public page.
   - **Header:** laptop shows four links with active underlines plus Sign In (Dashboard when signed in). Phone shows the
     logo and a menu button.
-  - **Drawer:** a native modal dialog, so focus is trapped and returned and Escape closes it. It has active states, 52 px
-    rows, Contact, Sign In and a policies link, and closes on navigation.
+  - **Drawer:** a native modal dialog (focus trapped and returned, Escape closes it, closes on navigation). It matches the
+    approved reference: logo and close button; The Challenge, Our Approach, Pilot in Ngomano, About and Contact, each with
+    a cyan icon, a divider and a chevron; a navy Sign In button; water waves at the bottom.
   - **Footer:** logo, cyan wave edge, verified email, *Explore* and *Legal* (collapsible on phones), and a full-width
     deep-navy copyright strip, "© 2026 AquaSentinel". No social icons until accounts exist.
 - **Every content page:** eyebrow, serif title, one short lead, hairline-separated subsections, open icon rows (no boxed
