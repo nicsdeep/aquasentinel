@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ChevronRight, ClipboardList, MessageSquareText, Siren, UserRound, Users, Wrench } from "lucide-react";
@@ -90,6 +91,11 @@ export function SignIn() {
         <p className="mt-6 max-w-xl text-xs text-ink-subtle">
           AquaSentinel monitors, warns and coordinates. It does not control pumps, replace repairs or guarantee water
           safety. Independent project; no partnership is implied.
+        </p>
+        <p className="mt-3 flex gap-4 text-xs">
+          <Link href="/privacy" className="text-accent hover:underline">Privacy Notice</Link>
+          <Link href="/terms" className="text-accent hover:underline">Terms of Use</Link>
+          <Link href="/privacy?lang=sw" className="text-accent hover:underline">Faragha (Kiswahili)</Link>
         </p>
       </section>
 

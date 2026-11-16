@@ -3,6 +3,8 @@
 This document records the infrastructure-level controls. Product-level controls (roles, device identity, SMS
 verification, Kenya Data Protection Act documentation) are specified in docs/PROJECT_RULES.md §4 and will be added
 here as they are built. A documented security/privacy review is required before field deployment (Gate D).
+Data protection (Kenya Data Protection Act, 2019): see [DATA_PROTECTION_POLICY.md](DATA_PROTECTION_POLICY.md) and the
+public Privacy Notice (`/privacy`) and Terms of Use (`/terms`), English and Kiswahili.
 
 ## Secrets
 | Secret | Stored in | Never in |

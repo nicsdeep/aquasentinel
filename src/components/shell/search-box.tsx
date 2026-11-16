@@ -60,6 +60,8 @@ export function SearchBox({
       { key: "p-closed", label: "Closed incidents", hint: "Screen · maintenance history", run: go("/incidents?tab=closed") },
       { key: "p-tasks", label: "Tasks", hint: "Screen", run: go("/tasks") },
       { key: "p-brief", label: "How it meets the brief", hint: "Screen", run: go("/brief") },
+      { key: "p-privacy", label: "Privacy Notice", hint: "Screen · personal data, cookies, your rights (English / Kiswahili)", run: go("/privacy") },
+      { key: "p-terms", label: "Terms of Use", hint: "Screen · what AquaSentinel does and does not do", run: go("/terms") },
       { key: "a-report", label: "Report a problem", hint: "Action", run: onReport },
       { key: "a-msg", label: "Messages", hint: "Action · SMS alerts and replies", run: onMessages },
     );

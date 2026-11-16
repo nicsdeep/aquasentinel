@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
-import { Bell, BookOpenCheck, LoaderCircle } from "lucide-react";
+import { Bell, BookOpenCheck, FileText, LoaderCircle, ShieldCheck } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { ReportProblemDialog } from "@/components/actions/report-problem";
 import { RoutineCheckDialog } from "@/components/actions/routine-check";
@@ -199,6 +199,14 @@ function Frame({
             <Link href="/brief" className="flex min-h-11 items-center gap-3 rounded-xl px-3 text-[15px] text-ink-muted hover:bg-surface-muted hover:text-ink">
               <BookOpenCheck className="size-[18px] text-ink-subtle" aria-hidden />
               How it meets the brief
+            </Link>
+            <Link href="/privacy" className="flex min-h-11 items-center gap-3 rounded-xl px-3 text-[15px] text-ink-muted hover:bg-surface-muted hover:text-ink">
+              <ShieldCheck className="size-[18px] text-ink-subtle" aria-hidden />
+              Privacy Notice
+            </Link>
+            <Link href="/terms" className="flex min-h-11 items-center gap-3 rounded-xl px-3 text-[15px] text-ink-muted hover:bg-surface-muted hover:text-ink">
+              <FileText className="size-[18px] text-ink-subtle" aria-hidden />
+              Terms of Use
             </Link>
           </div>
         </aside>
