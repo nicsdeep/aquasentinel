@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
@@ -43,6 +44,19 @@ export function EnvironmentDialog({
         <li>SMS go to a demonstration gateway. They show as &ldquo;Sent&rdquo;; &ldquo;Delivered&rdquo; appears only when an SMS provider confirms delivery.</li>
         <li>Everything else (rules, alerts, incidents, roles, records) works exactly as in operation.</li>
       </ul>
+      <nav aria-label="Trust & legal" className="mt-5 flex flex-wrap gap-x-4 gap-y-2 border-t border-line pt-4 text-sm">
+        {[
+          ["/legal", "Trust & legal"],
+          ["/privacy", "Privacy"],
+          ["/terms", "Terms"],
+          ["/cookies", "Cookies"],
+          ["/security", "Security"],
+        ].map(([href, label]) => (
+          <Link key={href} href={href} onClick={onClose} className="font-medium text-accent hover:underline">
+            {label}
+          </Link>
+        ))}
+      </nav>
       {canControl && (
         <div className="mt-5 -mx-5 -mb-5 border-t border-line">
           <DemoControls siteId={siteId} onDone={onDone} />

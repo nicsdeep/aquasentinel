@@ -6,7 +6,7 @@ import { ArrowRight, Check, ChevronDown, Clock, Link2, Mail, Printer, ShieldChec
 import { CONTACT, DOC_ORDER, DOCS, HUB, UI, UPDATED, VERSION, readingMinutes, type Block, type DocSlug } from "@/lib/legal/content";
 import { cn } from "@/lib/cn";
 import { LEGAL_ICONS } from "./icons";
-import { LegalChrome } from "./legal-chrome";
+import { LegalToolbar } from "./legal-toolbar";
 import { useLang } from "./use-lang";
 
 function BlockView({ b }: { b: Block }) {
@@ -111,7 +111,10 @@ function useActiveSection(ids: string[]) {
   return active;
 }
 
-/** One trust & legal document: summary first, then the full text with a live table of contents. */
+/**
+ * One trust & legal document: summary first, then the full text with a live table of contents.
+ * Content only: the app shell (signed in) or the public layout (visitors) provides the surrounding chrome.
+ */
 export function LegalDoc({ slug }: { slug: DocSlug }) {
   const { lang, href } = useLang();
   const doc = DOCS[slug][lang];
@@ -141,17 +144,12 @@ export function LegalDoc({ slug }: { slug: DocSlug }) {
   );
 
   return (
-    <LegalChrome>
-      <main className="relative">
+    <div className="relative">
         <div className="home-glow" aria-hidden />
         {/* Hero */}
-        <section className="relative mx-auto max-w-6xl px-5 pb-8 pt-10 md:px-8 md:pt-14">
-          <nav aria-label="Breadcrumb" className="text-sm text-ink-muted print:hidden">
-            <Link href={href("/legal")} className="hover:text-ink">{t.centre}</Link>
-            <span className="mx-2 text-ink-subtle" aria-hidden>/</span>
-            <span className="text-ink">{doc.title}</span>
-          </nav>
-          <p className="type-eyebrow mt-6 text-accent">{doc.kicker}</p>
+        <section className="relative pb-8 pt-2 md:pt-4">
+          <LegalToolbar title={doc.title} />
+          <p className="type-eyebrow mt-8 text-accent">{doc.kicker}</p>
           <h1 className="mt-3 font-serif text-[clamp(44px,6vw,80px)] leading-[0.95] tracking-[-0.03em] text-ink">{doc.title}</h1>
           <p className="mt-5 max-w-3xl text-[clamp(17px,1.4vw,20px)] leading-relaxed text-ink-muted">{doc.lead}</p>
           <div className="mt-6 flex flex-wrap items-center gap-2 text-sm text-ink-muted">
@@ -168,7 +166,7 @@ export function LegalDoc({ slug }: { slug: DocSlug }) {
 
         {/* At a glance */}
         {doc.glance && (
-          <section className="relative mx-auto max-w-6xl px-5 md:px-8" aria-labelledby="glance">
+          <section className="relative" aria-labelledby="glance">
             <div className="rounded-3xl border border-line bg-surface p-5 shadow-card md:p-7">
               <h2 id="glance" className="font-serif text-[26px] text-ink">{t.glance}</h2>
               <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -194,7 +192,7 @@ export function LegalDoc({ slug }: { slug: DocSlug }) {
         )}
 
         {/* Body with table of contents */}
-        <div className="relative mx-auto grid max-w-6xl gap-10 px-5 pb-16 pt-10 md:px-8 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-14">
+        <div className="relative grid gap-10 pb-16 pt-10 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-14">
           <aside className="print:hidden">
             <details className="rounded-2xl border border-line bg-surface p-4 lg:hidden">
               <summary className="flex cursor-pointer list-none items-center justify-between text-sm font-semibold text-ink">
@@ -259,7 +257,6 @@ export function LegalDoc({ slug }: { slug: DocSlug }) {
             </section>
           </article>
         </div>
-      </main>
-    </LegalChrome>
+    </div>
   );
 }

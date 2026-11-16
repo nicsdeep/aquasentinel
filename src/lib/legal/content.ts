@@ -923,6 +923,10 @@ export const DOCS: Record<DocSlug, Record<Lang, LegalDoc>> = {
 
 export const DOC_ORDER: DocSlug[] = ["privacy", "terms", "cookies", "security"];
 
+/** Trust & legal routes: readable by everyone. Signed-in users see them inside the app shell, visitors in the public layout. */
+export const LEGAL_PATHS = ["/legal", ...DOC_ORDER.map((d) => `/${d}`)];
+export const isLegalPath = (pathname: string) => LEGAL_PATHS.includes(pathname);
+
 /** Estimated reading time in minutes (about 200 words per minute). */
 export function readingMinutes(doc: LegalDoc): number {
   const text = [doc.lead, ...doc.sections.flatMap((s) => s.blocks.map((b) =>

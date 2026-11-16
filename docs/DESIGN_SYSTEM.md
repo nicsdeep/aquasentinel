@@ -185,5 +185,13 @@ Benchmarked on the clearest public privacy centres: summary first, full text sec
   - tables that become cards on phones;
   - a copy-link button per section;
   - contact (the page's one orange action) and related documents.
+- **One layout system, two contexts.** The legal routes live in the `(app)` route group, with the same URLs.
+  - **Signed in:** `AppShell` renders them inside the normal shell, with the sidebar (*Trust & legal* active), the
+    top bar and the session. It is the same layout instance, so the workflow is not reloaded.
+  - **Visitors:** `AppShell` renders the public layout (`LegalChrome`) on legal paths only. Every other app route
+    still requires sign-in.
+  - The page content (`LegalDoc`, `LegalHub`) has no chrome of its own.
+- **Back** returns to the previous in-app screen (with its state), or to Home or sign-in when the page was opened directly.
+- **Entry points:** sidebar *Programme*, the account menu (works on phones), search, the sign-in page footer and the public footer.
 - **Language:** English / Kiswahili switch kept in the URL (`?lang=sw`) on every page.
 - **Print:** navigation, contents and buttons are hidden; only the text prints.

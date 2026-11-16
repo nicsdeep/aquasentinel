@@ -1,17 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Mail } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { CONTACT, DOC_ORDER, DOCS, UI } from "@/lib/legal/content";
 import { cn } from "@/lib/cn";
 import { useLang } from "./use-lang";
 
-/** Header and footer shared by every trust & legal page: logo, centre link, language switch, document index. */
+/**
+ * Public layout for visitors (not signed in) on trust & legal pages: logo, centre link, sign-in, document index.
+ * Signed-in users see the same page content inside the app shell instead (see AppShell).
+ */
 export function LegalChrome({ children }: { children: React.ReactNode }) {
   const { lang, href } = useLang();
-  const router = useRouter();
   const pathname = usePathname();
   const t = UI[lang];
   return (
@@ -25,22 +27,13 @@ export function LegalChrome({ children }: { children: React.ReactNode }) {
           <Link href={href("/legal")} className="hidden text-sm font-semibold text-ink hover:text-accent sm:block">
             {t.centre}
           </Link>
-          <div className="ml-auto inline-flex rounded-full border border-line bg-surface p-1" role="group" aria-label={t.language}>
-            {(["en", "sw"] as const).map((l) => (
-              <button
-                key={l}
-                onClick={() => router.replace(`${pathname}${l === "sw" ? "?lang=sw" : ""}${window.location.hash}`, { scroll: false })}
-                aria-pressed={lang === l}
-                className={cn("min-h-9 rounded-full px-3.5 text-sm font-medium transition-colors", lang === l ? "bg-info-soft text-ink" : "text-ink-muted hover:text-ink")}
-              >
-                {l === "en" ? "English" : "Kiswahili"}
-              </button>
-            ))}
-          </div>
+          <Link href="/" className="ml-auto inline-flex min-h-10 items-center rounded-full border border-line bg-surface px-4 text-sm font-semibold text-ink hover:bg-surface-muted">
+            {lang === "sw" ? "Ingia" : "Sign in"}
+          </Link>
         </div>
       </header>
 
-      {children}
+      <main className="mx-auto max-w-6xl px-5 pt-6 md:px-8 md:pt-8">{children}</main>
 
       <footer className="border-t border-line bg-surface print:hidden">
         <div className="mx-auto grid max-w-6xl gap-8 px-5 py-10 md:grid-cols-[1.2fr_1fr] md:px-8">
