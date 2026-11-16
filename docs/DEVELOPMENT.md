@@ -44,3 +44,11 @@ tests with `PW_CHROMIUM_PATH=$(ls -d /opt/pw-browsers/chromium-*/chrome-linux*/c
 ## Commits and pull requests
 - Commit messages: imperative summary line (≤ 72 chars), body explaining why when not obvious.
 - PRs use the template and state database impact, verification and risks.
+
+## Live screenshots (what the owner sees)
+```bash
+PW_CHROMIUM_PATH=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome \
+  node scripts/live-screenshots.cjs --out /tmp/shots --paths /,/challenge --device both
+```
+Takes screen-by-screen screenshots of the live site at the owner's devices (Android phone 360×800 at 2.5×,
+laptop 1440×900) in a fresh browser, and prints the live commit SHA. Options: `--url`, `--paths`, `--device phone|laptop|both`.
