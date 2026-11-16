@@ -1,19 +1,27 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, MapPin } from "lucide-react";
 import { CHALLENGE_SUMMARY, PILLARS, PILOT_STRIP } from "@/lib/site/content";
 import { cn } from "@/lib/cn";
 import { siteContainer } from "./layout";
+import { HeroDeck, type DeckImage } from "./hero-deck";
 import { Eyebrow, SectionWaves } from "./page-kit";
 
 /*
  * Homepage = a gateway, not a document (owner's approved references, 16 Nov 2026).
  * Phone: headline, one action, one quiet link, the pilot strip; the four destinations live in the menu. Laptop: the approved desktop hero,
  * pillars and challenge summary. Details live on their own pages.
- * The photo is illustrative, not a picture of the Ngomano site.
+ * The images are illustrative, not pictures of the Ngomano site.
  */
 
-const HERO_ALT = "Illustration of a rural water-pumping facility: an elevated water tank, a pump house and pipework in a dry landscape";
+/** Illustrative images (not photographs of Ngomano). Order tells the §3.2 story: pumping to a pan, the pump, solar, people. */
+const DECK: DeckImage[] = [
+  { src: "/landing/deck/01.jpg", alt: "A worker beside an electric pump and pipeline that fills a lined water pan in a dry valley" },
+  { src: "/landing/deck/02.jpg", alt: "A technician checking a pump beside a small pump house on a riverbank" },
+  { src: "/landing/deck/03.jpg", alt: "A technician inspecting dusty solar panels near a pump house and an elevated water tank" },
+  { src: "/landing/deck/04.jpg", alt: "A technician and community members examining a valve on a water pipe together" },
+  { src: "/landing/deck/05.jpg", alt: "A worker setting up a portable pump in a river, with a hose running up to a water pan" },
+  { src: "/landing/deck/06.jpg", alt: "A technician checking solar panels while a woman collects water near a raised tank" },
+];
 
 /** Flowing aqua wave used beneath the hero image. */
 function AquaWave({ className, base = "#ffffff" }: { className?: string; base?: string }) {
@@ -32,7 +40,7 @@ function MobileHome() {
   return (
     <div className="md:hidden">
       <section className="relative overflow-hidden bg-gradient-to-b from-white via-[#eef8fc] to-[#e2f3fa]">
-        <div className="relative z-10 px-6 pb-[8.5rem] pt-7">
+        <div className="relative z-10 px-6 pt-7">
           <h1 className="lp-heading text-[clamp(36px,10.2vw,43px)] leading-[0.98] tracking-[-0.005em] text-lp-ink">
             A smarter way to
             <br />
@@ -57,16 +65,9 @@ function MobileHome() {
             </Link>
           </div>
         </div>
-        {/* Compact water-infrastructure visual, lower right, fading into the pale-blue hero */}
-        <div className="absolute bottom-9 right-0 top-[9.5rem] w-[58%]">
-          <Image
-            src="/landing/hero.jpg"
-            alt={HERO_ALT}
-            fill
-            priority
-            sizes="70vw"
-            className="object-cover object-[50%_center] [mask-composite:intersect] [mask-image:linear-gradient(to_bottom,transparent_0%,black_22%),linear-gradient(to_right,transparent_0%,black_38%),radial-gradient(125%_105%_at_100%_62%,black_58%,transparent_90%)] [-webkit-mask-composite:source-in]"
-          />
+        {/* Images in their own band below the text: nothing overlaps the words */}
+        <div className="relative z-10 px-6 pb-24 pt-9">
+          <HeroDeck images={DECK} sizes="(max-width: 767px) 90vw, 1px" priority />
         </div>
         <AquaWave className="absolute inset-x-0 bottom-0 h-[4.5rem] w-full" base="#0b2c5c" />
       </section>
@@ -104,22 +105,14 @@ function DesktopHome() {
   return (
     <div className="hidden md:block">
       <section className="relative overflow-hidden bg-gradient-to-b from-white to-[#f3f9fc]">
-        <div className="relative h-80 w-full lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[66%]">
-          <Image
-            src="/landing/hero.jpg"
-            alt={HERO_ALT}
-            fill
-            priority
-            sizes="(min-width: 1024px) 66vw, 100vw"
-            className="object-cover object-[70%_center] lg:object-right [mask-image:linear-gradient(to_bottom,black_75%,transparent)] lg:[mask-image:linear-gradient(to_right,transparent_0%,black_32%)]"
-          />
-        </div>
-        <div className={cn(siteContainer, "relative z-10 pb-32 pt-8 lg:min-h-[460px] lg:pb-20 lg:pt-12")}>
+        {/* Two columns with a fixed gap: text never sits on imagery */}
+        <div className={cn(siteContainer, "relative z-10 grid items-center gap-x-16 gap-y-10 pb-32 pt-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] lg:pb-28 lg:pt-12")}>
           <div className="max-w-[790px]">
             <Eyebrow>IFSL Water Scarcity Challenge</Eyebrow>
-            <h1 className="lp-heading mt-4 text-[clamp(44px,4.6vw,77px)] leading-[0.95] tracking-[-0.01em] text-lp-ink">
+            <h1 className="lp-heading mt-4 text-[clamp(44px,4.2vw,72px)] leading-[0.95] tracking-[-0.01em] text-lp-ink">
               A smarter way to <br />
-              manage community water.
+              manage community <br className="xl:hidden" />
+              water.
             </h1>
             <p className="mt-4 max-w-[560px] text-[clamp(17px,1.2vw,19.5px)] leading-[1.5] text-lp-body">
               AquaSentinel is a proposed solution to help communities like Ngomano monitor water infrastructure, respond to
@@ -134,6 +127,7 @@ function DesktopHome() {
               </Link>
             </div>
           </div>
+          <HeroDeck images={DECK} sizes="(min-width: 1024px) 45vw, (min-width: 768px) 90vw, 1px" className="lg:pr-6" />
         </div>
         <DesktopWave className="absolute inset-x-0 bottom-0 h-24 w-full" />
       </section>
