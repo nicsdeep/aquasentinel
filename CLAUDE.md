@@ -54,8 +54,8 @@ has supplied or approved.
 - **Logo (owner decision, 14 Nov 2026):** the approved logo and favicon are the owner's logo kit (all files in
   `public/brand/`, masters in `originals/`; usage in `docs/DESIGN_SYSTEM.md` §07). Logo2 (white wordmark) is for dark backgrounds.
   UI accents (aqua, navy sidebar) are aligned to it; orange stays the one primary action.
-- **Privacy and terms:** `/privacy` and `/terms` (English + Kiswahili, `src/lib/legal/content.ts`) must stay true to the
-  system. Any change to personal data, cookies, storage, providers or retention updates them and
+- **Trust & legal:** `/legal`, `/privacy`, `/terms`, `/cookies`, `/security` (English + Kiswahili, `src/lib/legal/content.ts`)
+  must stay true to the system. Any change to personal data, cookies, storage, providers or retention updates them and
   `docs/DATA_PROTECTION_POLICY.md` in the same PR. No analytics or tracking without updating both first.
 - Do not access Lovable, ShiftNex or any unrelated project/account for AquaSentinel work.
 

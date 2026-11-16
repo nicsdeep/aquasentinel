@@ -92,10 +92,13 @@ export function SignIn() {
           AquaSentinel monitors, warns and coordinates. It does not control pumps, replace repairs or guarantee water
           safety. Independent project; no partnership is implied.
         </p>
-        <p className="mt-3 flex gap-4 text-xs">
-          <Link href="/privacy" className="text-accent hover:underline">Privacy Notice</Link>
-          <Link href="/terms" className="text-accent hover:underline">Terms of Use</Link>
-          <Link href="/privacy?lang=sw" className="text-accent hover:underline">Faragha (Kiswahili)</Link>
+        <p className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs">
+          <Link href="/legal" className="font-medium text-accent hover:underline">Trust &amp; legal</Link>
+          <Link href="/privacy" className="text-accent hover:underline">Privacy</Link>
+          <Link href="/terms" className="text-accent hover:underline">Terms</Link>
+          <Link href="/cookies" className="text-accent hover:underline">Cookies</Link>
+          <Link href="/security" className="text-accent hover:underline">Security</Link>
+          <Link href="/legal?lang=sw" className="text-accent hover:underline">Kiswahili</Link>
         </p>
       </section>
 
