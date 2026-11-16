@@ -172,3 +172,18 @@ headings and generous space. It replaces the earlier teal sidebar, header illust
 | `surface-muted` | `#EFF6F5` | Hover, neutral chips |
 | `surface-soft` | `#F9FBFB` | Stat chips, inputs, logo panel |
 | `as-teal-strong` | `#0093AE` | Logo aqua deepened for large display text (3.5:1) |
+
+## 09 · Trust & legal pages
+Benchmarked on the clearest public privacy centres: summary first, full text second, one idea per section.
+- **Hub** `/legal`: a serif hero ("Your data, *in plain words.*"), one card per document, your rights as chips, and a contact card.
+- **Document pages**:
+  - breadcrumb, kicker, serif title, lead;
+  - chips for updated date, version and reading time, plus **Print or save as PDF**;
+  - **At a glance** cards that link to sections;
+  - a sticky **On this page** contents list that highlights the section being read (a collapsible list on phones);
+  - numbered sections, each with an **In short** line;
+  - tables that become cards on phones;
+  - a copy-link button per section;
+  - contact (the page's one orange action) and related documents.
+- **Language:** English / Kiswahili switch kept in the URL (`?lang=sw`) on every page.
+- **Print:** navigation, contents and buttons are hidden; only the text prints.

@@ -1,9 +1,10 @@
 # AquaSentinel data protection policy (internal)
 
-**Version 1.0 · 16 November 2026 · Owner: AquaSentinel (contact info@aquasentinel.com)**
+**Version 1.1 · 16 November 2026 · Owner: AquaSentinel (contact info@aquasentinel.com)**
 
-This is the internal rulebook behind the public [Privacy Notice](../src/lib/legal/content.ts) (`/privacy`) and
-[Terms of Use](../src/lib/legal/content.ts) (`/terms`). It shows how AquaSentinel meets IFSL criterion 4 ("The
+This is the internal rulebook behind the public trust & legal centre (`/legal`): Privacy Notice (`/privacy`),
+Terms of Use (`/terms`), Cookies (`/cookies`) and Security (`/security`), all in English and Kiswahili, with texts in
+[`src/lib/legal/content.ts`](../src/lib/legal/content.ts). It shows how AquaSentinel meets IFSL criterion 4 ("The
 solution must comply with data protection regulations (data security)") and PROJECT_RULES §4, under the **Kenya Data
 Protection Act, 2019** (the Act) and its regulations. Every public statement must match this document and the code;
 update all three together.
