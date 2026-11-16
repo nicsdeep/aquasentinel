@@ -202,7 +202,7 @@ own pages (progressive disclosure).
 
 | Route | Purpose |
 |---|---|
-| `/` | Gateway. **Phone:** the approved mobile design (logo and menu; headline with a cyan underline under "water."; one sentence; **See How It Works**; quiet **Explore the Challenge** link; compact photo with an aqua wave that flows into the navy Ngomano pilot strip). The four destinations live in the menu, not on the page (owner decision, 16 Nov 2026). **Laptop:** the approved desktop hero, pillars band and challenge summary. |
+| `/` | Gateway with a **3D card swipe deck** of six illustrative images (`public/landing/deck/`, metadata stripped; swipe, arrows, dots, keyboard; auto-advances every 6 s and pauses when touched; still for reduced motion; labelled "Illustrative images"). **Text never sits on imagery:** phones put the deck in its own band below the buttons; laptops use two columns with a 64 px gap. **Phone:** the approved mobile design (logo and menu; headline with a cyan underline under "water."; one sentence; **See How It Works**; quiet **Explore the Challenge** link; compact photo with an aqua wave that flows into the navy Ngomano pilot strip). The four destinations live in the menu, not on the page (owner decision, 16 Nov 2026). **Laptop:** the approved desktop hero, pillars band and challenge summary. |
 | `/challenge` | Water challenges in Ngomano, grouped facts from IFSL pack §3.2, source named |
 | `/approach` | Detect → Alert → Respond → Record, what it would not do, SMS, optional detail, prototype link |
 | `/pilot` | Proposed activities, evaluation, limitations, indicative KES 350,000 |
