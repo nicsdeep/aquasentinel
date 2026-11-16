@@ -195,3 +195,34 @@ Benchmarked on the clearest public privacy centres: summary first, full text sec
 - **Entry points:** sidebar *Programme*, the account menu (works on phones), search, the sign-in page footer and the public footer.
 - **Language:** English / Kiswahili switch kept in the URL (`?lang=sw`) on every page.
 - **Print:** navigation, contents and buttons are hidden; only the text prints.
+
+## 10 · Public website (`/`)
+The first screen anyone sees before signing in follows the owner's reference design (16 Nov 2026) one-to-one.
+- **Header:** logo, *The Challenge · Our Approach · **Pilot in Ngomano** · About* (each scrolls to its section), and a
+  navy **Sign In** (→ `/sign-in`). On phones it becomes a menu button.
+- **Hero:**
+  - eyebrow "IFSL Water Scarcity Challenge" with a rule;
+  - a bold serif headline (Source Serif 4, `font-display`);
+  - the lead text;
+  - **See Our Approach** (blue) and **The Challenge** (outline);
+  - an illustrative photo on the right, `public/landing/hero.jpg`, fading into the page and finished with a water wave.
+- **Pillars band:** Monitor, Respond, Maintain, Improve, with cyan line icons.
+- **Sections:**
+  - The Challenge, with the *Ngomano | Makueni County* pill;
+  - Our Approach (Detect → Alert → Respond → Record);
+  - Pilot in Ngomano (proposed: Install, Train, Measure, Hand over; indicative KES 350,000);
+  - About (independent project, no partnership implied; privacy by design).
+- **Footer:** navy, with links to the website sections, Sign In and every trust & legal page.
+- **Honesty:** "proposed solution" and "proposed pilot". No results, deployments or partnerships are claimed. The photo is
+  illustrative, not the Ngomano site.
+
+| Token | Hex | Use |
+|---|---|---|
+| `lp-ink` | `#0C1A3A` | Headlines, navigation |
+| `lp-navy` | `#0A3A6C` | Eyebrows and rules |
+| `lp-body` | `#3E4F69` | Body text |
+| `lp-blue` / `lp-blue-deep` | `#015A86` / `#01426F` | Primary button / Sign In and footer |
+| `lp-cyan` | `#08A8CD` | Icons |
+| `lp-band` | `#F7FAFB` | Pillars and alternate sections |
+| `lp-pill` | `#E2F3F9` | Location pill, icon tiles, waves |
+| `lp-wave` | `#C7EAF6` | Water waves |

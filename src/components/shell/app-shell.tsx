@@ -149,7 +149,7 @@ function SignedOutGate({ status, children }: { status: "loading" | "signed_out" 
   const router = useRouter();
   const publicPage = isLegalPath(usePathname());
   useEffect(() => {
-    if (status === "signed_out" && !publicPage) router.replace("/");
+    if (status === "signed_out" && !publicPage) router.replace("/sign-in");
   }, [status, router, publicPage]);
   if (publicPage && status !== "loading") return <LegalChrome>{children}</LegalChrome>;
   return <Waiting unconfigured={status === "unconfigured"} />;
