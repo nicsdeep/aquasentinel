@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, ChevronRight, LayoutDashboard, LogIn, Menu, X } from "lucide-react";
+import { ChevronRight, LayoutDashboard, Menu, UserRound, X } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { SITE_NAV, SITE_SECONDARY } from "@/lib/site/content";
 import { getSupabase } from "@/lib/supabase/client";
@@ -31,7 +31,7 @@ export function SiteHeader() {
   const signedIn = useSignedIn();
   const [open, setOpen] = useState(false);
   const dialog = useRef<HTMLDialogElement>(null);
-  const cta = signedIn ? { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard } : { href: "/sign-in", label: "Sign In", icon: LogIn };
+  const cta = signedIn ? { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard } : { href: "/sign-in", label: "Sign In", icon: UserRound };
 
   useEffect(() => {
     const d = dialog.current;
@@ -98,47 +98,44 @@ export function SiteHeader() {
         aria-label="Menu"
         onClose={() => setOpen(false)}
         onClick={(e) => e.target === dialog.current && setOpen(false)}
-        className="fixed inset-y-0 left-auto right-0 m-0 h-dvh max-h-dvh w-[min(22rem,88vw)] max-w-none bg-white p-0 text-lp-ink shadow-2xl backdrop:bg-lp-ink/45 backdrop:backdrop-blur-[2px] open:flex open:flex-col"
+        className="fixed inset-y-0 left-auto right-0 m-0 h-dvh max-h-dvh w-[min(23rem,90vw)] max-w-none overflow-hidden rounded-l-[28px] bg-white p-0 text-lp-ink shadow-2xl backdrop:bg-lp-ink/45 open:flex open:flex-col"
       >
-        <div className="flex h-[72px] shrink-0 items-center justify-between border-b border-[#e3edf2] px-5">
-          <Logo height={34} />
-          <button onClick={() => setOpen(false)} className="grid size-12 place-items-center rounded-xl hover:bg-lp-band" aria-label="Close menu" autoFocus>
-            <X className="size-6" aria-hidden />
+        <div className="flex shrink-0 items-center justify-between px-6 pb-5 pt-7">
+          <Logo height={40} />
+          <button onClick={() => setOpen(false)} className="-mr-2 grid size-12 place-items-center rounded-xl hover:bg-lp-band" aria-label="Close menu" autoFocus>
+            <X className="size-7" strokeWidth={2} aria-hidden />
           </button>
         </div>
-        <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label="Site">
-          <ul className="space-y-1">
-            {[{ href: "/", label: "Home", icon: null }, ...SITE_NAV, ...SITE_SECONDARY].map((n) => {
-              const active = n.href === "/" ? pathname === "/" : isActive(pathname, n.href);
+        <nav className="px-6" aria-label="Site">
+          <ul className="border-t border-[#e3edf2]">
+            {[...SITE_NAV, ...SITE_SECONDARY].map((n) => {
+              const active = isActive(pathname, n.href);
               const Icon = n.icon;
               return (
-                <li key={n.href}>
+                <li key={n.href} className="border-b border-[#e3edf2]">
                   <Link
                     href={n.href}
                     onClick={() => setOpen(false)}
                     aria-current={active ? "page" : undefined}
-                    className={cn(
-                      "flex min-h-[52px] items-center gap-4 rounded-xl px-4 text-[17px] transition-colors",
-                      active ? "bg-lp-pill font-semibold text-lp-ink" : "text-lp-ink hover:bg-lp-band",
-                    )}
+                    className={cn("flex min-h-[64px] items-center gap-5 text-[18px] transition-colors", active ? "font-semibold text-lp-blue" : "text-lp-ink hover:text-lp-blue")}
                   >
-                    {Icon ? <Icon className={cn("size-5", active ? "text-lp-blue" : "text-lp-cyan")} strokeWidth={1.8} aria-hidden /> : <span className="size-5" aria-hidden />}
+                    <Icon className="size-7 shrink-0 text-lp-cyan" strokeWidth={1.6} aria-hidden />
                     <span className="flex-1">{n.label}</span>
-                    <ChevronRight className="size-4 text-lp-body/50" aria-hidden />
+                    <ChevronRight className="size-5 text-lp-body/60" aria-hidden />
                   </Link>
                 </li>
               );
             })}
           </ul>
+          <Link href={cta.href} onClick={() => setOpen(false)} className="mt-8 flex h-14 items-center justify-center gap-3 rounded-2xl bg-lp-blue-deep text-[18px] font-medium text-white shadow-sm transition hover:brightness-110">
+            <cta.icon className="size-5" aria-hidden /> {cta.label}
+          </Link>
         </nav>
-        <div className="border-t border-[#e3edf2] p-5">
-          <Link href={cta.href} onClick={() => setOpen(false)} className="flex h-[52px] items-center justify-center gap-3 rounded-full bg-lp-blue-deep text-[17px] font-medium text-white">
-            {cta.label} <ArrowRight className="size-5" aria-hidden />
-          </Link>
-          <Link href="/legal" onClick={() => setOpen(false)} className="mt-4 block text-center text-[14px] text-lp-body hover:text-lp-ink">
-            Privacy, terms and security
-          </Link>
-        </div>
+        <svg className="mt-auto h-40 w-full shrink-0" viewBox="0 0 400 160" preserveAspectRatio="none" aria-hidden>
+          <path d="M0 70C90 40 170 50 250 72s110 18 150-12v100H0Z" fill="#bfe8f5" opacity="0.8" />
+          <path d="M0 104C80 80 160 88 240 106s120 14 160-14v68H0Z" fill="#5fd0ea" opacity="0.7" />
+          <path d="M0 132C90 112 180 120 260 134s100 8 140-8v34H0Z" fill="#7fdaf0" />
+        </svg>
       </dialog>
     </header>
   );
