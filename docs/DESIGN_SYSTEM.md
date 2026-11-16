@@ -196,28 +196,31 @@ Benchmarked on the clearest public privacy centres: summary first, full text sec
 - **Language:** English / Kiswahili switch kept in the URL (`?lang=sw`) on every page.
 - **Print:** navigation, contents and buttons are hidden; only the text prints.
 
-## 10 · Public website (`/`)
-The first screen anyone sees before signing in follows the owner's reference design (16 Nov 2026) one-to-one.
-- **Header:** logo, *The Challenge · Our Approach · **Pilot in Ngomano** · About* (each scrolls to its section), and a
-  navy **Sign In** (→ `/sign-in`). On phones it becomes a menu button.
-- **Hero:**
-  - eyebrow "IFSL Water Scarcity Challenge" with a rule;
-  - the headline in **Instrument Serif** (the approved display face, single 400 weight) with a fine same-colour
-    outline (`.lp-heading`) to match the reference's visual weight; body, navigation and buttons in **Geist**;
-  - the lead text;
-  - **See Our Approach** (blue) and **The Challenge** (outline);
-  - an illustrative photo on the right, `public/landing/hero.jpg`, fading into the page and finished with a water wave.
-- **Pillars band:** Monitor, Respond, Maintain, Improve, with cyan line icons.
-- **Facts:** the Ngomano challenge text and the "What the challenge document records" list come only from the IFSL
-  information pack §3.2, with the source named. Capabilities are written as proposed ("would").
-- **Sections:**
-  - The Challenge, with the *Ngomano | Makueni County* pill;
-  - Our Approach (Detect → Alert → Respond → Record);
-  - Pilot in Ngomano (proposed: Install, Train, Measure, Hand over; indicative KES 350,000);
-  - About (independent project, no partnership implied; privacy by design).
-- **Footer:** navy, with links to the website sections, Sign In and every trust & legal page.
-- **Honesty:** "proposed solution" and "proposed pilot". No results, deployments or partnerships are claimed. The photo is
-  illustrative, not the Ngomano site.
+## 10 · Public website
+**Information architecture: the homepage is a gateway, not a document.** It shows the essentials; details live on their
+own pages (progressive disclosure).
+
+| Route | Purpose |
+|---|---|
+| `/` | Gateway. **Phone:** the approved mobile design (logo and menu; headline with a cyan underline under "water."; one sentence; **See How It Works**; quiet **Explore the Challenge** link; compact photo and aqua wave; four destination links; navy Ngomano pilot strip). **Laptop:** the approved desktop hero, pillars band and challenge summary. |
+| `/challenge` | Water challenges in Ngomano, grouped facts from IFSL pack §3.2, source named |
+| `/approach` | Detect → Alert → Respond → Record, what it would not do, SMS, optional detail, prototype link |
+| `/pilot` | Proposed activities, evaluation, limitations, indicative KES 350,000 |
+| `/about` | Background (independent, no partnership implied), responsible development |
+| `/contact` | Verified email, privacy and security routes |
+| `/legal`… | Existing trust & legal pages (same site header and footer for visitors) |
+
+- **One shared shell** (`src/components/public/site-shell.tsx`) for every public page.
+  - **Header:** laptop shows four links with active underlines plus Sign In (Dashboard when signed in). Phone shows the
+    logo and a menu button.
+  - **Drawer:** a native modal dialog, so focus is trapped and returned and Escape closes it. It has active states, 52 px
+    rows, Contact, Sign In and a policies link, and closes on navigation.
+  - **Footer:** logo, cyan wave edge, verified email, *Explore* and *Legal* (collapsible on phones), and a full-width
+    deep-navy copyright strip, "© 2026 AquaSentinel". No social icons until accounts exist.
+- **Every content page:** eyebrow, serif title, one short lead, hairline-separated subsections, open icon rows (no boxed
+  cards), `<details>` for optional depth, and a **Next** link so no page is a dead end.
+- **Honesty:** Ngomano facts come only from IFSL §3.2. Capabilities are written as "would", the pilot as "proposed", and
+  the limitations are stated. The photo is illustrative.
 
 | Token | Hex | Use |
 |---|---|---|
