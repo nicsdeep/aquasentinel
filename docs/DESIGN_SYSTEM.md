@@ -202,11 +202,14 @@ The first screen anyone sees before signing in follows the owner's reference des
   navy **Sign In** (→ `/sign-in`). On phones it becomes a menu button.
 - **Hero:**
   - eyebrow "IFSL Water Scarcity Challenge" with a rule;
-  - a bold serif headline (Source Serif 4, `font-display`);
+  - the headline in **Instrument Serif** (the approved display face, single 400 weight) with a fine same-colour
+    outline (`.lp-heading`) to match the reference's visual weight; body, navigation and buttons in **Geist**;
   - the lead text;
   - **See Our Approach** (blue) and **The Challenge** (outline);
   - an illustrative photo on the right, `public/landing/hero.jpg`, fading into the page and finished with a water wave.
 - **Pillars band:** Monitor, Respond, Maintain, Improve, with cyan line icons.
+- **Facts:** the Ngomano challenge text and the "What the challenge document records" list come only from the IFSL
+  information pack §3.2, with the source named. Capabilities are written as proposed ("would").
 - **Sections:**
   - The Challenge, with the *Ngomano | Makueni County* pill;
   - Our Approach (Detect → Alert → Respond → Record);
