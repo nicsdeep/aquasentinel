@@ -57,6 +57,11 @@ has supplied or approved.
 - **Trust & legal:** `/legal`, `/privacy`, `/terms`, `/cookies`, `/security` (English + Kiswahili, `src/lib/legal/content.ts`)
   must stay true to the system. Any change to personal data, cookies, storage, providers or retention updates them and
   `docs/DATA_PROTECTION_POLICY.md` in the same PR. No analytics or tracking without updating both first.
+- **Design lock (owner decision, 16 Nov 2026):** the approved design of the public website and the app (layout,
+  section structure, colours, typography, imagery placement, navigation) must not change unless the owner explicitly
+  asks for that specific change in the current request. Fix only what is asked; never redesign, re-layout, recolour or
+  move content as a side effect. If a request seems to need a wider design change, ask first. Reference: the current
+  live design and `docs/DESIGN_SYSTEM.md` §08–§10.
 - Do not access Lovable, ShiftNex or any unrelated project/account for AquaSentinel work.
 
 ## Reporting — required at the end of every completed task

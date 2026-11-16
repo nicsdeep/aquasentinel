@@ -4,6 +4,10 @@ The single source of truth for every surface. Tokens live in `src/app/globals.cs
 `src/components/ui/`. Product and engineering principles are in [PRODUCT_DOCTRINE.md](PRODUCT_DOCTRINE.md).
 Built for a non-technical water operator on an ordinary Android phone first, then laptops (PROJECT_RULES §6).
 
+> **Design lock (owner decision, 16 Nov 2026).** The approved design (layout, section structure, colours, typography,
+> imagery placement, navigation) changes only when the owner explicitly asks for that specific change. Fix only what is
+> asked; no redesign, re-layout or recolouring as a side effect. Ask first when a request seems to need more.
+
 ## 01 · Colour: five tones, strict discipline
 Navy and aqua are taken from the approved logo (§07), so the interface and the logo read as one brand.
 Use token names in classes (`bg-as-dark`), never raw hex in components.
