@@ -1,0 +1,205 @@
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, MapPin } from "lucide-react";
+import { CHALLENGE_SUMMARY, PILLARS, PILOT_STRIP, SITE_NAV } from "@/lib/site/content";
+import { cn } from "@/lib/cn";
+import { siteContainer } from "./layout";
+import { Eyebrow, SectionWaves } from "./page-kit";
+
+/*
+ * Homepage = a gateway, not a document (owner's approved references, 16 Nov 2026).
+ * Phone: headline, one action, one quiet link, four destinations, the pilot strip. Laptop: the approved desktop hero,
+ * pillars and challenge summary. Details live on their own pages.
+ * The photo is illustrative, not a picture of the Ngomano site.
+ */
+
+const HERO_ALT = "Illustration of a rural water-pumping facility: an elevated water tank, a pump house and pipework in a dry landscape";
+
+/** Flowing aqua wave used beneath the hero image. */
+function AquaWave({ className, base = "#ffffff" }: { className?: string; base?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 400 90" preserveAspectRatio="none" aria-hidden>
+      <path d="M0 34C70 16 130 22 200 40s140 26 200-6v56H0Z" fill="#a9e3f4" opacity="0.95" />
+      <path d="M0 52C80 30 150 40 220 56s120 14 180-14v48H0Z" fill="#2cc3e6" opacity="0.6" />
+      <path d="M0 66C90 48 170 58 240 70s110 8 160-12v32H0Z" fill={base} />
+    </svg>
+  );
+}
+
+/* ----------------------------------------------- Phone ---------------------------------------------------- */
+
+function MobileHome() {
+  return (
+    <div className="md:hidden">
+      <section className="relative overflow-hidden bg-gradient-to-b from-white via-[#eef8fc] to-[#e2f3fa]">
+        <div className="relative z-10 px-6 pb-[8.5rem] pt-7">
+          <h1 className="lp-heading text-[clamp(36px,10.2vw,43px)] leading-[0.98] tracking-[-0.005em] text-lp-ink">
+            A smarter way to
+            <br />
+            manage community
+            <br />
+            <span className="relative inline-block">
+              water.
+              <svg className="absolute -bottom-2 left-0 h-3 w-[92%]" viewBox="0 0 120 12" preserveAspectRatio="none" aria-hidden>
+                <path d="M2 8C30 3 70 3 118 6" stroke="var(--color-lp-cyan)" strokeWidth="3.2" fill="none" strokeLinecap="round" />
+              </svg>
+            </span>
+          </h1>
+          <p className="mt-6 max-w-[15.5rem] text-[17px] leading-[1.4] text-lp-body">
+            Monitor, respond and maintain water services for more reliable access.
+          </p>
+          <Link href="/approach" className="mt-6 inline-flex h-12 items-center gap-4 rounded-full bg-lp-blue-deep px-7 text-[17px] font-medium text-white shadow-[0_8px_20px_-10px_rgb(1_66_111/0.8)] active:brightness-110">
+            See How It Works <ArrowRight className="size-5" aria-hidden />
+          </Link>
+          <div className="mt-5">
+            <Link href="/challenge" className="inline-flex min-h-11 items-center text-[16px] font-medium text-lp-ink underline decoration-lp-cyan decoration-2 underline-offset-[7px]">
+              Explore the Challenge
+            </Link>
+          </div>
+        </div>
+        {/* Compact water-infrastructure visual, lower right, fading into the pale-blue hero */}
+        <div className="absolute bottom-9 right-0 top-[9.5rem] w-[58%]">
+          <Image
+            src="/landing/hero.jpg"
+            alt={HERO_ALT}
+            fill
+            priority
+            sizes="70vw"
+            className="object-cover object-[50%_center] [mask-composite:intersect] [mask-image:linear-gradient(to_bottom,transparent_0%,black_22%),linear-gradient(to_right,transparent_0%,black_38%),radial-gradient(125%_105%_at_100%_62%,black_58%,transparent_90%)] [-webkit-mask-composite:source-in]"
+          />
+        </div>
+        <AquaWave className="absolute inset-x-0 bottom-0 h-[4.5rem] w-full" />
+      </section>
+
+      <nav aria-label="Explore AquaSentinel" className="bg-white px-2 pb-9 pt-3">
+        <ul className="grid grid-cols-4">
+          {SITE_NAV.map(({ href, label, icon: Icon }, i) => (
+            <li key={href} className={cn(i > 0 && "border-l border-[#dbe8ef]")}>
+              <Link href={href} className="flex min-h-[84px] flex-col items-center justify-start gap-2 px-1 pt-1 text-center text-[14.5px] leading-tight text-lp-ink active:bg-lp-band">
+                <Icon className="size-8 text-lp-cyan" strokeWidth={1.5} aria-hidden />
+                <span className="max-w-[6.5rem]">{label}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <Link href="/pilot" className="group relative mt-4 block bg-gradient-to-b from-[#0b2c5c] to-lp-ink pb-7 pt-6 text-white">
+        <svg className="absolute inset-x-0 top-0 h-14 w-full -translate-y-[72%]" viewBox="0 0 400 56" preserveAspectRatio="none" aria-hidden>
+          <path d="M0 40C80 30 160 30 240 18S360 0 400 6v50H0Z" fill="#5fd0ea" opacity="0.85" />
+          <path d="M0 46C90 36 170 36 250 26s110-16 150-12v42H0Z" fill="#26b9de" opacity="0.6" />
+          <path d="M0 50C100 42 180 42 260 34s100-12 140-10v32H0Z" fill="#0b2c5c" />
+        </svg>
+        <span className="flex items-center gap-4 px-5">
+          <MapPin className="size-9 shrink-0 fill-lp-cyan text-lp-cyan [&>circle]:fill-[#0b2c5c] [&>circle]:stroke-[#0b2c5c]" aria-hidden />
+          <span className="min-w-0 flex-1">
+            <span className="block text-[17.5px] font-semibold">{PILOT_STRIP.place}</span>
+            <span className="mt-0.5 block text-[13.5px] leading-snug text-white/85">{PILOT_STRIP.text}</span>
+          </span>
+          <span className="grid size-12 shrink-0 place-items-center rounded-full bg-white/12 transition group-active:bg-white/20">
+            <ArrowRight className="size-5" aria-hidden />
+            <span className="sr-only">Open the pilot page</span>
+          </span>
+        </span>
+      </Link>
+    </div>
+  );
+}
+
+/* ----------------------------------------------- Laptop ---------------------------------------------------- */
+
+function DesktopWave({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden>
+      <path d="M0 40C200 20 340 34 520 54s420 30 620 0 260-38 300-30V120H0Z" fill="var(--color-lp-wave)" opacity="0.75" />
+      <path d="M0 70C220 46 380 56 560 72s400 26 600 2 240-36 280-30V120H0Z" fill="var(--color-lp-band)" />
+    </svg>
+  );
+}
+
+function DesktopHome() {
+  return (
+    <div className="hidden md:block">
+      <section className="relative overflow-hidden bg-gradient-to-b from-white to-[#f3f9fc]">
+        <div className="relative h-80 w-full lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[66%]">
+          <Image
+            src="/landing/hero.jpg"
+            alt={HERO_ALT}
+            fill
+            priority
+            sizes="(min-width: 1024px) 66vw, 100vw"
+            className="object-cover object-[70%_center] lg:object-right [mask-image:linear-gradient(to_bottom,black_75%,transparent)] lg:[mask-image:linear-gradient(to_right,transparent_0%,black_32%)]"
+          />
+        </div>
+        <div className={cn(siteContainer, "relative z-10 pb-32 pt-8 lg:min-h-[460px] lg:pb-20 lg:pt-12")}>
+          <div className="max-w-[790px]">
+            <Eyebrow>IFSL Water Scarcity Challenge</Eyebrow>
+            <h1 className="lp-heading mt-4 text-[clamp(44px,4.6vw,77px)] leading-[0.95] tracking-[-0.01em] text-lp-ink">
+              A smarter way to <br />
+              manage community water.
+            </h1>
+            <p className="mt-4 max-w-[560px] text-[clamp(17px,1.2vw,19.5px)] leading-[1.5] text-lp-body">
+              AquaSentinel is a proposed solution to help communities like Ngomano monitor water infrastructure, respond to
+              problems and organise maintenance for more reliable water access.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-6">
+              <Link href="/approach" className="inline-flex h-[52px] items-center gap-3 rounded-xl bg-gradient-to-b from-[#0b6d9b] to-lp-blue px-7 text-[17px] font-medium text-white shadow-[0_6px_16px_-8px_rgb(1_80_124/0.7)] transition hover:brightness-110">
+                See Our Approach <ArrowRight className="size-5" aria-hidden />
+              </Link>
+              <Link href="/challenge" className="inline-flex h-[52px] items-center rounded-xl border-[1.5px] border-lp-ink bg-white px-7 text-[17px] font-medium text-lp-ink transition hover:bg-lp-pill">
+                The Challenge
+              </Link>
+            </div>
+          </div>
+        </div>
+        <DesktopWave className="absolute inset-x-0 bottom-0 h-24 w-full" />
+      </section>
+
+      <section className="bg-lp-band" aria-label="What AquaSentinel does">
+        <ul className={cn(siteContainer, "grid grid-cols-2 gap-y-6 py-8 lg:grid-cols-4 lg:py-6")}>
+          {PILLARS.map(({ icon: Icon, title, text, width }, i) => (
+            <li key={title} className={cn("flex gap-5 lg:px-8", i > 0 && "lg:border-l lg:border-[#dfe7ee]", i === 0 && "lg:pl-7")}>
+              <Icon className="mt-1 size-10 shrink-0 text-lp-cyan" strokeWidth={1.5} aria-hidden />
+              <div>
+                <h2 className="lp-heading text-[31px] leading-tight text-lp-ink">{title}</h2>
+                <p className={cn("mt-1 text-[17px] leading-snug text-lp-body", width)}>{text}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="relative overflow-hidden bg-white">
+        <SectionWaves />
+        <div className={cn(siteContainer, "relative grid gap-10 pb-28 pt-12 md:pt-14 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-16")}>
+          <div className="max-w-[760px]">
+            <Eyebrow>The Challenge</Eyebrow>
+            <h2 className="lp-heading mt-5 text-[clamp(40px,3.9vw,65px)] leading-[1.02] tracking-[-0.01em] text-lp-ink">Water challenges in Ngomano</h2>
+            <p className="mt-5 text-[clamp(17px,1.2vw,19.5px)] leading-[1.5] text-lp-body">{CHALLENGE_SUMMARY}</p>
+            <Link href="/challenge" className="mt-6 inline-flex items-center gap-2 text-[17px] font-medium text-lp-blue hover:underline">
+              Read the full challenge <ArrowRight className="size-4" aria-hidden />
+            </Link>
+          </div>
+          <Link href="/pilot" className="flex flex-col items-start gap-4 lg:items-center lg:pr-24">
+            <span className="inline-flex items-center gap-4 rounded-full bg-lp-pill px-9 py-4 text-[19px] font-semibold text-lp-ink transition hover:brightness-95">
+              <MapPin className="size-6 fill-lp-cyan text-lp-cyan [&>circle]:fill-white [&>circle]:stroke-white" aria-hidden />
+              Ngomano
+              <span className="h-6 w-px bg-lp-ink/30" aria-hidden />
+              <span className="font-medium">Makueni County</span>
+            </span>
+            <span className="text-[16px] text-lp-body">{PILOT_STRIP.text}</span>
+          </Link>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+export function Home() {
+  return (
+    <>
+      <MobileHome />
+      <DesktopHome />
+    </>
+  );
+}
