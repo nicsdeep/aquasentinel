@@ -73,3 +73,9 @@ Report all of these, verified, never assumed:
 - **Live URL:** only reported as live after `/api/health` returns the expected `commitSha`
 
 If something could not be verified (e.g. no access to Actions results), say so explicitly.
+
+**Screenshots for the owner (owner decision, 16 Nov 2026)** must show exactly what the owner sees on the live site:
+taken with `scripts/live-screenshots.cjs` from the **live production URL** after `/api/health` shows the new commit,
+in a fresh browser (no cache), at the owner's devices (**Android phone 360×800 at 2.5×**, laptop 1440×900), after fonts
+and on-screen images have loaded, as **screen-by-screen** shots (no stitched full-page images unless asked), and
+captioned with the commit SHA and time. Never send local or preview screenshots as if they were the live site.
