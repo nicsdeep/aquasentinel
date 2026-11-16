@@ -14,8 +14,16 @@ test("health endpoint reports the expected build", async ({ request }) => {
   }
 });
 
-test("home page renders on desktop and mobile", async ({ page }) => {
+test("public website renders on desktop and mobile", async ({ page }) => {
   await page.goto("/");
+  await expect(page.getByRole("heading", { level: 1, name: /A smarter way to manage community water/ })).toBeVisible();
+  await expect(page.getByAltText("AquaSentinel home").or(page.getByAltText("AquaSentinel")).first()).toBeAttached();
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+  expect(overflow).toBe(false);
+});
+
+test("sign-in page renders on desktop and mobile", async ({ page }) => {
+  await page.goto("/sign-in");
   await expect(page.getByRole("heading", { name: "AquaSentinel" })).toBeVisible();
   await expect(page.getByAltText("AquaSentinel").first()).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);

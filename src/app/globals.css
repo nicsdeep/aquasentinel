@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "@fontsource-variable/geist";
 @import "@fontsource/instrument-serif/400.css";
+@import "@fontsource-variable/source-serif-4";
 
 /*
  * AquaSentinel design tokens (docs/DESIGN_SYSTEM.md).
@@ -62,6 +63,18 @@
 @theme inline {
   --font-sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-display: "Source Serif 4 Variable", ui-serif, Georgia, serif; /* public website headings */
+
+  /* Public website (owner's reference, 16 Nov 2026): water colours sampled from the approved design */
+  --color-lp-ink: #0c1a3a;
+  --color-lp-navy: #0a3a6c;
+  --color-lp-body: #3e4f69;
+  --color-lp-blue: #015a86;
+  --color-lp-blue-deep: #01426f;
+  --color-lp-cyan: #08a8cd;
+  --color-lp-band: #f7fafb;
+  --color-lp-pill: #e2f3f9;
+  --color-lp-wave: #c7eaf6;
 
   /* Brand */
   --color-as-dark: #0a1515;

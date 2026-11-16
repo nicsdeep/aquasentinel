@@ -27,7 +27,7 @@ export function LegalChrome({ children }: { children: React.ReactNode }) {
           <Link href={href("/legal")} className="hidden text-sm font-semibold text-ink hover:text-accent sm:block">
             {t.centre}
           </Link>
-          <Link href="/" className="ml-auto inline-flex min-h-10 items-center rounded-full border border-line bg-surface px-4 text-sm font-semibold text-ink hover:bg-surface-muted">
+          <Link href="/sign-in" className="ml-auto inline-flex min-h-10 items-center rounded-full border border-line bg-surface px-4 text-sm font-semibold text-ink hover:bg-surface-muted">
             {lang === "sw" ? "Ingia" : "Sign in"}
           </Link>
         </div>
