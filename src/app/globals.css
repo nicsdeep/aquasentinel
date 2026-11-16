@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "@fontsource-variable/geist";
 @import "@fontsource/instrument-serif/400.css";
-@import "@fontsource-variable/source-serif-4";
 
 /*
  * AquaSentinel design tokens (docs/DESIGN_SYSTEM.md).
@@ -63,7 +62,6 @@
 @theme inline {
   --font-sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
-  --font-display: "Source Serif 4 Variable", ui-serif, Georgia, serif; /* public website headings */
 
   /* Public website (owner's reference, 16 Nov 2026): water colours sampled from the approved design */
   --color-lp-ink: #0c1a3a;
@@ -178,6 +176,25 @@
   z-index: 0;
   pointer-events: none;
   background: radial-gradient(60% 70% at 18% 20%, color-mix(in srgb, var(--color-as-teal) 14%, transparent), transparent 70%);
+}
+
+/* Website section links scroll smoothly (not for people who prefer reduced motion). */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/*
+ * Public website headings: Instrument Serif (the approved display face) exists in a single 400 weight. The approved
+ * reference shows a heavier serif, so headings get a fine same-colour outline to match the visual weight without
+ * changing the typeface.
+ */
+.lp-heading {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  -webkit-text-stroke: 0.028em currentColor;
+  paint-order: stroke fill;
 }
 
 @media (prefers-reduced-motion: reduce) {
