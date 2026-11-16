@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
+import { NavigationTracker } from "@/lib/nav-history";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -22,7 +24,12 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en">
-      <body className="min-h-dvh">{children}</body>
+      <body className="min-h-dvh">
+        {children}
+        <Suspense>
+          <NavigationTracker />
+        </Suspense>
+      </body>
     </html>
   );
 }

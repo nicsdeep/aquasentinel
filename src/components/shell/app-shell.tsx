@@ -13,6 +13,8 @@ import { ROLE_LABEL, useSession, type Membership } from "@/lib/auth/session";
 import { SiteDataProvider, useSiteData } from "@/lib/data/site-data";
 import { firstName } from "@/lib/greeting";
 import { cn } from "@/lib/cn";
+import { LegalChrome } from "@/components/legal/legal-chrome";
+import { isLegalPath } from "@/lib/legal/content";
 import { EnvironmentDialog } from "./environment-dialog";
 import { NAV_ITEMS } from "./nav";
 import { SearchBox } from "./search-box";
@@ -114,20 +116,54 @@ function BottomNav({ alerts }: { alerts: number }) {
   );
 }
 
+function ProgrammeLink({ href, icon: Icon, label, active }: { href: string; icon: typeof ShieldCheck; label: string; active: boolean }) {
+  return (
+    <Link
+      href={href}
+      aria-current={active ? "page" : undefined}
+      className={cn(
+        "flex min-h-11 items-center gap-3 rounded-xl px-3 text-[15px] transition-colors",
+        active ? "bg-info-soft font-semibold text-ink" : "text-ink-muted hover:bg-surface-muted hover:text-ink",
+      )}
+    >
+      <Icon className={cn("size-[18px]", active ? "text-accent" : "text-ink-subtle")} aria-hidden />
+      {label}
+    </Link>
+  );
+}
+
 /** Responsive app frame. Laptop: floating sidebar card + top bar card. Phone: compact header + bottom navigation. */
+function Waiting({ unconfigured = false }: { unconfigured?: boolean }) {
+  return (
+    <div className="grid min-h-dvh place-items-center p-6 text-ink-muted">
+      {unconfigured ? <p>The app is not connected to its database yet.</p> : <LoaderCircle className="size-6 animate-spin" aria-label="Loading" />}
+    </div>
+  );
+}
+
+/**
+ * Not signed in (or still checking). Trust & legal pages are public: visitors read them in the public layout.
+ * Every other app route sends visitors to sign in.
+ */
+function SignedOutGate({ status, children }: { status: "loading" | "signed_out" | "unconfigured"; children: React.ReactNode }) {
+  const router = useRouter();
+  const publicPage = isLegalPath(usePathname());
+  useEffect(() => {
+    if (status === "signed_out" && !publicPage) router.replace("/");
+  }, [status, router, publicPage]);
+  if (publicPage && status !== "loading") return <LegalChrome>{children}</LegalChrome>;
+  return <Waiting unconfigured={status === "unconfigured"} />;
+}
+
 export function AppShell({ children }: { children: React.ReactNode }) {
   const session = useSession();
   const router = useRouter();
 
-  useEffect(() => {
-    if (session.status === "signed_out") router.replace("/");
-  }, [session.status, router]);
-
   if (session.status !== "signed_in") {
     return (
-      <div className="grid min-h-dvh place-items-center p-6 text-ink-muted">
-        {session.status === "unconfigured" ? <p>The app is not connected to its database yet.</p> : <LoaderCircle className="size-6 animate-spin" aria-label="Loading" />}
-      </div>
+      <Suspense fallback={<Waiting />}>
+        <SignedOutGate status={session.status}>{children}</SignedOutGate>
+      </Suspense>
     );
   }
 
@@ -180,6 +216,7 @@ function Frame({
   const canControl = role === "committee" || role === "admin";
   const canCheck = role === "operator" || role === "technician" || role === "admin";
   const unread = !!data?.lastMessageAt && (!seenAt || data.lastMessageAt > seenAt);
+  const pathname = usePathname();
 
   return (
     <ShellContext.Provider value={actions}>
@@ -196,14 +233,8 @@ function Frame({
               <SidebarNav alerts={alerts} />
             </nav>
             <p className="type-eyebrow px-3 pb-2 pt-6 text-[10px] text-ink-subtle">Programme</p>
-            <Link href="/brief" className="flex min-h-11 items-center gap-3 rounded-xl px-3 text-[15px] text-ink-muted hover:bg-surface-muted hover:text-ink">
-              <BookOpenCheck className="size-[18px] text-ink-subtle" aria-hidden />
-              How it meets the brief
-            </Link>
-            <Link href="/legal" className="flex min-h-11 items-center gap-3 rounded-xl px-3 text-[15px] text-ink-muted hover:bg-surface-muted hover:text-ink">
-              <ShieldCheck className="size-[18px] text-ink-subtle" aria-hidden />
-              Trust &amp; legal
-            </Link>
+            <ProgrammeLink href="/brief" icon={BookOpenCheck} label="How it meets the brief" active={pathname === "/brief"} />
+            <ProgrammeLink href="/legal" icon={ShieldCheck} label="Trust & legal" active={isLegalPath(pathname)} />
           </div>
         </aside>
 

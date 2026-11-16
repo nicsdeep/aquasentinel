@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowRight, Check, Cookie, FileText, Mail, ShieldCheck, ShieldHalf } from "lucide-react";
 import { CONTACT, DOC_ORDER, DOCS, HUB, UI, UPDATED, readingMinutes, type DocSlug } from "@/lib/legal/content";
-import { LegalChrome } from "./legal-chrome";
+import { LegalToolbar } from "./legal-toolbar";
 import { useLang } from "./use-lang";
 
 const CARD_ICON: Record<DocSlug, typeof FileText> = { privacy: ShieldCheck, terms: FileText, cookies: Cookie, security: ShieldHalf };
@@ -14,18 +14,18 @@ export function LegalHub() {
   const hub = HUB[lang];
   const t = UI[lang];
   return (
-    <LegalChrome>
-      <main className="relative">
+    <div className="relative">
         <div className="home-glow" aria-hidden />
-        <section className="relative mx-auto max-w-6xl px-5 pb-10 pt-12 md:px-8 md:pt-20">
-          <p className="type-eyebrow text-accent">{t.centre}</p>
+        <section className="relative pb-10 pt-2 md:pt-4">
+          <LegalToolbar />
+          <p className="type-eyebrow mt-10 text-accent">{t.centre}</p>
           <h1 className="mt-4 font-serif text-[clamp(48px,7vw,96px)] leading-[0.92] tracking-[-0.03em] text-ink">
             {hub.title} <em className="italic text-as-teal-strong">{hub.emphasis}</em>
           </h1>
           <p className="mt-6 max-w-2xl text-[clamp(17px,1.4vw,21px)] leading-relaxed text-ink-muted">{hub.lead}</p>
         </section>
 
-        <section className="relative mx-auto max-w-6xl px-5 md:px-8">
+        <section className="relative">
           <ul className="grid gap-4 md:grid-cols-2">
             {DOC_ORDER.map((slug) => {
               const doc = DOCS[slug][lang];
@@ -54,7 +54,7 @@ export function LegalHub() {
           </ul>
         </section>
 
-        <section className="relative mx-auto max-w-6xl px-5 py-12 md:px-8">
+        <section className="relative py-12">
           <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
             <div className="rounded-3xl border border-line bg-surface p-6 shadow-card md:p-7">
               <h2 className="font-serif text-[26px] text-ink">{t.rightsTitle}</h2>
@@ -78,7 +78,6 @@ export function LegalHub() {
             </div>
           </div>
         </section>
-      </main>
-    </LegalChrome>
+    </div>
   );
 }
