@@ -179,17 +179,19 @@ headings and generous space. It replaces the earlier teal sidebar, header illust
 | `as-teal-strong` | `#0093AE` | Logo aqua deepened for large display text (3.5:1) |
 
 ## 09 · Trust & legal pages
-Benchmarked on the clearest public privacy centres: summary first, full text second, one idea per section.
-- **Hub** `/legal`: a serif hero ("Your data, *in plain words.*"), one card per document, your rights as chips, and a contact card.
+Simplified for people with little time (owner's choice, Option A, 18 Nov 2026): a small, centred page (`max-w-2xl`),
+summary first, full text one tap away, and **one button**.
+- **Hub** `/legal`: the serif title ("Your data, *in plain words.*"), a quiet "Updated · Version" line and the
+  English · Kiswahili text toggle, then one white card listing the four documents (name + one line), then **Email us**.
 - **Document pages**:
-  - breadcrumb, kicker, serif title, lead;
-  - chips for updated date, version and reading time, plus **Print or save as PDF**;
-  - **At a glance** cards that link to sections;
-  - a sticky **On this page** contents list that highlights the section being read (a collapsible list on phones);
-  - numbered sections, each with an **In short** line;
-  - tables that become cards on phones;
-  - a copy-link button per section;
-  - contact (the page's one orange action) and related documents.
+  - a quiet **Back** text link;
+  - the centred serif title and lead, "Updated · Version", and the English · Kiswahili toggle;
+  - **summary rows**: each section's heading and its one-sentence summary; tap a row to open the full text
+    (tables become cards on phones);
+  - a link to a section (e.g. `/privacy#rights`) opens that row;
+  - **Email us**, the page's only button (orange).
+  - Not used: breadcrumbs, info chips, a Print button, "At a glance" cards, a contents list, copy-link buttons and
+    related-document cards.
 - **One layout system, two contexts.** The legal routes live in the `(app)` route group, with the same URLs.
   - **Signed in:** `AppShell` renders them inside the normal shell, with the sidebar (*Trust & legal* active), the
     top bar and the session. It is the same layout instance, so the workflow is not reloaded.
@@ -198,8 +200,8 @@ Benchmarked on the clearest public privacy centres: summary first, full text sec
   - The page content (`LegalDoc`, `LegalHub`) has no chrome of its own.
 - **Back** returns to the previous in-app screen (with its state), or to Home or sign-in when the page was opened directly.
 - **Entry points:** sidebar *Programme*, the account menu (works on phones), search, the links under the sign-in card and the public footer.
-- **Language:** English / Kiswahili switch kept in the URL (`?lang=sw`) on every page.
-- **Print:** navigation, contents and buttons are hidden; only the text prints.
+- **Language:** English · Kiswahili text toggle, kept in the URL (`?lang=sw`) on every page.
+- **Print** (browser print): navigation and buttons are hidden, and every section prints expanded.
 
 ## 10 · Public website
 - **Demo PPT** (owner's choice, Option B, 18 Nov 2026): a text link "Watch the Demo PPT" under the homepage
