@@ -200,6 +200,9 @@ Benchmarked on the clearest public privacy centres: summary first, full text sec
 - **Print:** navigation, contents and buttons are hidden; only the text prints.
 
 ## 10 · Public website
+- **Demo PPT** (owner's choice, Option B, 18 Nov 2026): a text link "Watch the Demo PPT" under the homepage
+  buttons, and a phone-menu item under Contact. The `/demoppt` page uses PageHero plus a 16:9 card that loads
+  Microsoft's viewer only on "View presentation".
 **Information architecture: the homepage is a gateway, not a document.** It shows the essentials; details live on their
 own pages (progressive disclosure).
 

@@ -26,6 +26,7 @@ early and helps local people respond and repair. It never replaces the system an
 | 16 Nov 2026 | Design lock: approved layout, colours (water theme), typography, imagery placement and navigation change only on explicit request. |
 | 16 Nov 2026 | Owner screenshots come from the live site via `scripts/live-screenshots.cjs` (phone 360×800 @2.5, laptop 1440×900). |
 | 18 Nov 2026 | Signed-in app restarts from zero, one dashboard at a time; Operator Home is next. Sign-in is invite-only email one-time code; mobile-number codes later (needs an SMS provider). |
+| 18 Nov 2026 | Demo PPT: homepage link (Option B) to `/demoppt`; the Microsoft viewer loads only on tap, so no third-party cookies by default (Cookies/Privacy v1.4). |
 | 18 Nov 2026 | Owner's account is the **platform administrator**: holds every role, switches role for real ("View as" in the account menu, Option A), and manages people in the People console (sidebar → Admin → People). The owner's email is recognised by a SHA-256 hash, never written in the public repo. Adding new people stays in Supabase for now; removing people needs owner approval (destructive SQL). |
 | 18 Nov 2026 | Sign-in page shows only the logo, the sign-in card and the Trust & legal links (Option A). The product explanation lives on the public website, not repeated here. |
 | 18 Nov 2026 | One journey, no duplication (see §4a). |
@@ -37,6 +38,9 @@ early and helps local people respond and repair. It never replaces the system an
 - `/` homepage (gateway): headline, "See How It Works" / "Explore the Challenge", 3D swipe deck of six
   illustrative photos (`public/landing/deck/`), aqua wave, navy pilot strip. Text never overlaps imagery.
 - `/challenge`, `/approach`, `/pilot`, `/about`, `/contact` (content in `src/lib/site/content.ts`, IFSL §3.2 facts).
+- `/demoppt` **Demo PPT**: the owner's OneDrive PowerPoint (`src/components/public/ppt-embed.tsx`), loaded only after
+  "View presentation" is tapped. Reached from the "Watch the Demo PPT" link under the homepage buttons and from the
+  phone menu (under Contact). The laptop header is unchanged.
 
 **Trust & legal** (English + Kiswahili, `src/lib/legal/content.ts`): `/legal`, `/privacy`, `/terms`, `/cookies`,
 `/security`. Public for visitors; inside the app shell for signed-in users.
@@ -115,7 +119,8 @@ Water colour theme; tokens are defined in `src/app/globals.css` and documented i
 ## 8. Changelog (newest first; add one row per merged PR)
 | Date | PR | Change |
 |---|---|---|
-| 18 Nov 2026 | (this PR) | Platform admin: owner account with every role, "View as" role switch, People console. Privacy Notice v1.3 and data protection policy updated. |
+| 18 Nov 2026 | (this PR) | Demo PPT page `/demoppt` with tap-to-load PowerPoint viewer; homepage link and phone menu item. Cookies/Privacy v1.4. |
+| 18 Nov 2026 | #36 | Platform admin: owner account with every role, "View as" role switch, People console. Privacy Notice v1.3 and data protection policy updated. |
 | 18 Nov 2026 | #35 | Sign-in page: intro and product story removed (Option A: logo, card, legal links). PRD §4a "one journey, no duplication". |
 | 18 Nov 2026 | #34 | Operator Home (Option A) replaces the welcome placeholder. "Report a problem" stays on Home instead of opening a parked page. Old Home components parked. |
 | 18 Nov 2026 | #33 | Added `docs/PRD.md` and portable `docs/AGENT_RULES.md`; `CLAUDE.md` loads both before every task. |

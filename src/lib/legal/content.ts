@@ -39,7 +39,7 @@ export interface LegalDoc {
 }
 
 export const CONTACT = "info@aquasentinel.com";
-export const VERSION = "1.3";
+export const VERSION = "1.4";
 export const UPDATED: Record<Lang, string> = { en: "18 November 2026", sw: "18 Novemba 2026" };
 
 export const UI: Record<Lang, Record<string, string>> = {
@@ -189,6 +189,7 @@ const PRIVACY_EN: LegalDoc = {
             "Members of your own water system's team, according to their role. The database blocks everyone else.",
             "The AquaSentinel platform administrator, who manages team access: they can see each team member's name, email address, role and last sign-in, and change roles. Otherwise only when needed to support or secure the service.",
             "Providers that run parts of the service for us under contract: Supabase (database and sign-in), Vercel (website hosting) and, when SMS alerts are enabled for a site, a licensed SMS provider and the mobile networks.",
+            "Microsoft (PowerPoint viewer), only if you choose to open the demo presentation on our Demo PPT page.",
             "Authorities, only when the law requires it.",
           ],
         },
@@ -351,6 +352,7 @@ const PRIVACY_SW: LegalDoc = {
             "Wanatimu wa mfumo wako wa maji, kulingana na wadhifa wao. Hifadhidata huzuia wengine wote.",
             "Msimamizi mkuu wa jukwaa la AquaSentinel, anayesimamia ufikiaji wa timu: anaweza kuona jina, barua pepe, wadhifa na mara ya mwisho ya kuingia ya kila mwanatimu, na kubadilisha wadhifa. Vinginevyo pale tu inapohitajika kusaidia au kulinda huduma.",
             "Watoa huduma wanaoendesha sehemu za huduma kwa niaba yetu kwa mkataba: Supabase (hifadhidata na kuingia), Vercel (kupangisha tovuti) na, tahadhari za SMS zinapowashwa kwa eneo fulani, mtoa huduma wa SMS mwenye leseni na mitandao ya simu.",
+            "Microsoft (kitazamaji cha PowerPoint), pale tu unapochagua kufungua wasilisho la maonyesho kwenye ukurasa wetu wa Demo PPT.",
             "Mamlaka za serikali, pale tu sheria inapolazimu.",
           ],
         },
@@ -675,6 +677,14 @@ const COOKIES_EN: LegalDoc = {
       ],
     },
     {
+      id: "embed",
+      heading: "The demo presentation",
+      short: "Microsoft's PowerPoint viewer loads only if you tap View presentation.",
+      blocks: [
+        { p: "Our Demo PPT page shows a presentation through Microsoft's PowerPoint viewer (OneDrive). Nothing from Microsoft loads until you tap View presentation. If you do, Microsoft may set its own cookies under its own privacy policy. If you don't, no Microsoft content or cookies reach your browser." },
+      ],
+    },
+    {
       id: "banner",
       heading: "Why there is no cookie banner",
       short: "Strictly necessary storage doesn't need consent; we will ask before adding anything else.",
@@ -721,6 +731,14 @@ const COOKIES_SW: LegalDoc = {
       short: "Hakuna takwimu, matangazo, ufuatiliaji wala fonti za kampuni nyingine.",
       blocks: [
         { list: ["Hakuna zana za takwimu.", "Hakuna matangazo wala vifuatiliaji vya mitandao ya kijamii.", "Hakuna ufuatiliaji kwenye tovuti nyingine.", "Fonti hutolewa kutoka tovuti yetu wenyewe, kwa hiyo ziara yako haishirikiwi na kampuni nyingine."] },
+      ],
+    },
+    {
+      id: "embed",
+      heading: "Wasilisho la maonyesho",
+      short: "Kitazamaji cha PowerPoint cha Microsoft hupakia tu ukigusa “View presentation”.",
+      blocks: [
+        { p: "Ukurasa wetu wa Demo PPT unaonyesha wasilisho kupitia kitazamaji cha PowerPoint cha Microsoft (OneDrive). Hakuna kitu cha Microsoft kinachopakiwa hadi uguse “View presentation”. Ukigusa, Microsoft inaweza kuweka vidakuzi vyake chini ya sera yake ya faragha. Usipogusa, hakuna maudhui wala vidakuzi vya Microsoft vinavyofika kwenye kivinjari chako." },
       ],
     },
     {
