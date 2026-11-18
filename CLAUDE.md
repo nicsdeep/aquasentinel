@@ -14,6 +14,17 @@ has supplied or approved.
 - Vercel hosting; GitHub Actions CI/CD — `.github/workflows/`
 - Node 22 (`.nvmrc`). This Next.js version has breaking changes: check `node_modules/next/dist/docs/` before writing Next code.
 
+## Permanent rules: read before every task (owner decision, 18 Nov 2026)
+Before any work, read the living PRD and the portable agent rules, and update the PRD in the same PR as every change:
+
+@docs/AGENT_RULES.md
+@docs/PRD.md
+
+In short: no hallucination, do exactly what is asked; no regressions; never change the design system or the water
+colour theme unless asked; reference views over new tables; no Edge Functions; no legacy or dead code; before any UI
+change show the owner about **3 screenshot options** and wait for a choice ("Always make it live" applies after
+that choice); database changes must update the UI instantly via Realtime, never needing a page reload.
+
 ## Workflow for every task
 1. Work on a branch named `claude/<short-task-name>` created from up-to-date `main`. Never commit to `main` directly.
 2. Keep changes focused. No business features without owner-supplied requirements.
