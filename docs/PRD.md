@@ -26,6 +26,8 @@ early and helps local people respond and repair. It never replaces the system an
 | 16 Nov 2026 | Design lock: approved layout, colours (water theme), typography, imagery placement and navigation change only on explicit request. |
 | 16 Nov 2026 | Owner screenshots come from the live site via `scripts/live-screenshots.cjs` (phone 360×800 @2.5, laptop 1440×900). |
 | 18 Nov 2026 | Signed-in app restarts from zero, one dashboard at a time; Operator Home is next. Sign-in is invite-only email one-time code; mobile-number codes later (needs an SMS provider). |
+| 18 Nov 2026 | Sign-in page shows only the logo, the sign-in card and the Trust & legal links (Option A). The product explanation lives on the public website, not repeated here. |
+| 18 Nov 2026 | One journey, no duplication (see §4a). |
 | 18 Nov 2026 | Operator Home: owner chose Option A "Status first" from three screenshot options. |
 | 18 Nov 2026 | Permanent agent rules (`AGENT_RULES.md`): no hallucination, no regressions, design lock, ~3 screenshot options before any UI change, views over new tables, no Edge Functions, no legacy code, realtime UI with no page reload, PRD updated with every change. "Always make it live" applies **after** the owner picks an option. |
 
@@ -38,7 +40,7 @@ early and helps local people respond and repair. It never replaces the system an
 **Trust & legal** (English + Kiswahili, `src/lib/legal/content.ts`): `/legal`, `/privacy`, `/terms`, `/cookies`,
 `/security`. Public for visitors; inside the app shell for signed-in users.
 
-**Sign-in** `/sign-in`: email + 6-digit one-time code (Supabase Auth OTP, `shouldCreateUser: false`); mobile tab
+**Sign-in** `/sign-in`: logo, sign-in card and Trust & legal links only (Option A); email + 6-digit one-time code (Supabase Auth OTP, `shouldCreateUser: false`); mobile tab
 shows "coming soon". Email template: `supabase/templates/magic_link.html`.
 
 **Signed-in app** (route group `(app)`): `/dashboard` is **Operator Home** (Option A "Status first",
@@ -58,6 +60,18 @@ Water colour theme; tokens are defined in `src/app/globals.css` and documented i
   band #f7fafb, pill #e2f3f9, wave #c7eaf6. Headings Instrument Serif (`.lp-heading`), body Geist.
 - App: canvas #f5fbfa, line #dce8e6, teal #00afce, teal-strong #0093ae, accent #00738c, navy #003a72,
   orange #fb4803 (one primary action per screen only). Status colours always paired with an icon and a word.
+
+## 4a. Experience principle: one journey, no duplication (owner decision, 18 Nov 2026)
+- **Say it once.** Each piece of content lives in one place and is linked, not repeated:
+  - what AquaSentinel is and the challenge → public website;
+  - policies → Trust & legal;
+  - work → the signed-in app.
+  Before adding text or a section, check whether it already exists elsewhere.
+- **One common navigation journey:** public site → Sign in → Home → detail screens → back to Home. It uses the same
+  shell, the same back behaviour and the same patterns on every screen, so people always know where they are.
+- **Keep the eye on the task:** short, purposeful screens with one obvious next step (one orange action). No filler,
+  repeated marketing or dead ends, so nothing makes the user lose interest.
+- Agents check every new screen and option against this before proposing it.
 
 ## 5. Data model (reuse before adding)
 - **Tables (10):** `alert_rules`, `assets`, `audit_log`, `devices`, `incidents`, `profiles`, `readings`,
@@ -87,7 +101,8 @@ Water colour theme; tokens are defined in `src/app/globals.css` and documented i
 ## 8. Changelog (newest first; add one row per merged PR)
 | Date | PR | Change |
 |---|---|---|
-| 18 Nov 2026 | (this PR) | Operator Home (Option A) replaces the welcome placeholder. "Report a problem" stays on Home instead of opening a parked page. Old Home components parked. |
+| 18 Nov 2026 | (this PR) | Sign-in page: intro and product story removed (Option A: logo, card, legal links). PRD §4a "one journey, no duplication". |
+| 18 Nov 2026 | #34 | Operator Home (Option A) replaces the welcome placeholder. "Report a problem" stays on Home instead of opening a parked page. Old Home components parked. |
 | 18 Nov 2026 | #33 | Added `docs/PRD.md` and portable `docs/AGENT_RULES.md`; `CLAUDE.md` loads both before every task. |
 | 18 Nov 2026 | #32 | Old app screens parked; email OTP sign-in; welcome placeholder. |
 | 16 Nov 2026 | #31 | Live screenshot tool and rule. |

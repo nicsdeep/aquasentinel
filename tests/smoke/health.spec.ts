@@ -24,7 +24,7 @@ test("public website renders on desktop and mobile", async ({ page }) => {
 
 test("sign-in page renders on desktop and mobile", async ({ page }) => {
   await page.goto("/sign-in");
-  await expect(page.getByRole("heading", { name: "AquaSentinel" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Sign in" })).toBeVisible();
   await expect(page.getByAltText("AquaSentinel").first()).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
   expect(overflow).toBe(false);
