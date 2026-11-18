@@ -39,8 +39,8 @@ export interface LegalDoc {
 }
 
 export const CONTACT = "info@aquasentinel.com";
-export const VERSION = "1.1";
-export const UPDATED: Record<Lang, string> = { en: "16 November 2026", sw: "16 Novemba 2026" };
+export const VERSION = "1.2";
+export const UPDATED: Record<Lang, string> = { en: "18 November 2026", sw: "18 Novemba 2026" };
 
 export const UI: Record<Lang, Record<string, string>> = {
   en: {
@@ -151,7 +151,7 @@ const PRIVACY_EN: LegalDoc = {
           table: {
             head: ["Data", "Why we need it"],
             rows: [
-              ["Name, email and password (stored only in protected, encrypted form)", "To sign you in and show who did what"],
+              ["Name and email address (you sign in with a one-time code sent to your email; no password is used)", "To sign you in and show who did what"],
               ["Mobile number", "To send you water alerts and confirm an SMS reply really comes from you. Never shown in full on screens"],
               ["Role and site (e.g. operator of a named water system)", "So you see your own site and can do your role's actions"],
               ["Language (English or Kiswahili)", "To send SMS alerts in your language"],
@@ -313,7 +313,7 @@ const PRIVACY_SW: LegalDoc = {
           table: {
             head: ["Data", "Kwa nini tunaihitaji"],
             rows: [
-              ["Jina, barua pepe na nenosiri (linahifadhiwa kwa njia salama iliyosimbwa tu)", "Kukuingiza kwenye akaunti na kuonyesha nani alifanya nini"],
+              ["Jina na barua pepe (unaingia kwa msimbo wa mara moja unaotumwa kwenye barua pepe yako; hakuna nenosiri)", "Kukuingiza kwenye akaunti na kuonyesha nani alifanya nini"],
               ["Nambari ya simu", "Kukutumia tahadhari za maji na kuthibitisha kuwa jibu la SMS limetoka kwako kweli. Haionyeshwi kamili kwenye skrini"],
               ["Wadhifa na eneo (k.m. mwendeshaji wa mfumo fulani wa maji)", "Ili uone eneo lako na ufanye shughuli za wadhifa wako"],
               ["Lugha (Kiingereza au Kiswahili)", "Kutuma tahadhari za SMS kwa lugha yako"],
@@ -455,7 +455,7 @@ const TERMS_EN: LegalDoc = {
     { icon: "eye", title: "Watches, warns, coordinates", text: "It supports the people who run the water system; it does not replace them.", href: "#service" },
     { icon: "power", title: "Never controls a pump", text: "All physical actions are done by people on site. SMS cannot switch anything.", href: "#not" },
     { icon: "siren", title: "Not an emergency service", text: "If people are at risk, contact the relevant authorities directly.", href: "#not" },
-    { icon: "key", title: "Your account is yours", text: "Use only your own account, keep your password private and your phone current.", href: "#account" },
+    { icon: "key", title: "Your account is yours", text: "Use only your own account, never share your sign-in code, and keep your phone number current.", href: "#account" },
   ],
   sections: [
     {
@@ -484,11 +484,11 @@ const TERMS_EN: LegalDoc = {
     {
       id: "account",
       heading: "Your account",
-      short: "One person, one account; keep your password private and your number current.",
+      short: "One person, one account; never share your sign-in code, and keep your number current.",
       blocks: [
         {
           list: [
-            "Use only your own account, and keep your password private.",
+            "Use only your own account, and never share the one-time sign-in code we send you.",
             "Keep your mobile number up to date, so alerts and SMS replies reach the right person.",
             "Tell us or your committee straight away if you think someone else has used your account.",
           ],
@@ -552,7 +552,7 @@ const TERMS_SW: LegalDoc = {
     { icon: "eye", title: "Hufuatilia, hutahadharisha, huratibu", text: "Inawasaidia watu wanaoendesha mfumo wa maji; haiwachukui nafasi yao.", href: "#service" },
     { icon: "power", title: "Haidhibiti pampu kamwe", text: "Hatua zote za kimwili hufanywa na watu walio eneo husika. SMS haiwezi kuwasha chochote.", href: "#not" },
     { icon: "siren", title: "Si huduma ya dharura", text: "Watu wakiwa hatarini, wasiliana na mamlaka husika moja kwa moja.", href: "#not" },
-    { icon: "key", title: "Akaunti yako ni yako", text: "Tumia akaunti yako tu, weka nenosiri siri na nambari ya simu sahihi.", href: "#account" },
+    { icon: "key", title: "Akaunti yako ni yako", text: "Tumia akaunti yako tu, usishiriki msimbo wako wa kuingia, na weka nambari ya simu sahihi.", href: "#account" },
   ],
   sections: [
     {
@@ -581,11 +581,11 @@ const TERMS_SW: LegalDoc = {
     {
       id: "account",
       heading: "Akaunti yako",
-      short: "Mtu mmoja, akaunti moja; weka nenosiri siri na nambari yako sahihi.",
+      short: "Mtu mmoja, akaunti moja; usishiriki msimbo wako wa kuingia, na weka nambari yako sahihi.",
       blocks: [
         {
           list: [
-            "Tumia akaunti yako mwenyewe tu, na weka nenosiri lako siri.",
+            "Tumia akaunti yako mwenyewe tu, na usishiriki kamwe msimbo wa kuingia wa mara moja tunaokutumia.",
             "Hakikisha nambari yako ya simu ni sahihi, ili tahadhari na majibu ya SMS yamfikie mtu sahihi.",
             "Tujulishe sisi au kamati yako mara moja ukidhani mtu mwingine ametumia akaunti yako.",
           ],
@@ -774,7 +774,7 @@ const SECURITY_EN: LegalDoc = {
       id: "encryption",
       heading: "Encryption",
       short: "Encrypted on the way and at rest.",
-      blocks: [{ p: "Every connection uses HTTPS. Stored data is encrypted by our database provider. Passwords are never stored in readable form." }],
+      blocks: [{ p: "Every connection uses HTTPS. Stored data is encrypted by our database provider. Sign-in uses a one-time code sent to your email, so there is no password to steal; codes expire quickly and work only once." }],
     },
     {
       id: "audit",
@@ -858,7 +858,7 @@ const SECURITY_SW: LegalDoc = {
       id: "encryption",
       heading: "Usimbaji",
       short: "Imesimbwa ikisafirishwa na ikihifadhiwa.",
-      blocks: [{ p: "Kila muunganisho hutumia HTTPS. Data iliyohifadhiwa husimbwa na mtoa huduma wa hifadhidata. Manenosiri hayahifadhiwi kamwe kwa njia inayosomeka." }],
+      blocks: [{ p: "Kila muunganisho hutumia HTTPS. Data iliyohifadhiwa husimbwa na mtoa huduma wa hifadhidata. Kuingia hutumia msimbo wa mara moja unaotumwa kwenye barua pepe yako, kwa hiyo hakuna nenosiri la kuibiwa; misimbo huisha muda haraka na hutumika mara moja tu." }],
     },
     {
       id: "audit",

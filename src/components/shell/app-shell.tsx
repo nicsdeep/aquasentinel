@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
-import { Bell, BookOpenCheck, LoaderCircle, ShieldCheck } from "lucide-react";
+import { LoaderCircle, ShieldCheck } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { ReportProblemDialog } from "@/components/actions/report-problem";
 import { RoutineCheckDialog } from "@/components/actions/routine-check";
@@ -17,7 +17,6 @@ import { LegalChrome } from "@/components/legal/legal-chrome";
 import { isLegalPath } from "@/lib/legal/content";
 import { EnvironmentDialog } from "./environment-dialog";
 import { NAV_ITEMS } from "./nav";
-import { SearchBox } from "./search-box";
 import { ShellContext, type ShellActions } from "./shell-context";
 import { SiteMenu } from "./site-menu";
 
@@ -82,34 +81,6 @@ function SidebarNav({ alerts }: { alerts: number }) {
               </Suspense>
             )}
           </div>
-        );
-      })}
-    </>
-  );
-}
-
-function BottomNav({ alerts }: { alerts: number }) {
-  const pathname = usePathname();
-  return (
-    <>
-      {NAV_ITEMS.map(({ href, short, icon: Icon, badge }) => {
-        const active = pathname === href || pathname.startsWith(`${href}/`);
-        const count = badge === "alerts" ? alerts : 0;
-        return (
-          <Link
-            key={href}
-            href={href}
-            aria-current={active ? "page" : undefined}
-            className={cn("relative flex min-h-14 flex-1 flex-col items-center justify-center gap-0.5 text-xs font-medium", active ? "text-accent" : "text-ink-muted")}
-          >
-            <Icon className="size-[22px]" strokeWidth={2} aria-hidden />
-            {short}
-            {count > 0 && (
-              <span className="absolute left-1/2 top-1.5 ml-2 grid min-w-5 place-items-center rounded-full bg-as-orange px-1 text-[11px] font-semibold text-white">
-                {count}
-              </span>
-            )}
-          </Link>
         );
       })}
     </>
@@ -195,7 +166,7 @@ function Frame({
   const { data, reload } = useSiteData();
   const [panel, setPanel] = useState<"messages" | "report" | "routine" | "environment" | null>(null);
   // Frame renders only after the client session loads, so reading browser storage here is safe.
-  const [seenAt, setSeenAt] = useState<string | null>(readSeen);
+  const [, setSeenAt] = useState<string | null>(readSeen);
   const actions = useMemo<ShellActions>(
     () => ({
       openMessages: () => {
@@ -214,8 +185,6 @@ function Frame({
   const tz = data?.site.timezone ?? membership?.timezone ?? "Africa/Nairobi";
   const role = membership?.role;
   const canControl = role === "committee" || role === "admin";
-  const canCheck = role === "operator" || role === "technician" || role === "admin";
-  const unread = !!data?.lastMessageAt && (!seenAt || data.lastMessageAt > seenAt);
   const pathname = usePathname();
 
   return (
@@ -233,7 +202,6 @@ function Frame({
               <SidebarNav alerts={alerts} />
             </nav>
             <p className="type-eyebrow px-3 pb-2 pt-6 text-[10px] text-ink-subtle">Programme</p>
-            <ProgrammeLink href="/brief" icon={BookOpenCheck} label="How it meets the brief" active={pathname === "/brief"} />
             <ProgrammeLink href="/legal" icon={ShieldCheck} label="Trust & legal" active={isLegalPath(pathname)} />
           </div>
         </aside>
@@ -246,14 +214,6 @@ function Frame({
                 <Logo height={28} />
               </span>
               {siteName && <SiteMenu name={siteName} />}
-              <SearchBox
-                incidents={data?.active ?? []}
-                recent={data?.recent ?? []}
-                canCheck={canCheck}
-                onReport={actions.openReport}
-                onRoutine={actions.openRoutine}
-                onMessages={actions.openMessages}
-              />
               <div className="ml-auto flex items-center gap-2 whitespace-nowrap md:gap-3">
                 <span className="hidden text-sm text-ink-muted xl:inline">
                   Welcome <b className="font-semibold text-ink">{firstName(name) || name}</b>
@@ -263,14 +223,6 @@ function Frame({
                     {ROLE_LABEL[role]}
                   </span>
                 )}
-                <button
-                  onClick={actions.openMessages}
-                  className="relative grid size-11 place-items-center rounded-full border border-line bg-surface text-ink hover:bg-surface-muted"
-                  aria-label={unread ? "Messages, new messages" : "Messages"}
-                >
-                  <Bell className="size-[18px]" aria-hidden />
-                  {unread && <span className="absolute right-2.5 top-2.5 size-2.5 rounded-full bg-as-orange ring-2 ring-surface" aria-hidden />}
-                </button>
                 <button onClick={() => setPanel("environment")} className="grid size-11 place-items-center rounded-full" aria-label="Account and environment">
                   <span className="grid size-10 place-items-center rounded-full bg-surface-muted text-sm font-bold text-ink-muted">{initials(name)}</span>
                 </button>
@@ -278,12 +230,9 @@ function Frame({
             </header>
           </div>
 
-          <main className="relative mx-auto w-full max-w-[88rem] flex-1 px-4 pb-28 pt-6 md:px-8 md:pb-12 md:pt-8">{children}</main>
+          <main className="relative mx-auto w-full max-w-[88rem] flex-1 px-4 pb-12 pt-6 md:px-8 md:pt-8">{children}</main>
 
-          {/* Phone bottom navigation */}
-          <nav className="fixed inset-x-0 bottom-0 z-30 flex border-t border-line bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden" aria-label="Main">
-            <BottomNav alerts={alerts} />
-          </nav>
+          {/* Phone bottom navigation returns once there is more than one screen to move between. */}
         </div>
       </div>
 

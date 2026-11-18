@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Screens parked while dashboards are rebuilt one at a time (src/_parked/README.md).
+    "src/_parked/**",
+    // Dev tool run with node, not part of the app.
+    "scripts/**",
   ]),
 ]);
 

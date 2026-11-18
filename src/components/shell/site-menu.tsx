@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { Check, ChevronDown, ChevronRight, MapPin } from "lucide-react";
+import { Check, ChevronDown, MapPin } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 /** Site switcher. Members currently belong to one site; the menu shows it and opens its details. */
@@ -41,10 +40,6 @@ export function SiteMenu({ name }: { name: string }) {
             <span className="flex-1">{name}</span>
             <Check className="size-4 text-accent" aria-hidden />
           </div>
-          <Link role="menuitem" href="/site" onClick={() => setOpen(false)} className="flex min-h-11 items-center gap-2 rounded-xl px-3 text-sm text-accent hover:bg-surface-muted">
-            Open site details
-            <ChevronRight className="ml-auto size-4" aria-hidden />
-          </Link>
         </div>
       )}
     </div>
