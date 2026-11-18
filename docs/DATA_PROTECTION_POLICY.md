@@ -1,6 +1,6 @@
 # AquaSentinel data protection policy (internal)
 
-**Version 1.3 · 18 November 2026 · Owner: AquaSentinel (contact info@aquasentinel.com)**
+**Version 1.4 · 18 November 2026 · Owner: AquaSentinel (contact info@aquasentinel.com)**
 
 This is the internal rulebook behind the public trust & legal centre (`/legal`): Privacy Notice (`/privacy`),
 Terms of Use (`/terms`), Cookies (`/cookies`) and Security (`/security`), all in English and Kiswahili, with texts in
@@ -98,7 +98,9 @@ with the county whether EU hosting is acceptable or whether an African region is
   review that PROJECT_RULES §4 requires before field deployment.
 
 ## 10. Cookies
-Only strictly necessary storage (§2). Therefore no consent banner. Adding any analytics, tracking or third-party
+Only strictly necessary storage (§2). Therefore no consent banner. The `/demoppt` page embeds Microsoft's PowerPoint
+viewer (OneDrive) **only after the visitor taps "View presentation"**. Microsoft may then set its own cookies under its
+own policy, and nothing from Microsoft loads before that tap. Adding any analytics, tracking or third-party
 script requires updating this policy and the notice first, and a consent mechanism if it is not strictly necessary.
 
 ## 11. Before-pilot checklist
