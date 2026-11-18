@@ -48,7 +48,11 @@ export function OtpSignIn({ onSignedIn }: { onSignedIn: () => void }) {
     setBusy(true);
     setError(null);
     setNotice(null);
-    const { error: e } = await supabase.auth.signInWithOtp({ email: email.trim(), options: { shouldCreateUser: false } });
+    const { error: e } = await supabase.auth.signInWithOtp({
+      email: email.trim(),
+      // If the email template contains a link instead of the code, the link returns here and signs the person in.
+      options: { shouldCreateUser: false, emailRedirectTo: `${window.location.origin}/sign-in` },
+    });
     setBusy(false);
     if (e) {
       setError(friendly(e.message));
