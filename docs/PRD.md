@@ -26,6 +26,7 @@ early and helps local people respond and repair. It never replaces the system an
 | 16 Nov 2026 | Design lock: approved layout, colours (water theme), typography, imagery placement and navigation change only on explicit request. |
 | 16 Nov 2026 | Owner screenshots come from the live site via `scripts/live-screenshots.cjs` (phone 360×800 @2.5, laptop 1440×900). |
 | 18 Nov 2026 | Signed-in app restarts from zero, one dashboard at a time; Operator Home is next. Sign-in is invite-only email one-time code; mobile-number codes later (needs an SMS provider). |
+| 18 Nov 2026 | Trust & legal pages simplified for judges: small centred page, summary rows with the full text on tap, one button (Email us) (Option A). Legal text unchanged. |
 | 18 Nov 2026 | Same light water theme on every device; the device's dark mode never changes colours (laptop = phone). |
 | 18 Nov 2026 | Demo PPT: homepage link (Option B) to `/demoppt`; the Microsoft viewer loads only on tap, so no third-party cookies by default (Cookies/Privacy v1.4). |
 | 18 Nov 2026 | Owner's account is the **platform administrator**: holds every role, switches role for real ("View as" in the account menu, Option A), and manages people in the People console (sidebar → Admin → People). The owner's email is recognised by a SHA-256 hash, never written in the public repo. Adding new people stays in Supabase for now; removing people needs owner approval (destructive SQL). |
@@ -44,7 +45,11 @@ early and helps local people respond and repair. It never replaces the system an
   phone menu (under Contact). The laptop header is unchanged.
 
 **Trust & legal** (English + Kiswahili, `src/lib/legal/content.ts`): `/legal`, `/privacy`, `/terms`, `/cookies`,
-`/security`. Public for visitors; inside the app shell for signed-in users.
+`/security`. Public for visitors; inside the app shell for signed-in users. A simplified, small centred page
+(Option A):
+- each section as one summary row; tap a row to open its full text;
+- one button, **Email us**;
+- Back and English · Kiswahili as quiet text links.
 
 **Sign-in** `/sign-in`: logo, sign-in card and Trust & legal links only (Option A); email + 6-digit one-time code (Supabase Auth OTP, `shouldCreateUser: false`); mobile tab
 shows "coming soon". Email template: `supabase/templates/magic_link.html`.
@@ -122,7 +127,8 @@ Water colour theme; tokens are defined in `src/app/globals.css` and documented i
 ## 8. Changelog (newest first; add one row per merged PR)
 | Date | PR | Change |
 |---|---|---|
-| 18 Nov 2026 | (this PR) | Dark-mode colour swap removed: laptop and phone show the same light theme (policy pages were turning dark on laptops in dark mode). |
+| 18 Nov 2026 | (this PR) | Trust & legal simplified (Option A): summary rows, full text on tap, only "Email us". Removed the toolbar, chips, Print, At a glance, contents list, copy-link buttons and related cards; unused content removed. |
+| 18 Nov 2026 | #38 | Dark-mode colour swap removed: laptop and phone show the same light theme (policy pages were turning dark on laptops in dark mode). |
 | 18 Nov 2026 | #37 | Demo PPT page `/demoppt` with tap-to-load PowerPoint viewer; homepage link and phone menu item. Cookies/Privacy v1.4. |
 | 18 Nov 2026 | #36 | Platform admin: owner account with every role, "View as" role switch, People console. Privacy Notice v1.3 and data protection policy updated. |
 | 18 Nov 2026 | #35 | Sign-in page: intro and product story removed (Option A: logo, card, legal links). PRD §4a "one journey, no duplication". |

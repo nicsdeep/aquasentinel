@@ -6,7 +6,6 @@
 
 export type Lang = "en" | "sw";
 export type DocSlug = "privacy" | "terms" | "cookies" | "security";
-export type IconKey = "feather" | "ban" | "users" | "lock" | "hand" | "cookie" | "power" | "siren" | "phone" | "key" | "eye" | "server";
 
 export type Block =
   | { p: string }
@@ -22,19 +21,10 @@ export interface Section {
   blocks: Block[];
 }
 
-export interface Glance {
-  icon: IconKey;
-  title: string;
-  text: string;
-  href: string;
-}
-
 export interface LegalDoc {
   slug: DocSlug;
   title: string;
-  kicker: string;
   lead: string;
-  glance?: Glance[];
   sections: Section[];
 }
 
@@ -44,42 +34,18 @@ export const UPDATED: Record<Lang, string> = { en: "18 November 2026", sw: "18 N
 
 export const UI: Record<Lang, Record<string, string>> = {
   en: {
-    centre: "Trust & legal",
     updated: "Updated",
     version: "Version",
-    minutes: "min read",
-    glance: "At a glance",
-    onThisPage: "On this page",
-    inShort: "In short",
-    print: "Print or save as PDF",
-    copyLink: "Copy link to this section",
-    copied: "Link copied",
-    questions: "Questions about this page?",
     questionsText: "Write to us and a person will reply, in English or Kiswahili.",
-    allDocs: "All trust & legal documents",
-    backToApp: "Back to AquaSentinel",
-    read: "Read",
     language: "Language",
-    rightsTitle: "Your rights, in one line each",
+    emailUs: "Email us",
   },
   sw: {
-    centre: "Uaminifu na sheria",
     updated: "Ilisasishwa",
     version: "Toleo",
-    minutes: "dak. kusoma",
-    glance: "Kwa ufupi",
-    onThisPage: "Kwenye ukurasa huu",
-    inShort: "Kwa ufupi",
-    print: "Chapisha au hifadhi kama PDF",
-    copyLink: "Nakili kiungo cha sehemu hii",
-    copied: "Kiungo kimenakiliwa",
-    questions: "Una maswali kuhusu ukurasa huu?",
     questionsText: "Tuandikie na mtu atakujibu, kwa Kiingereza au Kiswahili.",
-    allDocs: "Nyaraka zote za uaminifu na sheria",
-    backToApp: "Rudi kwa AquaSentinel",
-    read: "Soma",
     language: "Lugha",
-    rightsTitle: "Haki zako, kila moja kwa mstari mmoja",
+    emailUs: "Tuandikie",
   },
 };
 
@@ -87,30 +53,26 @@ export const UI: Record<Lang, Record<string, string>> = {
 /* Hub                                                                                                            */
 /* ------------------------------------------------------------------------------------------------------------ */
 
-export const HUB: Record<Lang, { title: string; emphasis: string; lead: string; cards: Record<DocSlug, string>; rights: string[] }> = {
+export const HUB: Record<Lang, { title: string; emphasis: string; cards: Record<DocSlug, string> }> = {
   en: {
     title: "Your data,",
     emphasis: "in plain words.",
-    lead: "AquaSentinel watches water systems, not people. These pages explain exactly what we collect, why, who can see it and the promises we make, in English and Kiswahili.",
     cards: {
       privacy: "What personal data we use, why, who sees it, how long we keep it and your rights.",
       terms: "What AquaSentinel does, what it never does, and how teams use it responsibly.",
       cookies: "The only two things we store in your browser, and why there is no cookie banner.",
       security: "How community data is protected, and what we complete before a field pilot.",
     },
-    rights: ["See your data", "Correct it", "Ask us to delete it", "Object or withdraw consent", "Complain to the ODPC"],
   },
   sw: {
     title: "Data yako,",
     emphasis: "kwa maneno rahisi.",
-    lead: "AquaSentinel inafuatilia mifumo ya maji, si watu. Kurasa hizi zinaeleza hasa tunachokusanya, kwa nini, nani anaweza kukiona na ahadi tunazotoa, kwa Kiingereza na Kiswahili.",
     cards: {
       privacy: "Data binafsi tunayotumia, kwa nini, nani anaiona, tunaihifadhi kwa muda gani na haki zako.",
       terms: "AquaSentinel inafanya nini, isichofanya kamwe, na jinsi timu zinavyoitumia kwa uwajibikaji.",
       cookies: "Vitu viwili tu tunavyohifadhi kwenye kivinjari chako, na kwa nini hakuna bango la vidakuzi.",
       security: "Jinsi data ya jamii inavyolindwa, na tunachokamilisha kabla ya majaribio ya uwandani.",
     },
-    rights: ["Kuona data yako", "Kuirekebisha", "Kutuomba tuifute", "Kupinga au kuondoa idhini", "Kulalamika kwa ODPC"],
   },
 };
 
@@ -121,16 +83,7 @@ export const HUB: Record<Lang, { title: string; emphasis: string; lead: string; 
 const PRIVACY_EN: LegalDoc = {
   slug: "privacy",
   title: "Privacy Notice",
-  kicker: "Kenya Data Protection Act, 2019",
   lead: "AquaSentinel helps communities keep their water systems working: it watches pump, flow, storage and solar readings, alerts the local team and keeps a maintenance record. This notice explains what personal data that involves, and the rights you have.",
-  glance: [
-    { icon: "feather", title: "Very little personal data", text: "Name, email, phone, role and what you did on an incident. Water readings are not personal.", href: "#what" },
-    { icon: "ban", title: "Never sold, no advertising", text: "Your data is used only to run and secure your water system's service.", href: "#who-sees" },
-    { icon: "users", title: "Only your team sees it", text: "The database itself blocks other sites. Phone numbers are never shown in full.", href: "#who-sees" },
-    { icon: "lock", title: "Encrypted and recorded", text: "Encrypted in transit and at rest, and every important action is logged.", href: "#security" },
-    { icon: "hand", title: "You stay in control", text: "See, correct or delete your data, or complain to the ODPC.", href: "#rights" },
-    { icon: "cookie", title: "No tracking cookies", text: "Only a sign-in cookie and one small setting. No analytics.", href: "#cookies" },
-  ],
   sections: [
     {
       id: "who",
@@ -284,16 +237,7 @@ const PRIVACY_EN: LegalDoc = {
 const PRIVACY_SW: LegalDoc = {
   slug: "privacy",
   title: "Taarifa ya Faragha",
-  kicker: "Sheria ya Ulinzi wa Data ya Kenya, 2019",
   lead: "AquaSentinel husaidia jamii kudumisha mifumo yao ya maji: hufuatilia taarifa za pampu, mtiririko, hifadhi na nishati ya jua, hutuma tahadhari kwa timu ya eneo hilo na huhifadhi kumbukumbu za matengenezo. Taarifa hii inaeleza data binafsi inayohusika, na haki ulizonazo.",
-  glance: [
-    { icon: "feather", title: "Data binafsi kidogo sana", text: "Jina, barua pepe, simu, wadhifa na ulichofanya kwenye tukio. Taarifa za maji si data binafsi.", href: "#what" },
-    { icon: "ban", title: "Haiuzwi, hakuna matangazo", text: "Data yako inatumika tu kuendesha na kulinda huduma ya mfumo wako wa maji.", href: "#who-sees" },
-    { icon: "users", title: "Timu yako pekee inaiona", text: "Hifadhidata yenyewe huzuia maeneo mengine. Nambari za simu hazionyeshwi kamili.", href: "#who-sees" },
-    { icon: "lock", title: "Imesimbwa na inarekodiwa", text: "Imesimbwa ikisafirishwa na ikihifadhiwa, na kila hatua muhimu hurekodiwa.", href: "#security" },
-    { icon: "hand", title: "Wewe ndiye mwenye udhibiti", text: "Ona, rekebisha au futa data yako, au lalamika kwa ODPC.", href: "#rights" },
-    { icon: "cookie", title: "Hakuna vidakuzi vya ufuatiliaji", text: "Kidakuzi cha kuingia na mpangilio mmoja mdogo tu. Hakuna takwimu.", href: "#cookies" },
-  ],
   sections: [
     {
       id: "who",
@@ -451,14 +395,7 @@ const PRIVACY_SW: LegalDoc = {
 const TERMS_EN: LegalDoc = {
   slug: "terms",
   title: "Terms of Use",
-  kicker: "For water-system team members",
   lead: "These terms explain what AquaSentinel does, what it never does, and how team members are expected to use it. By signing in, you agree to them.",
-  glance: [
-    { icon: "eye", title: "Watches, warns, coordinates", text: "It supports the people who run the water system; it does not replace them.", href: "#service" },
-    { icon: "power", title: "Never controls a pump", text: "All physical actions are done by people on site. SMS cannot switch anything.", href: "#not" },
-    { icon: "siren", title: "Not an emergency service", text: "If people are at risk, contact the relevant authorities directly.", href: "#not" },
-    { icon: "key", title: "Your account is yours", text: "Use only your own account, never share your sign-in code, and keep your phone number current.", href: "#account" },
-  ],
   sections: [
     {
       id: "service",
@@ -548,14 +485,7 @@ const TERMS_EN: LegalDoc = {
 const TERMS_SW: LegalDoc = {
   slug: "terms",
   title: "Masharti ya Matumizi",
-  kicker: "Kwa wanatimu wa mifumo ya maji",
   lead: "Masharti haya yanaeleza AquaSentinel inafanya nini, isichofanya kamwe, na jinsi wanatimu wanavyotarajiwa kuitumia. Kwa kuingia kwenye akaunti, unayakubali.",
-  glance: [
-    { icon: "eye", title: "Hufuatilia, hutahadharisha, huratibu", text: "Inawasaidia watu wanaoendesha mfumo wa maji; haiwachukui nafasi yao.", href: "#service" },
-    { icon: "power", title: "Haidhibiti pampu kamwe", text: "Hatua zote za kimwili hufanywa na watu walio eneo husika. SMS haiwezi kuwasha chochote.", href: "#not" },
-    { icon: "siren", title: "Si huduma ya dharura", text: "Watu wakiwa hatarini, wasiliana na mamlaka husika moja kwa moja.", href: "#not" },
-    { icon: "key", title: "Akaunti yako ni yako", text: "Tumia akaunti yako tu, usishiriki msimbo wako wa kuingia, na weka nambari ya simu sahihi.", href: "#account" },
-  ],
   sections: [
     {
       id: "service",
@@ -649,7 +579,6 @@ const TERMS_SW: LegalDoc = {
 const COOKIES_EN: LegalDoc = {
   slug: "cookies",
   title: "Cookies",
-  kicker: "Browser storage",
   lead: "AquaSentinel stores only two small things in your browser, both strictly necessary. There are no analytics, advertising or tracking cookies, so we don't show a cookie banner.",
   sections: [
     {
@@ -706,7 +635,6 @@ const COOKIES_EN: LegalDoc = {
 const COOKIES_SW: LegalDoc = {
   slug: "cookies",
   title: "Vidakuzi (cookies)",
-  kicker: "Hifadhi ya kivinjari",
   lead: "AquaSentinel huhifadhi vitu viwili vidogo tu kwenye kivinjari chako, vyote ni vya lazima kabisa. Hakuna vidakuzi vya takwimu, matangazo wala ufuatiliaji, kwa hiyo hatuonyeshi bango la vidakuzi.",
   sections: [
     {
@@ -767,14 +695,7 @@ const COOKIES_SW: LegalDoc = {
 const SECURITY_EN: LegalDoc = {
   slug: "security",
   title: "Security",
-  kicker: "How community data is protected",
   lead: "Water-system data belongs to the community it comes from. This page explains, honestly, how AquaSentinel protects it today and what we complete before any field pilot.",
-  glance: [
-    { icon: "users", title: "Site by site", text: "Each team sees only its own water system, enforced by the database.", href: "#access" },
-    { icon: "lock", title: "Encrypted", text: "HTTPS for every connection; encrypted storage at our provider.", href: "#encryption" },
-    { icon: "server", title: "Every action recorded", text: "Who did what, when, and through which channel.", href: "#audit" },
-    { icon: "phone", title: "Careful SMS", text: "Replies are verified; closing needs confirmation; SMS can't control pumps.", href: "#sms" },
-  ],
   sections: [
     {
       id: "access",
@@ -851,14 +772,7 @@ const SECURITY_EN: LegalDoc = {
 const SECURITY_SW: LegalDoc = {
   slug: "security",
   title: "Usalama",
-  kicker: "Jinsi data ya jamii inavyolindwa",
   lead: "Data ya mfumo wa maji ni mali ya jamii inakotoka. Ukurasa huu unaeleza, kwa ukweli, jinsi AquaSentinel inavyoilinda leo na tunachokamilisha kabla ya majaribio yoyote ya uwandani.",
-  glance: [
-    { icon: "users", title: "Eneo kwa eneo", text: "Kila timu huona mfumo wake wa maji tu, na hifadhidata inalisimamia hilo.", href: "#access" },
-    { icon: "lock", title: "Imesimbwa", text: "HTTPS kwa kila muunganisho; hifadhi iliyosimbwa kwa mtoa huduma wetu.", href: "#encryption" },
-    { icon: "server", title: "Kila hatua hurekodiwa", text: "Nani alifanya nini, lini, na kupitia njia ipi.", href: "#audit" },
-    { icon: "phone", title: "SMS kwa uangalifu", text: "Majibu huthibitishwa; kufunga kunahitaji uthibitisho; SMS haiwezi kudhibiti pampu.", href: "#sms" },
-  ],
   sections: [
     {
       id: "access",
@@ -944,10 +858,3 @@ export const DOC_ORDER: DocSlug[] = ["privacy", "terms", "cookies", "security"];
 /** Trust & legal routes: readable by everyone. Signed-in users see them inside the app shell, visitors in the public layout. */
 export const LEGAL_PATHS = ["/legal", ...DOC_ORDER.map((d) => `/${d}`)];
 export const isLegalPath = (pathname: string) => LEGAL_PATHS.includes(pathname);
-
-/** Estimated reading time in minutes (about 200 words per minute). */
-export function readingMinutes(doc: LegalDoc): number {
-  const text = [doc.lead, ...doc.sections.flatMap((s) => s.blocks.map((b) =>
-    "p" in b ? b.p : "note" in b ? b.note : "list" in b ? b.list.join(" ") : [...b.table.head, ...b.table.rows.flat()].join(" ")))].join(" ");
-  return Math.max(1, Math.round(text.split(/\s+/).length / 200));
-}
