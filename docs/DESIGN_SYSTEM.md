@@ -21,7 +21,7 @@ Use token names in classes (`bg-as-dark`), never raw hex in components.
 | `as-teal` | `#00AFCE` | Logo aqua: accent on dark surfaces, chart area, focus ring, icons in dark chips |
 | `as-orange` | `#FB4803` | **The one primary action per screen.** Orange is earned. |
 | `as-light` | `#F4F6F6` | Neutral light surface (the canvas is `#F5FBFA`, §08) |
-| `as-cream` | `#F7F3ED` | Warm panels (sign-in story, highlights) |
+| `as-cream` | `#F7F3ED` | Warm panels (highlights) |
 | `as-white` | `#FFFFFF` | Cards |
 | `as-gray2` | `#CFDADA` | Strong dividers (hairlines use `line` `#DCE8E6`, §08) |
 | `as-muted` | `#7B9090` | Large or decorative secondary text only |
@@ -40,7 +40,7 @@ Use token names in classes (`bg-as-dark`), never raw hex in components.
 | Offline | slate | wifi-off | No recent data. Readings may be out of date. |
 
 ## 02 · Type: two families, one voice
-- **Serif: Instrument Serif** for the voice, used sparingly: page titles and the sign-in hero.
+- **Serif: Instrument Serif** for the voice, used sparingly: page titles and the "Sign in" card title.
 - **Home greeting and card titles** use Instrument Serif (§08). The status phrase is italic and coloured.
 - **Sans: Geist** for the work: UI, body text and numbers. Never italic.
 - Both are self-hosted (no runtime font requests).
@@ -57,7 +57,7 @@ Use token names in classes (`bg-as-dark`), never raw hex in components.
 Headings are always clamped, never fixed pixel sizes.
 
 ## 03 · Layout and spacing
-- **Sign-in page** (public): page max width 1200 px, `px-6 md:px-10`. Light hero, then a cream story panel.
+- **Sign-in page** (public, owner's choice Option A, 18 Nov 2026): one centred column (`max-w-md`): the logo, the sign-in card, then the Trust & legal links. No product story here; that lives on the public website.
 - **App workspace:** an operational shell, not scroll-snap frames.
   - Laptop: a floating white sidebar card (17.5 rem) and a top bar card; content up to 88 rem (§08).
   - Phone: a header with hamburger menu, a bottom bar, a 16 px gutter, no horizontal scroll and safe-area padding.
@@ -195,7 +195,7 @@ Benchmarked on the clearest public privacy centres: summary first, full text sec
     still requires sign-in.
   - The page content (`LegalDoc`, `LegalHub`) has no chrome of its own.
 - **Back** returns to the previous in-app screen (with its state), or to Home or sign-in when the page was opened directly.
-- **Entry points:** sidebar *Programme*, the account menu (works on phones), search, the sign-in page footer and the public footer.
+- **Entry points:** sidebar *Programme*, the account menu (works on phones), search, the links under the sign-in card and the public footer.
 - **Language:** English / Kiswahili switch kept in the URL (`?lang=sw`) on every page.
 - **Print:** navigation, contents and buttons are hidden; only the text prints.
 
