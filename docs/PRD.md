@@ -26,6 +26,7 @@ early and helps local people respond and repair. It never replaces the system an
 | 16 Nov 2026 | Design lock: approved layout, colours (water theme), typography, imagery placement and navigation change only on explicit request. |
 | 16 Nov 2026 | Owner screenshots come from the live site via `scripts/live-screenshots.cjs` (phone 360×800 @2.5, laptop 1440×900). |
 | 18 Nov 2026 | Signed-in app restarts from zero, one dashboard at a time; Operator Home is next. Sign-in is invite-only email one-time code; mobile-number codes later (needs an SMS provider). |
+| 18 Nov 2026 | Operator Home: owner chose Option A "Status first" from three screenshot options. |
 | 18 Nov 2026 | Permanent agent rules (`AGENT_RULES.md`): no hallucination, no regressions, design lock, ~3 screenshot options before any UI change, views over new tables, no Edge Functions, no legacy code, realtime UI with no page reload, PRD updated with every change. "Always make it live" applies **after** the owner picks an option. |
 
 ## 3. Current live state
@@ -40,11 +41,16 @@ early and helps local people respond and repair. It never replaces the system an
 **Sign-in** `/sign-in`: email + 6-digit one-time code (Supabase Auth OTP, `shouldCreateUser: false`); mobile tab
 shows "coming soon". Email template: `supabase/templates/magic_link.html`.
 
-**Signed-in app** (route group `(app)`): `/dashboard` shows a welcome placeholder ("Your Operator Home is being
-built"). Shell: logo, Main → Home, Programme → Trust & legal, site chip, account/environment menu.
+**Signed-in app** (route group `(app)`): `/dashboard` is **Operator Home** (Option A "Status first",
+`src/components/operator-home/operator-home.tsx`):
+- greeting with the status in words;
+- next-action card (most urgent alert, who is responsible, one orange button: Acknowledge / Assign technician /
+  Close incident / Take this job, or Report a problem when all is well);
+- four reading tiles (flow, storage, pump, solar).
+Live via Realtime; no reload. Shell: logo, Main → Home, Programme → Trust & legal, site chip, account/environment menu.
 
 **Parked (not routed, kept for reuse)** in `src/_parked/` (excluded from build/lint): old Site, Tasks, Brief,
-Incidents and dashboard screens. `/site`, `/tasks`, `/brief`, `/incidents/*` redirect to `/`.
+Incidents and dashboard screens, and the old Home components (`src/_parked/components/home/`). `/site`, `/tasks`, `/brief`, `/incidents/*` redirect to `/`.
 
 ## 4. Design system (locked)
 Water colour theme; tokens are defined in `src/app/globals.css` and documented in `DESIGN_SYSTEM.md`.
@@ -64,9 +70,8 @@ Water colour theme; tokens are defined in `src/app/globals.css` and documented i
   `src/lib/data/site-data.tsx` and refetches in place; a 60 s poll is only a safety net.
 
 ## 6. Build roadmap (one screen per PR; owner picks one of ~3 screenshot options first)
-1. **Operator Home** (next): "Is my water OK and what must I do now?" Status in words, active alert with who is
-   responsible, one next action, live via realtime.
-2. Alert / incident detail.
+1. ~~Operator Home~~: done, 18 Nov 2026 (Option A).
+2. **Alert / incident detail** (next).
 3. Technician jobs.
 4. Site readings.
 5. Committee reports.
@@ -82,7 +87,8 @@ Water colour theme; tokens are defined in `src/app/globals.css` and documented i
 ## 8. Changelog (newest first; add one row per merged PR)
 | Date | PR | Change |
 |---|---|---|
-| 18 Nov 2026 | (this PR) | Added `docs/PRD.md` and portable `docs/AGENT_RULES.md`; `CLAUDE.md` loads both before every task. |
+| 18 Nov 2026 | (this PR) | Operator Home (Option A) replaces the welcome placeholder. "Report a problem" stays on Home instead of opening a parked page. Old Home components parked. |
+| 18 Nov 2026 | #33 | Added `docs/PRD.md` and portable `docs/AGENT_RULES.md`; `CLAUDE.md` loads both before every task. |
 | 18 Nov 2026 | #32 | Old app screens parked; email OTP sign-in; welcome placeholder. |
 | 16 Nov 2026 | #31 | Live screenshot tool and rule. |
 | 16 Nov 2026 | #30 | Design-lock rule. |

@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
@@ -21,7 +20,6 @@ const field = "mt-1 block w-full rounded-xl border border-line bg-surface px-4 p
 
 /** Anyone on the site can report what they see. It becomes a normal incident; repeats join the open one. */
 export function ReportProblemDialog({ open, onClose, siteId }: { open: boolean; onClose: () => void; siteId: string }) {
-  const router = useRouter();
   const { notify } = useToast();
   const [category, setCategory] = useState<string>("no_water");
   const [note, setNote] = useState("");
@@ -35,7 +33,6 @@ export function ReportProblemDialog({ open, onClose, siteId }: { open: boolean; 
     notify("success", data.result === "created" ? `Reported as ${data.reference}. The team has been notified.` : `Added to the open report ${data.reference}.`);
     setNote("");
     onClose();
-    router.push(`/incidents/${data.incident_id}`);
   }
 
   return (
