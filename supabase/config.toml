@@ -249,6 +249,11 @@ otp_expiry = 3600
 # admin_email = "admin@email.com"
 # sender_name = "Admin"
 
+# Sign-in code email (OTP). The same template must be set on the hosted project (docs/DEPLOYMENT.md).
+[auth.email.template.magic_link]
+subject = "Your AquaSentinel sign-in code"
+content_path = "./supabase/templates/magic_link.html"
+
 # Uncomment to customize email template
 # [auth.email.template.invite]
 # subject = "You have been invited"

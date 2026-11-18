@@ -1,6 +1,6 @@
 # AquaSentinel data protection policy (internal)
 
-**Version 1.1 · 16 November 2026 · Owner: AquaSentinel (contact info@aquasentinel.com)**
+**Version 1.2 · 18 November 2026 · Owner: AquaSentinel (contact info@aquasentinel.com)**
 
 This is the internal rulebook behind the public trust & legal centre (`/legal`): Privacy Notice (`/privacy`),
 Terms of Use (`/terms`), Cookies (`/cookies`) and Security (`/security`), all in English and Kiswahili, with texts in
@@ -23,7 +23,7 @@ update all three together.
 ## 2. Data inventory (what the system actually stores)
 | Data | Where (table) | Personal? | Purpose | Lawful basis (Act s.30) |
 |---|---|---|---|---|
-| Email, password hash | `auth.users` (Supabase Auth) | Yes | Sign-in | Performance of the service |
+| Email; one-time sign-in codes (hashed, expire quickly, single use) | `auth.users` (Supabase Auth) | Yes | Passwordless sign-in (invite-only) | Performance of the service |
 | Full name, language | `profiles.full_name`, `profiles.locale` | Yes | Show who acted; SMS language | Performance of the service |
 | Mobile number (E.164) | `profiles.phone_e164` | Yes | Send alerts; verify SMS senders. Never shown in full | Performance of the service; consent when added |
 | Role and site | `site_members` | Yes | Access control (RLS) | Performance of the service |
@@ -110,3 +110,4 @@ script requires updating this policy and the notice first, and a consent mechani
 - [ ] Automated, tested retention job (§5).
 - [ ] Security and privacy review signed off; exposed credentials rotated.
 - [ ] info@aquasentinel.com mailbox live and monitored.
+- [ ] Email sender (SMTP) for sign-in codes chosen and added to the Privacy Notice as a processor; SMS provider likewise when mobile codes are enabled.

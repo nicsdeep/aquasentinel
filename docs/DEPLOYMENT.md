@@ -87,3 +87,18 @@ owner confirms does it add `-- allow-destructive: <reason>` to the migration.
 - **Need a database rollback:** write a new corrective migration. The free plan has limited backups, so avoid
   destructive changes; consider Supabase Pro (point-in-time recovery) before storing real field data.
 - Never "fix" production by editing the database in the Supabase dashboard; always add a migration.
+
+## Sign-in with one-time codes (owner setup in the Supabase dashboard)
+AquaSentinel signs people in with a 6-digit code sent to their email (Supabase Auth OTP). It is invite-only: codes are
+sent only to people already added as users. These settings live in the hosted project, not in this repo, so the owner
+sets them once in the Supabase dashboard:
+
+1. **Email sender (SMTP).** Supabase's built-in email sends only a few messages per hour and is for testing. Connect a
+   sender under *Authentication → Emails → SMTP settings* (for example Resend, sender `no-reply@aquasentinel.com`).
+   Add the provider to the Privacy Notice as a processor in the same week (CLAUDE.md, Trust & legal rule).
+2. **Email template.** Under *Authentication → Emails → Magic Link*, set the subject to "Your AquaSentinel sign-in code"
+   and paste the body from `supabase/templates/magic_link.html`. It shows `{{ .Token }}`, the 6-digit code. The same
+   template is used locally (`supabase/config.toml`).
+3. **Users.** Under *Authentication → Users → Invite user*, add each person's email. Only invited users receive codes.
+4. **Mobile codes (later).** Choose an SMS provider under *Authentication → Providers → Phone* (Twilio, Vonage or
+   MessageBird work natively). Until then the sign-in page shows "Mobile sign-in is coming soon".

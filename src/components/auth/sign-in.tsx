@@ -2,35 +2,12 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { ChevronRight, ClipboardList, MessageSquareText, Siren, UserRound, Users, Wrench } from "lucide-react";
+import { useEffect } from "react";
+import { ClipboardList, MessageSquareText, Siren } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
-import { Button } from "@/components/ui/button";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { getSupabase } from "@/lib/supabase/client";
-
-/** Public demo accounts. They can only see the demonstration site (enforced by RLS). */
-const DEMO_PASSWORD = "AquaSentinel-Demo-2026";
-const DEMO_ROLES = [
-  {
-    email: "operator.demo@example.com",
-    title: "Operator",
-    description: "Watches the water system and responds to alerts.",
-    icon: UserRound,
-  },
-  {
-    email: "technician.demo@example.com",
-    title: "Technician",
-    description: "Inspects, repairs and confirms the water is flowing again. Gets SMS in Kiswahili.",
-    icon: Wrench,
-  },
-  {
-    email: "committee.demo@example.com",
-    title: "Water committee",
-    description: "Oversees reliability and costs, and can run the demonstration.",
-    icon: Users,
-  },
-];
+import { OtpSignIn } from "./otp-sign-in";
 
 const LOOP = [
   { icon: Siren, title: "Detect early", text: "Readings from the pump, flow, storage and solar power are checked against clear rules." },
@@ -41,29 +18,12 @@ const LOOP = [
 export function SignIn() {
   const router = useRouter();
   const supabase = getSupabase();
-  const [busy, setBusy] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   useEffect(() => {
     supabase?.auth.getUser().then(({ data }) => {
       if (data.user) router.replace("/dashboard");
     });
   }, [supabase, router]);
-
-  async function signIn(key: string, credentials: { email: string; password: string }) {
-    if (!supabase) return;
-    setBusy(key);
-    setError(null);
-    const { error: authError } = await supabase.auth.signInWithPassword(credentials);
-    if (authError) {
-      setError(authError.message === "Invalid login credentials" ? "Email or password is incorrect." : authError.message);
-      setBusy(null);
-      return;
-    }
-    router.replace("/dashboard");
-  }
 
   return (
     <div className="mx-auto grid min-h-dvh w-full max-w-[1200px] items-center gap-10 px-6 py-12 md:grid-cols-[1.1fr_1fr] md:px-10 md:py-20">
@@ -105,76 +65,7 @@ export function SignIn() {
       </section>
 
       <section className="rounded-panel border border-line bg-surface p-5 shadow-card md:p-8">
-        <h2 className="type-h2">Try it now</h2>
-        <p className="mt-1 text-sm text-ink-muted">
-          Choose a role to open the Ngomano water system as that person sees it.
-        </p>
-
-        <div className="mt-5 space-y-2.5">
-          {DEMO_ROLES.map(({ email: demoEmail, title, description, icon: Icon }) => (
-            <button
-              key={demoEmail}
-              onClick={() => signIn(demoEmail, { email: demoEmail, password: DEMO_PASSWORD })}
-              disabled={!supabase || busy !== null}
-              className="group flex w-full items-center gap-4 rounded-2xl border border-line p-4 text-left transition-colors hover:border-as-teal hover:bg-surface-muted disabled:opacity-60"
-            >
-              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-as-dark text-as-teal">
-                <Icon className="size-5" aria-hidden />
-              </span>
-              <span className="min-w-0 flex-1">
-                <span className="block font-medium text-ink">Continue as {title}</span>
-                <span className="block text-sm text-ink-muted">{description}</span>
-              </span>
-              <ChevronRight className="size-5 text-ink-subtle transition-transform group-hover:translate-x-0.5" aria-hidden />
-            </button>
-          ))}
-        </div>
-
-        <div className="my-6 flex items-center gap-3 text-xs text-ink-subtle">
-          <span className="h-px flex-1 bg-line" /> or sign in with your account <span className="h-px flex-1 bg-line" />
-        </div>
-
-        <form
-          className="space-y-3"
-          onSubmit={(e) => {
-            e.preventDefault();
-            signIn("form", { email, password });
-          }}
-        >
-          <label className="block">
-            <span className="text-sm font-medium">Email</span>
-            <input
-              type="email"
-              required
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block min-h-11 w-full rounded-xl border border-line bg-surface px-4 text-base"
-            />
-          </label>
-          <label className="block">
-            <span className="text-sm font-medium">Password</span>
-            <input
-              type="password"
-              required
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block min-h-11 w-full rounded-xl border border-line bg-surface px-4 text-base"
-            />
-          </label>
-          {error && (
-            <p className="rounded-lg bg-crit-soft px-3 py-2 text-sm font-medium text-crit" role="alert">
-              {error}
-            </p>
-          )}
-          {!supabase && (
-            <p className="rounded-lg bg-off-soft px-3 py-2 text-sm text-off">The app is not connected to its database yet.</p>
-          )}
-          <Button type="submit" className="w-full" loading={busy === "form"} disabled={!supabase || busy !== null}>
-            Sign in
-          </Button>
-        </form>
+        <OtpSignIn onSignedIn={() => router.replace("/dashboard")} />
       </section>
     </div>
   );
