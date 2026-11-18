@@ -15,7 +15,7 @@ type Size = "md" | "lg";
 
 const VARIANTS: Record<Variant, string> = {
   primary: "rounded-full bg-as-orange text-white hover:brightness-95 shadow-sm",
-  dark: "rounded-full bg-as-dark text-white hover:bg-as-deep dark:bg-as-teal dark:text-as-dark",
+  dark: "rounded-full bg-as-dark text-white hover:bg-as-deep",
   secondary: "rounded-full border border-line bg-surface text-ink hover:bg-surface-muted",
   ghost: "rounded-full text-ink hover:bg-surface-muted",
   link: "text-accent underline-offset-4 hover:underline",

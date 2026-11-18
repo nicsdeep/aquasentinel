@@ -10,6 +10,8 @@
  * Status colours are functional and separate from brand colours, and ALWAYS paired with an icon and a word.
  */
 :root {
+  /* One approved light water theme on every device, even when the device is in dark mode (owner decision, 18 Nov 2026). */
+  color-scheme: light;
   --canvas: #f5fbfa; /* light canvas, a whisper of mint */
   --surface: #ffffff; /* as-white */
   --surface-muted: #eff6f5;
@@ -32,31 +34,6 @@
   --off-bg: #e6eded;
   --info-fg: #00738c;
   --info-bg: #e3f4f8;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --canvas: #0a1515;
-    --surface: #0f2626;
-    --surface-muted: #143131;
-    --surface-soft: #122c2c;
-    --surface-warm: #1a2a26;
-    --ink: #f4f6f6;
-    --ink-muted: #b3c4c4;
-    --ink-subtle: #8fa5a5;
-    --line: #1f3a3a;
-    --accent-ink: #33c3dc;
-    --ok-fg: #6fd39a;
-    --ok-bg: #0f2f20;
-    --warn-fg: #f5b55c;
-    --warn-bg: #33240c;
-    --crit-fg: #ff8a80;
-    --crit-bg: #3a1513;
-    --off-fg: #b3c4c4;
-    --off-bg: #1a3030;
-    --info-fg: #6fd6ea;
-    --info-bg: #0b2f3a;
-  }
 }
 
 @theme inline {
@@ -87,7 +64,7 @@
   --color-as-gray2: #cfdada;
   --color-as-muted: #7b9090;
 
-  /* Semantic (switch in dark mode) */
+  /* Semantic */
   --color-canvas: var(--canvas);
   --color-surface: var(--surface);
   --color-surface-muted: var(--surface-muted);
