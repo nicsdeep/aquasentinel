@@ -9,6 +9,8 @@ Built for a non-technical water operator on an ordinary Android phone first, the
 > asked; no redesign, re-layout or recolouring as a side effect. Ask first when a request seems to need more.
 
 ## 01 · Colour: five tones, strict discipline
+
+**One light theme everywhere (owner decision, 18 Nov 2026):** the approved light water theme is used on every device. The site ignores the device's dark mode (`color-scheme: light`, no dark token set), so laptop and phone always look the same.
 Navy and aqua are taken from the approved logo (§07), so the interface and the logo read as one brand.
 Use token names in classes (`bg-as-dark`), never raw hex in components.
 
@@ -17,7 +19,7 @@ Use token names in classes (`bg-as-dark`), never raw hex in components.
 | `as-navy` | `#003A72` | Logo navy (reserved) |
 | `as-night` | `#041F3A` | Logo navy, deepened (reserved) |
 | `as-dark` | `#0A1515` | Dark surfaces, strong (dark) buttons, primary text |
-| `as-deep` | `#0F2626` | Deep panels, dark-mode surfaces |
+| `as-deep` | `#0F2626` | Deep panels |
 | `as-teal` | `#00AFCE` | Logo aqua: accent on dark surfaces, chart area, focus ring, icons in dark chips |
 | `as-orange` | `#FB4803` | **The one primary action per screen.** Orange is earned. |
 | `as-light` | `#F4F6F6` | Neutral light surface (the canvas is `#F5FBFA`, §08) |

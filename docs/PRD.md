@@ -26,6 +26,7 @@ early and helps local people respond and repair. It never replaces the system an
 | 16 Nov 2026 | Design lock: approved layout, colours (water theme), typography, imagery placement and navigation change only on explicit request. |
 | 16 Nov 2026 | Owner screenshots come from the live site via `scripts/live-screenshots.cjs` (phone 360×800 @2.5, laptop 1440×900). |
 | 18 Nov 2026 | Signed-in app restarts from zero, one dashboard at a time; Operator Home is next. Sign-in is invite-only email one-time code; mobile-number codes later (needs an SMS provider). |
+| 18 Nov 2026 | Same light water theme on every device; the device's dark mode never changes colours (laptop = phone). |
 | 18 Nov 2026 | Demo PPT: homepage link (Option B) to `/demoppt`; the Microsoft viewer loads only on tap, so no third-party cookies by default (Cookies/Privacy v1.4). |
 | 18 Nov 2026 | Owner's account is the **platform administrator**: holds every role, switches role for real ("View as" in the account menu, Option A), and manages people in the People console (sidebar → Admin → People). The owner's email is recognised by a SHA-256 hash, never written in the public repo. Adding new people stays in Supabase for now; removing people needs owner approval (destructive SQL). |
 | 18 Nov 2026 | Sign-in page shows only the logo, the sign-in card and the Trust & legal links (Option A). The product explanation lives on the public website, not repeated here. |
@@ -70,6 +71,8 @@ Incidents and dashboard screens, and the old Home components (`src/_parked/compo
 
 ## 4. Design system (locked)
 Water colour theme; tokens are defined in `src/app/globals.css` and documented in `DESIGN_SYSTEM.md`.
+- **One light theme on every device:** the site ignores the device's dark mode (`color-scheme: light`, no dark
+  tokens), so a laptop in dark mode looks exactly like the phone.
 - Public site `lp-*`: ink #0c1a3a, navy #0a3a6c, body #3e4f69, blue #015a86, blue-deep #01426f, cyan #08a8cd,
   band #f7fafb, pill #e2f3f9, wave #c7eaf6. Headings Instrument Serif (`.lp-heading`), body Geist.
 - App: canvas #f5fbfa, line #dce8e6, teal #00afce, teal-strong #0093ae, accent #00738c, navy #003a72,
@@ -119,7 +122,8 @@ Water colour theme; tokens are defined in `src/app/globals.css` and documented i
 ## 8. Changelog (newest first; add one row per merged PR)
 | Date | PR | Change |
 |---|---|---|
-| 18 Nov 2026 | (this PR) | Demo PPT page `/demoppt` with tap-to-load PowerPoint viewer; homepage link and phone menu item. Cookies/Privacy v1.4. |
+| 18 Nov 2026 | (this PR) | Dark-mode colour swap removed: laptop and phone show the same light theme (policy pages were turning dark on laptops in dark mode). |
+| 18 Nov 2026 | #37 | Demo PPT page `/demoppt` with tap-to-load PowerPoint viewer; homepage link and phone menu item. Cookies/Privacy v1.4. |
 | 18 Nov 2026 | #36 | Platform admin: owner account with every role, "View as" role switch, People console. Privacy Notice v1.3 and data protection policy updated. |
 | 18 Nov 2026 | #35 | Sign-in page: intro and product story removed (Option A: logo, card, legal links). PRD §4a "one journey, no duplication". |
 | 18 Nov 2026 | #34 | Operator Home (Option A) replaces the welcome placeholder. "Report a problem" stays on Home instead of opening a parked page. Old Home components parked. |
