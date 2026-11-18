@@ -182,3 +182,18 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Water-flow simulation (/demo/water-flow): water moves along the pipe geometry only while it flows. */
+.sim-flow { animation: sim-flow linear infinite; }
+@keyframes sim-flow { to { stroke-dashoffset: -32; } }
+.sim-fall { animation: sim-fall 0.6s linear infinite; }
+@keyframes sim-fall { to { stroke-dashoffset: -24; } }
+.sim-spin { animation: sim-spin 0.8s linear infinite; }
+@keyframes sim-spin { to { transform: rotate(360deg); } }
+.sim-wave { animation: sim-wave 3s ease-in-out infinite alternate; }
+@keyframes sim-wave { to { transform: translateX(-14px); } }
+.sim-drip { animation: sim-drip 1s ease-in infinite; }
+@keyframes sim-drip { from { transform: translateY(0); opacity: 1; } to { transform: translateY(40px); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .sim-flow, .sim-fall, .sim-spin, .sim-wave, .sim-drip { animation: none; }
+}

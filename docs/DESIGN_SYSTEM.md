@@ -204,6 +204,12 @@ summary first, full text one tap away, and **one button**.
 - **Print** (browser print): navigation and buttons are hidden, and every section prints expanded.
 
 ## 10 · Public website
+- **Live simulation** (`/demo/water-flow`, 18 Nov 2026):
+  - **Layout:** label pill, serif title, then the SVG digital twin beside a compact control panel (laptop), with the
+    live stats below. On phones the diagram scrolls sideways instead of shrinking.
+  - **Motion:** water is shown inside pipes (an inner path with moving dashes on the same geometry) only while it
+    flows. Reduced motion stops all movement; values still update.
+  - **Orange:** one action at a time (Turn pump ON, Confirm start or Restore normal operation).
 - **Demo PPT** (owner's choice, Option B, 18 Nov 2026): a text link "Watch the Demo PPT" under the homepage
   buttons, and a phone-menu item under Contact. The `/demoppt` page uses PageHero plus a 16:9 card that loads
   Microsoft's viewer only on "View presentation".
