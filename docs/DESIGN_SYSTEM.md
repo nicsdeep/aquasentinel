@@ -151,21 +151,20 @@ headings and generous space. It replaces the earlier teal sidebar, header illust
     - a **bell** for Messages (orange dot when there are unread messages);
     - an **avatar** that opens the account and environment menu.
   - **Phone:** a compact header (logo, bell, avatar) and the bottom navigation.
-- **Home, top to bottom:**
-  - **Hero:**
-    - a serif display greeting with the status phrase in italic: "Running well." in the deep logo aqua
-      (`as-teal-strong`), or the status colour when not well;
-    - a subtitle with the site and data age;
-    - **Messages** and **Report a problem** on the right.
-  - **Two summary cards:**
-    - **Open alerts**: count, the most urgent alert in words with its owner, and chips for New / Being repaired /
-      Water back, to close.
-    - **Water system**: pump state, and chips for flow, storage and solar, each greyed when out of date.
-  - **How it works** note (rules, SMS without internet, never controls the pump).
-  - **Incident journey**: Detected → Alerted → Acknowledged → Technician assigned → Repaired → Verified and closed, for
-    the most urgent open incident, or the last closed one.
-  - **Today** action centre: Tasks for you, Routine check and Messages, plus **Refresh**.
-- **Orange:** at most one on Home. It is **View open alerts** while alerts are open; otherwise **Report a problem**.
+- **Operator Home** (owner's choice, Option A "Status first", 18 Nov 2026; `src/components/operator-home/`). One
+  column, `max-w-4xl`, top to bottom:
+  - **Greeting:** serif display "Good morning, Name. Your water is *running well.*" The status words are in italic:
+    deep logo aqua (`as-teal-strong`) when well, otherwise the status colour ("needs attention", "needs a check",
+    "not reporting"). Subtitle: site name and data age.
+  - **Next-action card:** the most urgent open alert (title, reference, stage, detected age, who is responsible), with
+    **one** orange button for the next step (Acknowledge → Assign technician → Close incident; a technician gets Take
+    this job). While a technician is repairing it, the card says so and shows no button. With no alerts: "Nothing needs
+    you right now" and **Report a problem**.
+  - **Four reading tiles:** Water flow, Storage level, Pump, Solar power. Each has a tinted icon, value and unit, and
+    state and age; greyed with "May be out of date" after 15 minutes.
+  - Everything updates live via Realtime, with no reload.
+  - The earlier Home (summary cards, journey, action centre) is parked in `src/_parked/components/home/`.
+- **Orange:** exactly one on Home, on the next-action card.
 - **Cards:** `rounded-3xl`, border `line`, shadow `0 10px 30px rgb(26 70 70 / .06)`. Card titles in Instrument Serif;
   stat chips in `surface-soft` with serif numbers.
 
