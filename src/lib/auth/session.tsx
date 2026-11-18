@@ -19,6 +19,8 @@ export interface Profile {
   fullName: string;
   locale: "en" | "sw";
   isDemo: boolean;
+  /** Platform administrator: may switch their own role and manage team members (People console). */
+  isPlatformAdmin: boolean;
 }
 
 type SessionState =
@@ -27,7 +29,7 @@ type SessionState =
   | { status: "unconfigured" }
   | { status: "signed_in"; user: User; profile: Profile | null; memberships: Membership[] };
 
-const SessionContext = createContext<(SessionState & { signOut: () => Promise<void> }) | null>(null);
+const SessionContext = createContext<(SessionState & { signOut: () => Promise<void>; refresh: () => Promise<void> }) | null>(null);
 
 interface MembershipRow {
   site_id: string;
@@ -38,12 +40,12 @@ interface MembershipRow {
 async function loadAccount(user: User) {
   const supabase = getSupabase()!;
   const [{ data: profile }, { data: rows }] = await Promise.all([
-    supabase.from("profiles").select("id, full_name, locale, is_demo").eq("id", user.id).maybeSingle(),
+    supabase.from("profiles").select("id, full_name, locale, is_demo, is_platform_admin").eq("id", user.id).maybeSingle(),
     supabase.from("site_members").select("site_id, role, sites(name, timezone, is_simulated)").eq("user_id", user.id),
   ]);
   return {
     profile: profile
-      ? { id: profile.id, fullName: profile.full_name, locale: profile.locale, isDemo: profile.is_demo }
+      ? { id: profile.id, fullName: profile.full_name, locale: profile.locale, isDemo: profile.is_demo, isPlatformAdmin: profile.is_platform_admin }
       : null,
     memberships: ((rows ?? []) as unknown as MembershipRow[]).map((r) => ({
       siteId: r.site_id,
@@ -84,11 +86,32 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  // Role changes (a role switch, or an administrator changing this person's role) apply live, without a reload.
+  const userId = state.status === "signed_in" ? state.user.id : null;
+  const refresh = useCallback(async () => {
+    const supabase = getSupabase();
+    const { data } = (await supabase?.auth.getUser()) ?? { data: { user: null } };
+    if (!data.user) return;
+    const account = await loadAccount(data.user);
+    setState({ status: "signed_in", user: data.user, ...account });
+  }, []);
+  useEffect(() => {
+    const supabase = getSupabase();
+    if (!supabase || !userId) return;
+    const channel = supabase
+      .channel(`members-${userId}`)
+      .on("postgres_changes", { event: "*", schema: "public", table: "site_members", filter: `user_id=eq.${userId}` }, () => void refresh())
+      .subscribe();
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [userId, refresh]);
+
   const signOut = useCallback(async () => {
     await getSupabase()?.auth.signOut();
   }, []);
 
-  const value = useMemo(() => ({ ...state, signOut }), [state, signOut]);
+  const value = useMemo(() => ({ ...state, signOut, refresh }), [state, signOut, refresh]);
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;
 }
 

@@ -26,6 +26,7 @@ early and helps local people respond and repair. It never replaces the system an
 | 16 Nov 2026 | Design lock: approved layout, colours (water theme), typography, imagery placement and navigation change only on explicit request. |
 | 16 Nov 2026 | Owner screenshots come from the live site via `scripts/live-screenshots.cjs` (phone 360×800 @2.5, laptop 1440×900). |
 | 18 Nov 2026 | Signed-in app restarts from zero, one dashboard at a time; Operator Home is next. Sign-in is invite-only email one-time code; mobile-number codes later (needs an SMS provider). |
+| 18 Nov 2026 | Owner's account is the **platform administrator**: holds every role, switches role for real ("View as" in the account menu, Option A), and manages people in the People console (sidebar → Admin → People). The owner's email is recognised by a SHA-256 hash, never written in the public repo. Adding new people stays in Supabase for now; removing people needs owner approval (destructive SQL). |
 | 18 Nov 2026 | Sign-in page shows only the logo, the sign-in card and the Trust & legal links (Option A). The product explanation lives on the public website, not repeated here. |
 | 18 Nov 2026 | One journey, no duplication (see §4a). |
 | 18 Nov 2026 | Operator Home: owner chose Option A "Status first" from three screenshot options. |
@@ -50,6 +51,15 @@ shows "coming soon". Email template: `supabase/templates/magic_link.html`.
   Close incident / Take this job, or Report a problem when all is well);
 - four reading tiles (flow, storage, pump, solar).
 Live via Realtime; no reload. Shell: logo, Main → Home, Programme → Trust & legal, site chip, account/environment menu.
+
+**Platform admin (owner only):**
+- **View as:** a 4-way switch (Operator / Technician / Water committee / Administrator) in the account menu.
+  It calls `switch_my_role`, so the database really applies the role. A toast confirms "You're now viewing as …",
+  and the whole app updates live via Realtime on `site_members`.
+- **People console** `/console` (sidebar → Admin → People; also "Open People console" in the account menu):
+  - lists everyone on the site with name, email, role, last sign-in and masked phone;
+  - inline role change and name edit, each with a spinner, a green "Saved" check and a success toast;
+  - updates live; non-admins are redirected to Home.
 
 **Parked (not routed, kept for reuse)** in `src/_parked/` (excluded from build/lint): old Site, Tasks, Brief,
 Incidents and dashboard screens, and the old Home components (`src/_parked/components/home/`). `/site`, `/tasks`, `/brief`, `/incidents/*` redirect to `/`.
@@ -76,11 +86,15 @@ Water colour theme; tokens are defined in `src/app/globals.css` and documented i
 ## 5. Data model (reuse before adding)
 - **Tables (10):** `alert_rules`, `assets`, `audit_log`, `devices`, `incidents`, `profiles`, `readings`,
   `site_members`, `sites`, `sms_messages`. RLS on all; writes through SECURITY DEFINER functions.
+- **Platform admin** (`20261118100000_platform_admin.sql`):
+  - column `profiles.is_platform_admin`;
+  - trigger `on_auth_user_owner` grants it, plus admin on every site, to the owner's email (matched by hash);
+  - RPCs `switch_my_role`, `admin_list_members`, `admin_set_member_role`, `admin_update_profile`, all audited.
 - **Views (7):** `device_health`, `device_uptime_24h`, `incident_timeline`, `kpi_summary`, `latest_readings`,
   `maintenance_history`, `site_status`. New read needs are met with views first.
 - **Edge Functions:** none (`supabase/functions` does not exist). Time-based checks use `pg_cron`.
 - **Realtime:** publication `supabase_realtime` covers `incidents`, `sms_messages`, `audit_log`, `readings`
-  (`supabase/migrations/20261113100100_workflow.sql`). The client subscribes per site in
+  (`supabase/migrations/20261113100100_workflow.sql`) and `site_members` (platform admin migration). The client subscribes per site in
   `src/lib/data/site-data.tsx` and refetches in place; a 60 s poll is only a safety net.
 
 ## 6. Build roadmap (one screen per PR; owner picks one of ~3 screenshot options first)
@@ -89,10 +103,10 @@ Water colour theme; tokens are defined in `src/app/globals.css` and documented i
 3. Technician jobs.
 4. Site readings.
 5. Committee reports.
-6. Admin and user management.
+6. Admin and user management: People console v1 done (18 Nov). Still to come: adding and removing people from the console.
 
 ## 7. Open owner actions
-- Supabase Auth: invite own email; paste the Magic Link template; connect SMTP (e.g. Resend) and name the provider
+- Supabase Auth: **invite the owner's own email** (Authentication → Users → Invite user); the account becomes platform admin automatically; paste the Magic Link template; connect SMTP (e.g. Resend) and name the provider
   so it is added to the Privacy Notice and `DATA_PROTECTION_POLICY.md`. SMS provider later for mobile codes.
 - Rotate the Supabase DB password and secret key exposed earlier.
 - Create and monitor `info@aquasentinel.com`.
@@ -101,7 +115,8 @@ Water colour theme; tokens are defined in `src/app/globals.css` and documented i
 ## 8. Changelog (newest first; add one row per merged PR)
 | Date | PR | Change |
 |---|---|---|
-| 18 Nov 2026 | (this PR) | Sign-in page: intro and product story removed (Option A: logo, card, legal links). PRD §4a "one journey, no duplication". |
+| 18 Nov 2026 | (this PR) | Platform admin: owner account with every role, "View as" role switch, People console. Privacy Notice v1.3 and data protection policy updated. |
+| 18 Nov 2026 | #35 | Sign-in page: intro and product story removed (Option A: logo, card, legal links). PRD §4a "one journey, no duplication". |
 | 18 Nov 2026 | #34 | Operator Home (Option A) replaces the welcome placeholder. "Report a problem" stays on Home instead of opening a parked page. Old Home components parked. |
 | 18 Nov 2026 | #33 | Added `docs/PRD.md` and portable `docs/AGENT_RULES.md`; `CLAUDE.md` loads both before every task. |
 | 18 Nov 2026 | #32 | Old app screens parked; email OTP sign-in; welcome placeholder. |

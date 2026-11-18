@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
-import { LoaderCircle, ShieldCheck } from "lucide-react";
+import { LoaderCircle, ShieldCheck, Users } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { ReportProblemDialog } from "@/components/actions/report-problem";
 import { RoutineCheckDialog } from "@/components/actions/routine-check";
@@ -141,7 +141,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const membership = session.memberships[0];
   return (
     <SiteDataProvider siteId={membership?.siteId}>
-      <Frame name={session.profile?.fullName ?? session.user.email ?? "User"} membership={membership} userId={session.user.id} locale={session.profile?.locale ?? "en"} onSignOut={async () => { await session.signOut(); router.replace("/"); }}>
+      <Frame name={session.profile?.fullName ?? session.user.email ?? "User"} membership={membership} platformAdmin={!!session.profile?.isPlatformAdmin} userId={session.user.id} locale={session.profile?.locale ?? "en"} onSignOut={async () => { await session.signOut(); router.replace("/"); }}>
         {children}
       </Frame>
     </SiteDataProvider>
@@ -151,6 +151,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 function Frame({
   name,
   membership,
+  platformAdmin,
   userId,
   locale,
   onSignOut,
@@ -158,6 +159,7 @@ function Frame({
 }: {
   name: string;
   membership: Membership | undefined;
+  platformAdmin: boolean;
   userId: string;
   locale: "en" | "sw";
   onSignOut: () => void;
@@ -203,6 +205,12 @@ function Frame({
             </nav>
             <p className="type-eyebrow px-3 pb-2 pt-6 text-[10px] text-ink-subtle">Programme</p>
             <ProgrammeLink href="/legal" icon={ShieldCheck} label="Trust & legal" active={isLegalPath(pathname)} />
+            {platformAdmin && (
+              <>
+                <p className="type-eyebrow px-3 pb-2 pt-6 text-[10px] text-ink-subtle">Admin</p>
+                <ProgrammeLink href="/console" icon={Users} label="People" active={pathname === "/console"} />
+              </>
+            )}
           </div>
         </aside>
 
@@ -249,6 +257,7 @@ function Frame({
             siteId={membership.siteId}
             canControl={canControl}
             account={{ name, role: ROLE_LABEL[membership.role] }}
+            admin={platformAdmin ? { siteId: membership.siteId, role: membership.role } : null}
             onSignOut={onSignOut}
             onDone={() => {
               reload();

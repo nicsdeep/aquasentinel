@@ -1,6 +1,6 @@
 # AquaSentinel data protection policy (internal)
 
-**Version 1.2 · 18 November 2026 · Owner: AquaSentinel (contact info@aquasentinel.com)**
+**Version 1.3 · 18 November 2026 · Owner: AquaSentinel (contact info@aquasentinel.com)**
 
 This is the internal rulebook behind the public trust & legal centre (`/legal`): Privacy Notice (`/privacy`),
 Terms of Use (`/terms`), Cookies (`/cookies`) and Security (`/security`), all in English and Kiswahili, with texts in
@@ -27,6 +27,7 @@ update all three together.
 | Full name, language | `profiles.full_name`, `profiles.locale` | Yes | Show who acted; SMS language | Performance of the service |
 | Mobile number (E.164) | `profiles.phone_e164` | Yes | Send alerts; verify SMS senders. Never shown in full | Performance of the service; consent when added |
 | Role and site | `site_members` | Yes | Access control (RLS) | Performance of the service |
+| Platform administrator flag | `profiles.is_platform_admin` | Yes | Lets the platform administrator manage team access (People console: name, email, role, last sign-in) and switch their own role; every change is audited | Performance of the service; security |
 | Action trail | `audit_log` (actor, action, channel, time, details) | Yes | Accountability, maintenance history | Legitimate interest (reliable water supply); security |
 | Reports and notes | `incidents.evidence` (`reported_by`, `note`), work records | Yes (free text) | Fault response | Legitimate interest |
 | SMS log | `sms_messages` (masked number, body, status) | Yes | Delivery and audit of alerts | Performance of the service |
