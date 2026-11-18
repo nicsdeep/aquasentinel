@@ -26,6 +26,7 @@ early and helps local people respond and repair. It never replaces the system an
 | 16 Nov 2026 | Design lock: approved layout, colours (water theme), typography, imagery placement and navigation change only on explicit request. |
 | 16 Nov 2026 | Owner screenshots come from the live site via `scripts/live-screenshots.cjs` (phone 360×800 @2.5, laptop 1440×900). |
 | 18 Nov 2026 | Signed-in app restarts from zero, one dashboard at a time; Operator Home is next. Sign-in is invite-only email one-time code; mobile-number codes later (needs an SMS provider). |
+| 18 Nov 2026 | Live water-flow simulation at `/demo/water-flow`, linked from the homepage. Frontend only; never touches equipment or production data. In automatic mode **AquaSentinel requests and the local controller acts** (operator confirms or auto-confirm), so "never controls pumps" stays true. Built directly without an options round (owner's explicit instruction). |
 | 18 Nov 2026 | Trust & legal pages simplified for judges: small centred page, summary rows with the full text on tap, one button (Email us) (Option A). Legal text unchanged. |
 | 18 Nov 2026 | Same light water theme on every device; the device's dark mode never changes colours (laptop = phone). |
 | 18 Nov 2026 | Demo PPT: homepage link (Option B) to `/demoppt`; the Microsoft viewer loads only on tap, so no third-party cookies by default (Cookies/Privacy v1.4). |
@@ -43,6 +44,17 @@ early and helps local people respond and repair. It never replaces the system an
 - `/demoppt` **Demo PPT**: the owner's OneDrive PowerPoint (`src/components/public/ppt-embed.tsx`), loaded only after
   "View presentation" is tapped. Reached from the "Watch the Demo PPT" link under the homepage buttons and from the
   phone menu (under Contact). The laptop header is unchanged.
+- `/demo/water-flow` **Live water-flow simulation**, labelled "Interactive Simulation — No Physical Equipment
+  Connected." Reached from "Explore Live Simulation" under the homepage buttons.
+  - **Engine:** `src/lib/sim/engine.ts`, one deterministic engine that drives the SVG digital twin and every number
+    (River Athi → intake → pump → smart meter → distribution pipe → storage tank).
+  - **Water and metering:** water moves inside the pipes only while it flows. The meter counts L/min and the
+    cumulative total. The tank changes by net volume ÷ capacity.
+  - **Controls:** manual ON/OFF; automatic mode (low/high thresholds with hysteresis); water use; speed ×1/×60/×300;
+    faults (solar, leak, pump fault, low river) with restore; reset; a 10-step guided demo.
+  - **Automatic mode:** AquaSentinel detects the low level and sends a start request; the simulated local pump
+    controller starts the pump (operator confirms, or auto-confirm).
+  - **Frontend only:** no database writes or API calls.
 
 **Trust & legal** (English + Kiswahili, `src/lib/legal/content.ts`): `/legal`, `/privacy`, `/terms`, `/cookies`,
 `/security`. Public for visitors; inside the app shell for signed-in users. A simplified, small centred page
@@ -127,7 +139,8 @@ Water colour theme; tokens are defined in `src/app/globals.css` and documented i
 ## 8. Changelog (newest first; add one row per merged PR)
 | Date | PR | Change |
 |---|---|---|
-| 18 Nov 2026 | (this PR) | Trust & legal simplified (Option A): summary rows, full text on tap, only "Email us". Removed the toolbar, chips, Print, At a glance, contents list, copy-link buttons and related cards; unused content removed. |
+| 18 Nov 2026 | (this PR) | Live water-flow simulation (`/demo/water-flow`) with engine unit tests; homepage "Explore Live Simulation" link. |
+| 18 Nov 2026 | #39 | Trust & legal simplified (Option A): summary rows, full text on tap, only "Email us". Removed the toolbar, chips, Print, At a glance, contents list, copy-link buttons and related cards; unused content removed. |
 | 18 Nov 2026 | #38 | Dark-mode colour swap removed: laptop and phone show the same light theme (policy pages were turning dark on laptops in dark mode). |
 | 18 Nov 2026 | #37 | Demo PPT page `/demoppt` with tap-to-load PowerPoint viewer; homepage link and phone menu item. Cookies/Privacy v1.4. |
 | 18 Nov 2026 | #36 | Platform admin: owner account with every role, "View as" role switch, People console. Privacy Notice v1.3 and data protection policy updated. |

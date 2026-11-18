@@ -69,6 +69,11 @@ function MobileHome() {
               Watch the Demo PPT
             </Link>
           </div>
+          <div className="mt-1">
+            <Link href="/demo/water-flow" className="inline-flex min-h-11 items-center text-[16px] font-medium text-lp-blue underline decoration-lp-cyan decoration-2 underline-offset-[7px]">
+              Explore Live Simulation
+            </Link>
+          </div>
         </div>
         {/* Images in their own band below the text: nothing overlaps the words */}
         <div className="relative z-10 px-6 pb-24 pt-9">
@@ -131,9 +136,14 @@ function DesktopHome() {
                 The Challenge
               </Link>
             </div>
-            <Link href="/demoppt" className="mt-6 inline-flex items-center gap-2 text-[17px] font-medium text-lp-blue underline decoration-lp-cyan decoration-2 underline-offset-[7px]">
-              Watch the Demo PPT
-            </Link>
+            <div className="mt-6 flex flex-wrap gap-x-8 gap-y-2">
+              <Link href="/demoppt" className="inline-flex items-center gap-2 text-[17px] font-medium text-lp-blue underline decoration-lp-cyan decoration-2 underline-offset-[7px]">
+                Watch the Demo PPT
+              </Link>
+              <Link href="/demo/water-flow" className="inline-flex items-center gap-2 text-[17px] font-medium text-lp-blue underline decoration-lp-cyan decoration-2 underline-offset-[7px]">
+                Explore Live Simulation
+              </Link>
+            </div>
           </div>
           <HeroDeck images={DECK} sizes="(min-width: 1024px) 45vw, (min-width: 768px) 90vw, 1px" className="lg:pr-6" />
         </div>
