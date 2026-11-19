@@ -204,7 +204,12 @@ summary first, full text one tap away, and **one button**.
 - **Print** (browser print): navigation and buttons are hidden, and every section prints expanded.
 
 ## 10 · Public website
-- **Live simulation** (`/demo/water-flow`, 18 Nov 2026):
+- **Live simulation** (`/demo/water-flow`, 18 Nov 2026; photo chain and technician/community pages 19 Nov 2026):
+  - **Photo chain:** rounded photo cards (white border, dark caption bar) joined by the live pipeline. The tank's water
+    level, threshold marks and percentage are drawn over the tank photo; the river level over the river photo. A
+    one-line photo note sits under the diagram.
+  - **Demo frame:** label pill, then a tab bar (Whole system · Technician · Community) and a "Live on n screens"
+    status dot.
   - **Layout:** label pill, serif title, then the SVG digital twin beside a compact control panel (laptop), with the
     live stats below. On phones the diagram scrolls sideways instead of shrinking.
   - **Motion:** water is shown inside pipes (an inner path with moving dashes on the same geometry) only while it
