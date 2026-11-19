@@ -12,7 +12,8 @@ import { getSupabase } from "@/lib/supabase/client";
  *
  * Screens join the real-time broadcast channel "sim-demo". The screen that joined first is the leader: it runs the
  * engine and broadcasts a snapshot about 5 times per second. Every other screen shows those snapshots and sends its
- * button presses to the leader as actions. If the leader closes, the next screen takes over from the last snapshot.
+ * button presses to the leader as actions. If the leader closes (or goes silent for 3 s), the next screen takes over
+ * from the last snapshot; if two screens ever lead at once, the one that joined first keeps leading.
  * Nothing is stored anywhere: no tables, no database writes, no production data. Without a connection the page
  * simply runs on its own.
  */
@@ -20,6 +21,8 @@ import { getSupabase } from "@/lib/supabase/client";
 const CHANNEL = "sim-demo";
 const SNAPSHOT_MS = 200;
 const SUBSCRIBE_TIMEOUT_MS = 4000;
+/** A follower that hears nothing from the leader for this long takes over (the leader closed without leaving). */
+const LEADER_SILENCE_MS = 3000;
 
 export type SyncStatus = "connecting" | "live" | "local";
 
@@ -53,23 +56,34 @@ export function SimProvider({ children }: { children: React.ReactNode }) {
   // Presses made before this screen knows its role (the first second or so) wait here, so none are lost.
   const pending = useRef<SimAction[]>([]);
   const ready = useRef(offline);
+  // Leader health: when the leading screen goes quiet (closed abruptly but still listed for a while), the others
+  // skip it and the next screen takes over.
+  const members = useRef<Member[]>([]);
+  const stale = useRef(new Set<string>());
+  const lastSnapAt = useRef(0);
+  // Presses sent to the leader but not yet confirmed by a snapshot; replayed if this screen has to take over.
+  const unconfirmed = useRef<SimAction[]>([]);
 
   useEffect(() => {
     sharedRef.current = shared;
   }, [shared]);
 
   const becomeLeader = useCallback((on: boolean) => {
+    if (!on && (leaderRef.current || !ready.current)) lastSnapAt.current = Date.now();
     leaderRef.current = on;
     setIsLeader(on);
     ready.current = true;
-    const queued = pending.current.splice(0);
+    const queued = [...(on ? unconfirmed.current.splice(0) : []), ...pending.current.splice(0)];
     if (queued.length === 0) return;
     if (on || !channelRef.current) {
       const updated = queued.reduce(applyAction, sharedRef.current);
       sharedRef.current = updated;
       setShared(updated);
     } else {
-      for (const a of queued) void channelRef.current.send({ type: "broadcast", event: "action", payload: a });
+      for (const a of queued) {
+        unconfirmed.current.push(a);
+        void channelRef.current.send({ type: "broadcast", event: "action", payload: a });
+      }
     }
   }, []);
 
@@ -81,17 +95,40 @@ export function SimProvider({ children }: { children: React.ReactNode }) {
     const channel = db.channel(CHANNEL, { config: { broadcast: { self: false }, presence: { key: me.current.id } } });
     channelRef.current = channel;
 
+    const reElect = () => {
+      const alive = members.current.filter((m) => !stale.current.has(m.id));
+      becomeLeader(electLeader(alive) === me.current.id);
+    };
     channel.on("presence", { event: "sync" }, () => {
-      const members: Member[] = Object.entries(channel.presenceState<{ joinedAt: number }>()).map(([id, metas]) => ({
+      members.current = Object.entries(channel.presenceState<{ joinedAt: number }>()).map(([id, metas]) => ({
         id,
         joinedAt: metas[0]?.joinedAt ?? Number.MAX_SAFE_INTEGER,
       }));
-      setScreens(Math.max(1, members.length));
-      becomeLeader(electLeader(members) === me.current.id);
+      setScreens(Math.max(1, members.current.filter((m) => !stale.current.has(m.id)).length));
+      reElect();
     });
     channel.on("broadcast", { event: "snapshot" }, ({ payload }) => {
-      if (!leaderRef.current) setShared(payload as Shared);
+      const { shared: incoming, from } = payload as { shared: Shared; from: Member };
+      lastSnapAt.current = Date.now();
+      stale.current.delete(from.id);
+      unconfirmed.current = [];
+      if (leaderRef.current) {
+        // Two screens leading at once: the one that joined earlier keeps leading, the other follows it.
+        if (electLeader([me.current, from]) !== from.id) return;
+        becomeLeader(false);
+      }
+      sharedRef.current = incoming;
+      setShared(incoming);
     });
+    const watchdog = setInterval(() => {
+      if (!ready.current || leaderRef.current || Date.now() - lastSnapAt.current < LEADER_SILENCE_MS) return;
+      const alive = members.current.filter((m) => !stale.current.has(m.id));
+      const silent = electLeader(alive);
+      if (silent && silent !== me.current.id) stale.current.add(silent);
+      lastSnapAt.current = Date.now();
+      setScreens(Math.max(1, members.current.filter((m) => !stale.current.has(m.id)).length));
+      reElect();
+    }, 1000);
     channel.on("broadcast", { event: "action" }, ({ payload }) => {
       if (leaderRef.current) setShared((sh) => applyAction(sh, payload as SimAction));
     });
@@ -115,6 +152,7 @@ export function SimProvider({ children }: { children: React.ReactNode }) {
 
     return () => {
       clearTimeout(fallback);
+      clearInterval(watchdog);
       channelRef.current = null;
       db.removeChannel(channel);
     };
@@ -143,7 +181,7 @@ export function SimProvider({ children }: { children: React.ReactNode }) {
       sinceSnap += dt * 1000;
       if (sinceSnap >= SNAPSHOT_MS && channelRef.current) {
         sinceSnap = 0;
-        void channelRef.current.send({ type: "broadcast", event: "snapshot", payload: updated });
+        void channelRef.current.send({ type: "broadcast", event: "snapshot", payload: { shared: updated, from: me.current } });
       }
     }, 50);
     return () => clearInterval(timer);
@@ -158,8 +196,9 @@ export function SimProvider({ children }: { children: React.ReactNode }) {
       const updated = applyAction(sharedRef.current, a);
       sharedRef.current = updated;
       setShared(updated);
-      void channelRef.current?.send({ type: "broadcast", event: "snapshot", payload: updated });
+      void channelRef.current?.send({ type: "broadcast", event: "snapshot", payload: { shared: updated, from: me.current } });
     } else {
+      unconfirmed.current.push(a);
       void channelRef.current.send({ type: "broadcast", event: "action", payload: a });
     }
   }, []);
