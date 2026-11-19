@@ -26,6 +26,7 @@ early and helps local people respond and repair. It never replaces the system an
 | 16 Nov 2026 | Design lock: approved layout, colours (water theme), typography, imagery placement and navigation change only on explicit request. |
 | 16 Nov 2026 | Owner screenshots come from the live site via `scripts/live-screenshots.cjs` (phone 360×800 @2.5, laptop 1440×900). |
 | 18 Nov 2026 | Signed-in app restarts from zero, one dashboard at a time; Operator Home is next. Sign-in is invite-only email one-time code; mobile-number codes later (needs an SMS provider). |
+| 19 Nov 2026 | Simulation uses the owner's photos (photo chain, Option A), captioned with each real place, owner confirms permission. Logos/signage photos, screenshots and watermarked images excluded; faces blurred. Simulation shared live across pages and devices via a Realtime broadcast (no storage). |
 | 18 Nov 2026 | Live water-flow simulation at `/demo/water-flow`, linked from the homepage. Frontend only; never touches equipment or production data. In automatic mode **AquaSentinel requests and the local controller acts** (operator confirms or auto-confirm), so "never controls pumps" stays true. Built directly without an options round (owner's explicit instruction). |
 | 18 Nov 2026 | Trust & legal pages simplified for judges: small centred page, summary rows with the full text on tap, one button (Email us) (Option A). Legal text unchanged. |
 | 18 Nov 2026 | Same light water theme on every device; the device's dark mode never changes colours (laptop = phone). |
@@ -55,6 +56,16 @@ early and helps local people respond and repair. It never replaces the system an
   - **Automatic mode:** AquaSentinel detects the low level and sends a start request; the simulated local pump
     controller starts the pump (operator confirms, or auto-confirm).
   - **Frontend only:** no database writes or API calls.
+  - **Photo digital twin** (Option A "photo chain", 19 Nov): the owner's photos sit on the components, with live
+    water, levels and meter drawn on top. The photos are `public/sim/*.jpg` (metadata stripped, faces blurred),
+    captioned with their real place, plus a note that they show existing systems for illustration and are not
+    AquaSentinel installations.
+  - **Shared across pages and devices:**
+    - Pages: `/demo/water-flow` (whole system), `/demo/technician` (controls), `/demo/community` (photo chain, tank,
+      alerts). All are linked by a tab bar and a "Live on n screens" badge.
+    - One screen leads and runs the engine (presence election); the others send actions and render snapshots
+      (Supabase Realtime **broadcast** channel `sim-demo`). No tables, no writes.
+    - The shared simulation is public: everyone who opens a demo page at the same time controls the same simulation.
 
 **Trust & legal** (English + Kiswahili, `src/lib/legal/content.ts`): `/legal`, `/privacy`, `/terms`, `/cookies`,
 `/security`. Public for visitors; inside the app shell for signed-in users. A simplified, small centred page
@@ -139,7 +150,8 @@ Water colour theme; tokens are defined in `src/app/globals.css` and documented i
 ## 8. Changelog (newest first; add one row per merged PR)
 | Date | PR | Change |
 |---|---|---|
-| 18 Nov 2026 | (this PR) | Live water-flow simulation (`/demo/water-flow`) with engine unit tests; homepage "Explore Live Simulation" link. |
+| 19 Nov 2026 | (this PR) | Photo digital twin; technician and community demo pages; live cross-device sync (Realtime broadcast, leader election), unit tests. |
+| 18 Nov 2026 | #40 | Live water-flow simulation (`/demo/water-flow`) with engine unit tests; homepage "Explore Live Simulation" link. |
 | 18 Nov 2026 | #39 | Trust & legal simplified (Option A): summary rows, full text on tap, only "Email us". Removed the toolbar, chips, Print, At a glance, contents list, copy-link buttons and related cards; unused content removed. |
 | 18 Nov 2026 | #38 | Dark-mode colour swap removed: laptop and phone show the same light theme (policy pages were turning dark on laptops in dark mode). |
 | 18 Nov 2026 | #37 | Demo PPT page `/demoppt` with tap-to-load PowerPoint viewer; homepage link and phone menu item. Cookies/Privacy v1.4. |
