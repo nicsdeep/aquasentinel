@@ -150,7 +150,8 @@ Water colour theme; tokens are defined in `src/app/globals.css` and documented i
 ## 8. Changelog (newest first; add one row per merged PR)
 | Date | PR | Change |
 |---|---|---|
-| 19 Nov 2026 | (this PR) | Photo digital twin; technician and community demo pages; live cross-device sync (Realtime broadcast, leader election), unit tests. |
+| 19 Nov 2026 | (this PR) | Fix: button presses made in the first second, before a screen has joined the shared simulation, are now queued and applied, not lost. |
+| 19 Nov 2026 | #41 | Photo digital twin; technician and community demo pages; live cross-device sync (Realtime broadcast, leader election), unit tests. |
 | 18 Nov 2026 | #40 | Live water-flow simulation (`/demo/water-flow`) with engine unit tests; homepage "Explore Live Simulation" link. |
 | 18 Nov 2026 | #39 | Trust & legal simplified (Option A): summary rows, full text on tap, only "Email us". Removed the toolbar, chips, Print, At a glance, contents list, copy-link buttons and related cards; unused content removed. |
 | 18 Nov 2026 | #38 | Dark-mode colour swap removed: laptop and phone show the same light theme (policy pages were turning dark on laptops in dark mode). |

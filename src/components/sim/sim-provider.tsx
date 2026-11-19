@@ -50,6 +50,9 @@ export function SimProvider({ children }: { children: React.ReactNode }) {
   const leaderRef = useRef(offline);
   const channelRef = useRef<RealtimeChannel | null>(null);
   const me = useRef({ id: "", joinedAt: 0 });
+  // Presses made before this screen knows its role (the first second or so) wait here, so none are lost.
+  const pending = useRef<SimAction[]>([]);
+  const ready = useRef(offline);
 
   useEffect(() => {
     sharedRef.current = shared;
@@ -58,6 +61,16 @@ export function SimProvider({ children }: { children: React.ReactNode }) {
   const becomeLeader = useCallback((on: boolean) => {
     leaderRef.current = on;
     setIsLeader(on);
+    ready.current = true;
+    const queued = pending.current.splice(0);
+    if (queued.length === 0) return;
+    if (on || !channelRef.current) {
+      const updated = queued.reduce(applyAction, sharedRef.current);
+      sharedRef.current = updated;
+      setShared(updated);
+    } else {
+      for (const a of queued) void channelRef.current.send({ type: "broadcast", event: "action", payload: a });
+    }
   }, []);
 
   // Connect to the shared channel (or fall back to running locally).
@@ -137,6 +150,10 @@ export function SimProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const dispatch = useCallback((a: SimAction) => {
+    if (!ready.current) {
+      pending.current.push(a);
+      return;
+    }
     if (leaderRef.current || !channelRef.current) {
       const updated = applyAction(sharedRef.current, a);
       sharedRef.current = updated;
