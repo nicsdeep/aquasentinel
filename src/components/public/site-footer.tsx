@@ -6,7 +6,7 @@ import { SITE_NAV } from "@/lib/site/content";
 import { cn } from "@/lib/cn";
 import { siteContainer } from "./layout";
 
-const EXPLORE = [...SITE_NAV.map(({ href, label }) => ({ href, label })), { href: "/contact", label: "Contact" }];
+const EXPLORE = [...SITE_NAV.map(({ href, label }) => ({ href, label })), { href: "/demoppt", label: "Demo PPT" }, { href: "/contact", label: "Contact" }];
 const LEGAL = [
   { href: "/privacy", label: "Privacy Policy" },
   { href: "/terms", label: "Terms of Service" },

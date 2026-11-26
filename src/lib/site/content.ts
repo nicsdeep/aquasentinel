@@ -8,7 +8,7 @@ import { Presentation, BarChart3, Bell, ClipboardCheck, Droplet, Gauge, Graduati
  */
 
 export const SITE_NAV: { href: string; label: string; icon: LucideIcon }[] = [
-  { href: "/challenge", label: "The Challenge", icon: Droplet },
+  { href: "/challenge", label: "The Problem", icon: Droplet },
   { href: "/approach", label: "Our Approach", icon: Layers },
   { href: "/pilot", label: "Pilot in Ngomano", icon: MapPin },
   { href: "/about", label: "About", icon: Users },
@@ -74,5 +74,5 @@ export const PILLARS: { icon: LucideIcon; title: string; text: string; width: st
 
 export const PILOT_STRIP = {
   place: "Ngomano, Makueni County",
-  text: "A pilot proposed under the IFSL water scarcity challenge.",
+  text: "A pilot proposed under the IFSL Digital Innovation Challenge.",
 };
