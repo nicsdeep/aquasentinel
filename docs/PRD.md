@@ -26,6 +26,7 @@ early and helps local people respond and repair. It never replaces the system an
 | 16 Nov 2026 | Design lock: approved layout, colours (water theme), typography, imagery placement and navigation change only on explicit request. |
 | 16 Nov 2026 | Owner screenshots come from the live site via `scripts/live-screenshots.cjs` (phone 360×800 @2.5, laptop 1440×900). |
 | 18 Nov 2026 | Signed-in app restarts from zero, one dashboard at a time; Operator Home is next. Sign-in is invite-only email one-time code; mobile-number codes later (needs an SMS provider). |
+| 26 Nov 2026 | Homepage hero = the owner's River Athi video, full width, minimal text on the left (owner's brief + mockups; the official logo unchanged). "The Problem" replaces "The Challenge" in public labels. Demo PPT moves from the hero to the footer + phone menu. The 3D deck is removed. |
 | 19 Nov 2026 | Simulation uses the owner's photos (photo chain, Option A), captioned with each real place, owner confirms permission. Logos/signage photos, screenshots and watermarked images excluded; faces blurred. Simulation shared live across pages and devices via a Realtime broadcast (no storage). |
 | 18 Nov 2026 | Live water-flow simulation at `/demo/water-flow`, linked from the homepage. Frontend only; never touches equipment or production data. In automatic mode **AquaSentinel requests and the local controller acts** (operator confirms or auto-confirm), so "never controls pumps" stays true. Built directly without an options round (owner's explicit instruction). |
 | 18 Nov 2026 | Trust & legal pages simplified for judges: small centred page, summary rows with the full text on tap, one button (Email us) (Option A). Legal text unchanged. |
@@ -39,14 +40,23 @@ early and helps local people respond and repair. It never replaces the system an
 
 ## 3. Current live state
 **Public website** (route group `(site)`, shared header with menu drawer and footer):
-- `/` homepage (gateway): headline, "See How It Works" / "Explore the Challenge", 3D swipe deck of six
-  illustrative photos (`public/landing/deck/`), aqua wave, navy pilot strip. Text never overlaps imagery.
+- `/` homepage (gateway): **full-width hero video of the River Athi** (the owner's recorded footage,
+  `public/landing/river-athi.mp4` + first-frame poster). It is muted, looping and inline, with no controls; reduced
+  motion and blocked autoplay show the poster. Over a left navy fade (bottom fade on phones):
+  - "NGOMANO, MAKUENI COUNTY";
+  - "A smarter way to manage community water.";
+  - one line;
+  - **See Our Approach** + **Explore Live Simulation**;
+  - a discreet "River Athi · Recorded footage" label.
+  Then the Monitor · Respond · Maintain · Improve band and the problem summary (laptop), or the navy pilot strip
+  (phone). The 3D deck is removed.
+- Public label **"The Problem"** replaces "The Challenge" (the route `/challenge` is unchanged; the official
+  programme name "IFSL Digital Innovation Challenge" is kept).
 - `/challenge`, `/approach`, `/pilot`, `/about`, `/contact` (content in `src/lib/site/content.ts`, IFSL §3.2 facts).
 - `/demoppt` **Demo PPT**: the owner's OneDrive PowerPoint (`src/components/public/ppt-embed.tsx`), loaded only after
-  "View presentation" is tapped. Reached from the "Watch the Demo PPT" link under the homepage buttons and from the
-  phone menu (under Contact). The laptop header is unchanged.
+  "View presentation" is tapped. Reached from the footer's Explore list and the phone menu (under Contact).
 - `/demo/water-flow` **Live water-flow simulation**, labelled "Interactive Simulation — No Physical Equipment
-  Connected." Reached from "Explore Live Simulation" under the homepage buttons.
+  Connected." Reached from the hero's "Explore Live Simulation" button.
   - **Engine:** `src/lib/sim/engine.ts`, one deterministic engine that drives the SVG digital twin and every number
     (River Athi → intake → pump → smart meter → distribution pipe → storage tank).
   - **Water and metering:** water moves inside the pipes only while it flows. The meter counts L/min and the
@@ -150,7 +160,8 @@ Water colour theme; tokens are defined in `src/app/globals.css` and documented i
 ## 8. Changelog (newest first; add one row per merged PR)
 | Date | PR | Change |
 |---|---|---|
-| 19 Nov 2026 | (this PR) | Sync resilience: if the leading screen goes silent (closed abruptly but still listed), another screen takes over within about 3 s and replays unconfirmed presses; two leaders settle on the earlier one. |
+| 26 Nov 2026 | (this PR) | Full-width River Athi video hero; "The Problem" labels; Demo PPT in the footer; deck component and images removed. |
+| 19 Nov 2026 | #43 | Sync resilience: if the leading screen goes silent (closed abruptly but still listed), another screen takes over within about 3 s and replays unconfirmed presses; two leaders settle on the earlier one. |
 | 19 Nov 2026 | #42 | Fix: button presses made in the first second, before a screen has joined the shared simulation, are now queued and applied, not lost. |
 | 19 Nov 2026 | #41 | Photo digital twin; technician and community demo pages; live cross-device sync (Realtime broadcast, leader election), unit tests. |
 | 18 Nov 2026 | #40 | Live water-flow simulation (`/demo/water-flow`) with engine unit tests; homepage "Explore Live Simulation" link. |

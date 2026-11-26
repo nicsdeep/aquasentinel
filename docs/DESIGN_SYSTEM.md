@@ -204,6 +204,13 @@ summary first, full text one tap away, and **one button**.
 - **Print** (browser print): navigation and buttons are hidden, and every section prints expanded.
 
 ## 10 · Public website
+- **Homepage hero** (26 Nov 2026, supersedes the 3D deck):
+  - **Video:** the owner's River Athi footage, full width under the white header. `object-cover`, centred on laptop,
+    62 % on phones. Autoplay, muted, loop, inline, no controls, first-frame poster.
+  - **Overlay:** `lp-ink` 85 % → transparent from the left (laptop); from the bottom (phone).
+  - **Text:** white Instrument Serif headline. Primary blue button and an outline-white secondary.
+  - **Caption pill:** "River Athi · Recorded footage", bottom-right (laptop) or top-right (phone).
+  - The water wave leads into the `lp-band` principles band (laptop) or the navy pilot strip (phone).
 - **Live simulation** (`/demo/water-flow`, 18 Nov 2026; photo chain and technician/community pages 19 Nov 2026):
   - **Photo chain:** rounded photo cards (white border, dark caption bar) joined by the live pipeline. The tank's water
     level, threshold marks and percentage are drawn over the tank photo; the river level over the river photo. A
@@ -223,7 +230,7 @@ own pages (progressive disclosure).
 
 | Route | Purpose |
 |---|---|
-| `/` | Gateway with a **3D card swipe deck** of six illustrative images (`public/landing/deck/`, metadata stripped; swipe, arrows, dots, keyboard; auto-advances every 6 s and pauses when touched; still for reduced motion; labelled "Illustrative images"). **Text never sits on imagery:** phones put the deck in its own band below the buttons; laptops use two columns with a 64 px gap. **Phone:** the approved mobile design (logo and menu; headline with a cyan underline under "water."; one sentence; **See How It Works**; quiet **Explore the Challenge** link; compact photo with an aqua wave that flows into the navy Ngomano pilot strip). The four destinations live in the menu, not on the page (owner decision, 16 Nov 2026). **Laptop:** the approved desktop hero, pillars band and challenge summary. |
+| `/` | Gateway: full-width River Athi video hero, principles band, problem summary (laptop) or pilot strip (phone). |
 | `/challenge` | Water challenges in Ngomano, grouped facts from IFSL pack §3.2, source named |
 | `/approach` | Detect → Alert → Respond → Record, what it would not do, SMS, optional detail, prototype link |
 | `/pilot` | Proposed activities, evaluation, limitations, indicative KES 350,000 |
